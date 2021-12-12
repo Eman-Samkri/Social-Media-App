@@ -40,10 +40,8 @@ import java.util.Locale
 
 val EXTENSION_WHITELIST = arrayOf("JPG")
 
-/** Fragment used to present the user with a gallery of photos taken */
 class GalleryFragment internal constructor() : Fragment() {
 
-    /** Android ViewBinding */
     private var _fragmentGalleryBinding: FragmentGalleryBinding? = null
 
     private val fragmentGalleryBinding get() = _fragmentGalleryBinding!!

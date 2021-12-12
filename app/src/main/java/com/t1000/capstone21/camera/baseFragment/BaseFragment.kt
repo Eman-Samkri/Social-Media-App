@@ -1,4 +1,4 @@
-package com.t1000.capstone21.camera
+package com.t1000.capstone21.camera.baseFragment
 
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
@@ -53,7 +53,7 @@ abstract class BaseFragment <B:ViewBinding> :Fragment() {
     open val displayManager by lazy {
         requireContext().getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
     }
-
+    // TODO: take to Repo
     open val outputDirectory : File by lazy {
         CameraActivity.getOutputDirectory(requireContext())
     }
@@ -184,13 +184,12 @@ abstract class BaseFragment <B:ViewBinding> :Fragment() {
 
     companion object {
 
-         const val TAG = "CameraXBasic"
          const val FILENAME = "yyyy-MM-dd-HH-mm-ss-SSS"
          const val PHOTO_EXTENSION = ".jpg"
         const val VIDEO_EXTENSION = ".MP4"
          const val RATIO_4_3_VALUE = 4.0 / 3.0
          const val RATIO_16_9_VALUE = 16.0 / 9.0
-
+        // TODO: take create file to Repo
          fun createFile(baseFolder: File, format: String, extension: String) =
             File(baseFolder, SimpleDateFormat(format, Locale.US)
                 .format(System.currentTimeMillis()) + extension)

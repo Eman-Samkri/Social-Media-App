@@ -32,6 +32,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.t1000.capstone21.KEY_EVENT_EXTRA
 import com.t1000.capstone21.R
+import com.t1000.capstone21.camera.baseFragment.BaseFragment
 import com.t1000.capstone21.databinding.FragmentCameraBinding
 import com.t1000.capstone21.utils.ANIMATION_FAST_MILLIS
 import com.t1000.capstone21.utils.ANIMATION_SLOW_MILLIS
@@ -47,6 +48,7 @@ import kotlin.collections.ArrayList
 
 typealias LumaListener = (luma: Double) -> Unit
 
+private const val TAG = "CameraFragment"
 class CameraFragment : BaseFragment<FragmentCameraBinding>() {
 
 

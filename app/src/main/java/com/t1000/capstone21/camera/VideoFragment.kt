@@ -28,13 +28,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.t1000.capstone21.KEY_EVENT_EXTRA
 import com.t1000.capstone21.R
+import com.t1000.capstone21.camera.baseFragment.BaseFragment
 import com.t1000.capstone21.databinding.FragmentVideoBinding
 import com.t1000.capstone21.utils.simulateClick
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 
-class VideoFragment() :BaseFragment<FragmentVideoBinding>(){
+private const val TAG = "VideoFragment"
+
+class VideoFragment() : BaseFragment<FragmentVideoBinding>(){
 
 override val binding: FragmentVideoBinding by lazy {
     FragmentVideoBinding.inflate(layoutInflater)
@@ -161,7 +164,7 @@ override val binding: FragmentVideoBinding by lazy {
     @SuppressLint("RestrictedApi")
     fun recordVideo(){
         val localVideoCapture = videoCapture ?: throw java.lang.IllegalStateException("camera failed")
-
+// TODO: to Repo
         val videoFile = createFile(outputDirectory,System.currentTimeMillis().toString(),
             VIDEO_EXTENSION)
 
@@ -188,6 +191,7 @@ override val binding: FragmentVideoBinding by lazy {
                 outputOptions,
                 cameraExecutor,
                 object :VideoCapture.OnVideoSavedCallback{
+                    // TODO: to Repo
                     override fun onVideoSaved(outputFileResults: VideoCapture.OutputFileResults) {
                         val savedUri = outputFileResults.savedUri ?: Uri.fromFile(videoFile)
                         Log.d(TAG, "Photo capture succeeded: $savedUri")
