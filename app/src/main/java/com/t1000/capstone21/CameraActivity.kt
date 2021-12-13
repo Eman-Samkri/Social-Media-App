@@ -39,7 +39,6 @@ class CameraActivity : AppCompatActivity() {
         }, IMMERSIVE_FLAG_TIMEOUT)
     }
 
-    /** When key down event is triggered, relay it via local broadcast so fragments can handle it */
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         return when (keyCode) {
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
@@ -58,7 +57,7 @@ class CameraActivity : AppCompatActivity() {
             super.onBackPressed()
         }
     }
-
+    //TODO: to Reppo
     companion object {
 
         fun getOutputDirectory(context: Context): File {

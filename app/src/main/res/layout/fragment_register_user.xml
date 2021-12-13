@@ -67,15 +67,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/register_Password"
             android:layout_width="match_parent"
-
-
             android:layout_height="wrap_content"
             android:hint="password"
-
-            android:inputType="textPassword"
-
-
-            />
+            android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

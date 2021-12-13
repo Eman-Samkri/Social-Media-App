@@ -1,6 +1,7 @@
 package com.t1000.capstone21
 
 import android.content.Context
+import androidx.core.content.ContentProviderCompat.requireContext
 import java.io.File
 
 class Repo private constructor(context: Context) {
@@ -28,6 +29,10 @@ class Repo private constructor(context: Context) {
             return if (mediaDir != null && mediaDir.exists())
                 mediaDir else appContext.filesDir
         }
+
+//        open val outputDirectory : File by lazy {
+//            Repo.getOutputDirectory(requireContext())
+//        }
 
 
     }
