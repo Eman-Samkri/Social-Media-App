@@ -11,6 +11,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.FragmentRegisterUserBinding
 import com.t1000.capstone21.ui.me.MeViewModel
+import kotlinx.coroutines.*
+import java.lang.Exception
 
 private const val TAG = "RegisterUserFragment"
 class RegisterUserFragment : Fragment(){
@@ -47,23 +49,31 @@ class RegisterUserFragment : Fragment(){
 
 
     private fun registerUser(){
-
-        if (binding.registerEmail.text.toString().isNotEmpty() &&
-            binding.registerPassword.text.toString().isNotEmpty() &&
-            binding.registerUserName.text.toString().isNotEmpty()) {
-            auth.createUserWithEmailAndPassword(binding.registerEmail.text.toString(),
-                binding.registerPassword.text.toString())
-                .addOnCompleteListener { task->
-                    if (task.isSuccessful){
-                        Toast.makeText(context,"sucssful", Toast.LENGTH_LONG).show()
-                    }else{
-                        Log.e(TAG, "there was something wrong",task.exception)
+        val email = binding.registerEmail.text.toString()
+        val password = binding.registerPassword.text.toString()
+        val username = binding.registerUserName.text.toString()
+        if (email.isNotEmpty() && password.isNotEmpty() && username.isNotEmpty()) {
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    auth.createUserWithEmailAndPassword(email,password)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Toast.makeText(context, "sucssful", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                } catch (e:Exception){
+                    withContext(Dispatchers.Main){
+                        Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
                     }
-
                 }
+            }
         }
 
     }
+
+
+
+
 
 
 }

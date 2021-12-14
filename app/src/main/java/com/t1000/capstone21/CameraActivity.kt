@@ -58,16 +58,19 @@ class CameraActivity : AppCompatActivity() {
         }
     }
     //TODO: to Reppo
-    companion object {
+//    companion object {
 
-        fun getOutputDirectory(context: Context): File {
-            val appContext = context.applicationContext
-            val mediaDir = context.externalMediaDirs.firstOrNull()?.let {
-                File(it, appContext.resources.getString(R.string.app_name)).apply { mkdirs() } }
-            return if (mediaDir != null && mediaDir.exists())
-                mediaDir else appContext.filesDir
-        }
-    }
+//        fun getOutputDirectory(context: Context): File {
+//
+//            val fileDir = context.applicationContext.filesDir
+//           return fileDir
+////            val appContext = context.applicationContext
+////            val mediaDir = context.externalMediaDirs.firstOrNull()?.let {
+////                File(it, appContext.resources.getString(R.string.app_name)).apply { mkdirs() } }
+////            return if (mediaDir != null && mediaDir.exists())
+////                mediaDir else appContext.filesDir
+//        }
+//    }
 
     private fun hideSystemUI() {
         WindowCompat.setDecorFitsSystemWindows(window, false)

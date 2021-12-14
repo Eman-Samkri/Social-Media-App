@@ -18,6 +18,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.Navigation
 import androidx.viewbinding.ViewBinding
@@ -26,6 +27,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.t1000.capstone21.CameraActivity
 import com.t1000.capstone21.KEY_EVENT_ACTION
+import com.t1000.capstone21.Repo
 import com.t1000.capstone21.utils.SwipeGestureDetector
 import java.io.File
 import java.text.SimpleDateFormat
@@ -50,13 +52,22 @@ abstract class BaseFragment <B:ViewBinding> :Fragment() {
     abstract val volumeDownReceiver :BroadcastReceiver
     abstract val displayListener:DisplayManager.DisplayListener
 
+    private val baseViewModel
+            by lazy { ViewModelProvider(this)
+                .get(BaseViewModel::class.java) }
+
     open val displayManager by lazy {
         requireContext().getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
     }
-    // TODO: take to Repo
-    open val outputDirectory : File by lazy {
-        CameraActivity.getOutputDirectory(requireContext())
-    }
+
+
+
+//    open val outputDirectory : File by lazy {
+//       CameraActivity.getOutputDirectory(requireContext())
+//       // Repo.getInstance().fileDir
+//    }
+
+    open val outputDirectory : File by lazy { baseViewModel.getFileDir() }
 
     open lateinit var cameraExecutor:ExecutorService
 
@@ -182,16 +193,17 @@ abstract class BaseFragment <B:ViewBinding> :Fragment() {
         return AspectRatio.RATIO_16_9
     }
 
+
     companion object {
 
-         const val FILENAME = "yyyy-MM-dd-HH-mm-ss-SSS"
-         const val PHOTO_EXTENSION = ".jpg"
-        const val VIDEO_EXTENSION = ".MP4"
+//         const val FILENAME = "yyyy-MM-dd-HH-mm-ss-SSS"
+//         const val PHOTO_EXTENSION = ".jpg"
+//         const val VIDEO_EXTENSION = ".MP4"
          const val RATIO_4_3_VALUE = 4.0 / 3.0
          const val RATIO_16_9_VALUE = 16.0 / 9.0
         // TODO: take create file to Repo
-         fun createFile(baseFolder: File, format: String, extension: String) =
-            File(baseFolder, SimpleDateFormat(format, Locale.US)
-                .format(System.currentTimeMillis()) + extension)
+//         fun createFile(baseFolder: File, format: String, extension: String) =
+//            File(baseFolder, SimpleDateFormat(format, Locale.US)
+//                .format(System.currentTimeMillis()) + extension)
     }
 }

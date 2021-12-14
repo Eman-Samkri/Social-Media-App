@@ -7,6 +7,7 @@ data class Model(var id:Int = 0) {
 
 
     val videoFileName:String
-        get() = "VID$id.MP4"
+        get() = "VID$id.mp4"
+
 
 }

@@ -28,11 +28,15 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import com.google.firebase.auth.FirebaseAuth
 import com.t1000.capstone21.KEY_EVENT_EXTRA
+import com.t1000.capstone21.Model
 import com.t1000.capstone21.R
 import com.t1000.capstone21.camera.baseFragment.BaseFragment
+import com.t1000.capstone21.camera.baseFragment.BaseViewModel
 import com.t1000.capstone21.databinding.FragmentCameraBinding
 import com.t1000.capstone21.utils.ANIMATION_FAST_MILLIS
 import com.t1000.capstone21.utils.ANIMATION_SLOW_MILLIS
@@ -41,7 +45,9 @@ import com.t1000.capstone21.utils.simulateClick
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.File
 import java.nio.ByteBuffer
+import java.nio.file.Files.createFile
 import java.util.ArrayDeque
 import java.util.Locale
 import kotlin.collections.ArrayList
@@ -59,6 +65,10 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
     private var imageCapture: ImageCapture? = null
     private var imageAnalyzer: ImageAnalysis? = null
     private var seletedTimer = CameraTimer.OFF
+
+    private val viewModel
+            by lazy { ViewModelProvider(this)
+                .get(BaseViewModel::class.java) }
 
 
     override  val volumeDownReceiver = object : BroadcastReceiver() {
@@ -237,11 +247,11 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
     }
 
     private fun imagePhoto() {
-        // Get a stable reference of the modifiable image capture use case
         imageCapture?.let { imageCapture ->
+            val model = Model()
+            //val photoFile = createFile(outputDirectory.toPath(), FILENAME, PHOTO_EXTENSION)
 
-            // Create output file to hold the image
-            val photoFile = createFile(outputDirectory, FILENAME, PHOTO_EXTENSION)
+            val photoFile = viewModel.getPhotoFile(model)
 
             // Setup image capture metadata
             val metadata = Metadata().apply {

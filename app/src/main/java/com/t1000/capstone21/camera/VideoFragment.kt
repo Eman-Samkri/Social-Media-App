@@ -24,11 +24,14 @@ import androidx.camera.core.VideoCapture
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.t1000.capstone21.KEY_EVENT_EXTRA
+import com.t1000.capstone21.Model
 import com.t1000.capstone21.R
 import com.t1000.capstone21.camera.baseFragment.BaseFragment
+import com.t1000.capstone21.camera.baseFragment.BaseViewModel
 import com.t1000.capstone21.databinding.FragmentVideoBinding
 import com.t1000.capstone21.utils.simulateClick
 import kotlinx.coroutines.Dispatchers
@@ -48,6 +51,11 @@ override val binding: FragmentVideoBinding by lazy {
     private var isRecording = false
     private var timer:Timer?=null
     private var recoerSecondFlashd = 0
+
+    private val viewModel
+            by lazy { ViewModelProvider(this)
+                .get(BaseViewModel::class.java) }
+
     override  val volumeDownReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.getIntExtra(KEY_EVENT_EXTRA, KeyEvent.KEYCODE_UNKNOWN)) {
@@ -165,8 +173,8 @@ override val binding: FragmentVideoBinding by lazy {
     fun recordVideo(){
         val localVideoCapture = videoCapture ?: throw java.lang.IllegalStateException("camera failed")
 // TODO: to Repo
-        val videoFile = createFile(outputDirectory,System.currentTimeMillis().toString(),
-            VIDEO_EXTENSION)
+        val model = Model()
+        val videoFile = viewModel.getVideoFile(model)
 
         val outputOptions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
             val contentValues = ContentValues().apply {
@@ -191,7 +199,7 @@ override val binding: FragmentVideoBinding by lazy {
                 outputOptions,
                 cameraExecutor,
                 object :VideoCapture.OnVideoSavedCallback{
-                    // TODO: to Repo
+
                     override fun onVideoSaved(outputFileResults: VideoCapture.OutputFileResults) {
                         val savedUri = outputFileResults.savedUri ?: Uri.fromFile(videoFile)
                         Log.d(TAG, "Photo capture succeeded: $savedUri")
