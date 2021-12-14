@@ -27,6 +27,8 @@ import androidx.core.net.toFile
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.t1000.capstone21.KEY_EVENT_EXTRA
 import com.t1000.capstone21.Model
 import com.t1000.capstone21.R
@@ -34,8 +36,10 @@ import com.t1000.capstone21.camera.baseFragment.BaseFragment
 import com.t1000.capstone21.camera.baseFragment.BaseViewModel
 import com.t1000.capstone21.databinding.FragmentVideoBinding
 import com.t1000.capstone21.utils.simulateClick
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
 private const val TAG = "VideoFragment"
@@ -51,6 +55,9 @@ override val binding: FragmentVideoBinding by lazy {
     private var isRecording = false
     private var timer:Timer?=null
     private var recoerSecondFlashd = 0
+
+    var savedUri :Uri? = null
+    val vidRef = Firebase.storage.reference
 
     private val viewModel
             by lazy { ViewModelProvider(this)
@@ -201,13 +208,14 @@ override val binding: FragmentVideoBinding by lazy {
                 object :VideoCapture.OnVideoSavedCallback{
 
                     override fun onVideoSaved(outputFileResults: VideoCapture.OutputFileResults) {
-                        val savedUri = outputFileResults.savedUri ?: Uri.fromFile(videoFile)
+                        savedUri = outputFileResults.savedUri ?: Uri.fromFile(videoFile)
+                        uploadVidToStorage(videoFile.toString())
                         Log.d(TAG, "Photo capture succeeded: $savedUri")
 
                         // We can only change the foreground Drawable using API level 23+ API
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             // Update the gallery thumbnail with latest picture taken
-                            setGalleryThumbnail(binding.photoViewButton ,savedUri)
+                            savedUri?.let { setGalleryThumbnail(binding.photoViewButton , it) }
                         }
 
                         // Implicit broadcasts will be ignored for devices running API level >= 24
@@ -219,10 +227,10 @@ override val binding: FragmentVideoBinding by lazy {
                         }
 
                         val mimeType = MimeTypeMap.getSingleton()
-                            .getMimeTypeFromExtension(savedUri.toFile().extension)
+                            .getMimeTypeFromExtension(savedUri?.toFile()?.extension)
                         MediaScannerConnection.scanFile(
                             context,
-                            arrayOf(savedUri.toFile().absolutePath),
+                            arrayOf(savedUri?.toFile()?.absolutePath),
                             arrayOf(mimeType)
                         ) { _, uri ->
                             Log.d(TAG, "video capture scanned into media store: $uri")
@@ -336,5 +344,21 @@ override val binding: FragmentVideoBinding by lazy {
     private fun getTowDecimalsValue(value :Int):String{
         return if(value in 0..9) {"0$value"}
         else {value.toString()}
+    }
+
+    private fun uploadVidToStorage(fileName : String) = CoroutineScope(Dispatchers.IO).launch {
+        try{
+            savedUri?.let {
+                vidRef.child("video/$fileName").putFile(it)
+                withContext(Dispatchers.Main){
+                    Toast.makeText(requireContext(),"successfully",Toast.LENGTH_LONG).show()
+                }
+            }
+
+        }catch(e:Exception){
+            withContext(Dispatchers.Main){
+                Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG).show()
+            }
+        }
     }
 }

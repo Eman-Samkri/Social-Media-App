@@ -206,4 +206,6 @@ abstract class BaseFragment <B:ViewBinding> :Fragment() {
 //            File(baseFolder, SimpleDateFormat(format, Locale.US)
 //                .format(System.currentTimeMillis()) + extension)
     }
+
+
 }

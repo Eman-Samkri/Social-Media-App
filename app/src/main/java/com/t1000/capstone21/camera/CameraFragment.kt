@@ -18,6 +18,7 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.webkit.MimeTypeMap
+import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCapture
@@ -32,6 +33,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.t1000.capstone21.KEY_EVENT_EXTRA
 import com.t1000.capstone21.Model
 import com.t1000.capstone21.R
@@ -42,10 +46,9 @@ import com.t1000.capstone21.utils.ANIMATION_FAST_MILLIS
 import com.t1000.capstone21.utils.ANIMATION_SLOW_MILLIS
 import com.t1000.capstone21.utils.CameraTimer
 import com.t1000.capstone21.utils.simulateClick
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.io.File
+import java.lang.Runnable
 import java.nio.ByteBuffer
 import java.nio.file.Files.createFile
 import java.util.ArrayDeque
@@ -61,10 +64,15 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
     override val binding: FragmentCameraBinding by lazy {
         FragmentCameraBinding.inflate(layoutInflater)
     }
+
+
     private var lensFacing: Int = CameraSelector.LENS_FACING_BACK
     private var imageCapture: ImageCapture? = null
     private var imageAnalyzer: ImageAnalysis? = null
     private var seletedTimer = CameraTimer.OFF
+
+    var savedUri :Uri? = null
+    val imgeRef = Firebase.storage.reference
 
     private val viewModel
             by lazy { ViewModelProvider(this)
@@ -273,13 +281,14 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
                     }
 
                     override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                        val savedUri = output.savedUri ?: Uri.fromFile(photoFile)
+                         savedUri = output.savedUri ?: Uri.fromFile(photoFile)
+                         uploadImgToStorage(photoFile.toString())
                         Log.d(TAG, "Photo capture succeeded: $savedUri")
 
                         // We can only change the foreground Drawable using API level 23+ API
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             // Update the gallery thumbnail with latest picture taken
-                            setGalleryThumbnail(binding.photoViewButton ,savedUri)
+                            savedUri?.let { setGalleryThumbnail(binding.photoViewButton , it) }
                         }
 
                         // Implicit broadcasts will be ignored for devices running API level >= 24
@@ -294,10 +303,10 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
                         // unnecessary but otherwise other apps will not be able to access our
                         // images unless we scan them using [MediaScannerConnection]
                         val mimeType = MimeTypeMap.getSingleton()
-                            .getMimeTypeFromExtension(savedUri.toFile().extension)
+                            .getMimeTypeFromExtension(savedUri?.toFile()?.extension)
                         MediaScannerConnection.scanFile(
                             context,
-                            arrayOf(savedUri.toFile().absolutePath),
+                            arrayOf(savedUri?.toFile()?.absolutePath),
                             arrayOf(mimeType)
                         ) { _, uri ->
                             Log.d(TAG, "Image capture scanned into media store: $uri")
@@ -432,7 +441,27 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
 
             image.close()
         }
+
     }
+
+
+    private fun uploadImgToStorage(fileName : String) = CoroutineScope(Dispatchers.IO).launch {
+        try{
+            savedUri?.let {
+                imgeRef.child("images/$fileName").putFile(it)
+                withContext(Dispatchers.Main){
+                    Toast.makeText(requireContext(),"successfully",Toast.LENGTH_LONG).show()
+                }
+            }
+
+        }catch(e:Exception){
+            withContext(Dispatchers.Main){
+                Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+
 
 
 }

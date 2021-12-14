@@ -22,7 +22,7 @@ class RegisterUserFragment : Fragment(){
 
     private lateinit var binding: FragmentRegisterUserBinding
     private lateinit var auth: FirebaseAuth
-    val userFirestore = Firebase.firestore
+    private val userFirestore = Firebase.firestore
     private lateinit var viewModel: MeViewModel
 
     override fun onCreateView(
@@ -45,8 +45,6 @@ class RegisterUserFragment : Fragment(){
         binding.registerLoginBtn.setOnClickListener{
             registerUser()
         }
-
-
     }
 
 

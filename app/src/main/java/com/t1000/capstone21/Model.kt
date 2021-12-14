@@ -1,6 +1,7 @@
 package com.t1000.capstone21
 
-data class Model(var id:Int = 0) {
+
+data class Model( var id:Int = 3) {
 
     val photoFileName:String
         get() = "IMG$id.jpg"
