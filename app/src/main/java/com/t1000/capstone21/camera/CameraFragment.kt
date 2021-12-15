@@ -34,11 +34,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.t1000.capstone21.KEY_EVENT_EXTRA
-import com.t1000.capstone21.Model
+import com.t1000.capstone21.Photo
 import com.t1000.capstone21.R
 import com.t1000.capstone21.camera.baseFragment.BaseFragment
 import com.t1000.capstone21.camera.baseFragment.BaseViewModel
@@ -256,7 +257,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
 
     private fun imagePhoto() {
         imageCapture?.let { imageCapture ->
-            val model = Model()
+            val model = Photo()
             //val photoFile = createFile(outputDirectory.toPath(), FILENAME, PHOTO_EXTENSION)
 
             val photoFile = viewModel.getPhotoFile(model)
@@ -446,8 +447,6 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
 
 
     private fun uploadImgToStorage(fileName : String) = CoroutineScope(Dispatchers.IO).launch {
-
-        try{
             savedUri?.let {
                val ref = imgeRef.child("images/${fileName.toString()}")
                val uploadImg = ref.putFile(it)
@@ -461,16 +460,13 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
                     ref.downloadUrl
                 }.addOnSuccessListener {
                     val imageUrl = it.toString()
+                     val photo = Photo()
 
                     Firebase.firestore.collection("users")
                         .document(Firebase.auth.currentUser?.uid!!)
-                        .update("imageUrl",imageUrl)
+                        .update("imagesUrl",FieldValue.arrayUnion(photo))
 
                     Log.e(TAG,"${auth.uid} + image url updated")
-                        //.update(hashMapOf("imageUrl" to imageUrl) as Map<String, Any>)
-                        //.update("imageUrl",imageUrl)
-
-
                 }
 
                 withContext(Dispatchers.Main){
@@ -478,51 +474,8 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
                 }
             }
 
-        }catch(e:Exception){
-            withContext(Dispatchers.Main){
-                Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG).show()
-            }
-        }
 
     }
-//        try{
-//                    savedUri?.let {
-//                        val ref = imgeRef.child("images/"+auth.uid)
-//                        val uploadPhoto = ref.putFile(it)
-//                        val photoUrl = uploadPhoto.continueWithTask { task ->
-//                            if (!task.isSuccessful){
-//                                task.exception?.let {
-//                                    throw it
-//                                }
-//                            }
-//                            ref.downloadUrl
-//                        }.addOnCompleteListener { task ->
-//                            if (task.isSuccessful) {
-//                                val downloadUri = task.result
-//
-//                                if (downloadUri != null) {
-//                                    userFirestore.collection("users")
-//                                        .set(downloadUri,auth.currentUser)
-//                                }
-//
-//
-//                            }
-//                        }
-//                    }
-//            withContext(Dispatchers.Main){
-//                    Toast.makeText(requireContext(),"successfully",Toast.LENGTH_LONG).show()
-//                }
-//
-//        }catch(e:Exception){
-//            withContext(Dispatchers.Main){
-//                Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG).show()
-//
-//                Log.d(TAG, "${e.message}")
-//            }
-//        }
- //   }
-
-
 
 
 }

@@ -12,9 +12,9 @@ class Repo private constructor(context: Context) {
 
 
     val fileDir : File = context.applicationContext.filesDir
-    fun getPhotoFile(model: Model):File = File(fileDir,model.photoFileName)
+    fun getPhotoFile(model: Photo):File = File(fileDir,model.photoFileName)
 
-    fun getVideoFile(model: Model):File = File(fileDir , model.videoFileName)
+    fun getVideoFile(model: Video):File = File(fileDir , model.videoFileName)
 
     //fun uploadVidToStorage(fileName : String) =
 

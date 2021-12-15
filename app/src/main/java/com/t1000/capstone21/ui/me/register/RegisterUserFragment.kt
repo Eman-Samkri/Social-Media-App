@@ -70,13 +70,6 @@ class RegisterUserFragment : Fragment(){
                             if (task.isSuccessful) {
                                 val currentUser = User(auth.uid, username, email, password)
 
-//                                val currentUser = hashMapOf(
-//                                    "userId" to auth.uid,
-//                                    "username" to username,
-//                                    "email" to email,
-//                                    "password" to password,
-//                                    "url" to ""
-//                                )
                                 userFirestore.collection("users")
                                     .document(Firebase.auth?.uid!!)
                                     .set(currentUser)

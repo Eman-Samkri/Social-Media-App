@@ -27,11 +27,16 @@ import androidx.core.net.toFile
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.t1000.capstone21.KEY_EVENT_EXTRA
-import com.t1000.capstone21.Model
+import com.t1000.capstone21.Photo
 import com.t1000.capstone21.R
+import com.t1000.capstone21.Video
 import com.t1000.capstone21.camera.baseFragment.BaseFragment
 import com.t1000.capstone21.camera.baseFragment.BaseViewModel
 import com.t1000.capstone21.databinding.FragmentVideoBinding
@@ -58,6 +63,8 @@ override val binding: FragmentVideoBinding by lazy {
 
     var savedUri :Uri? = null
     val vidRef = Firebase.storage.reference
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+
 
     private val viewModel
             by lazy { ViewModelProvider(this)
@@ -181,7 +188,7 @@ override val binding: FragmentVideoBinding by lazy {
     fun recordVideo(){
         val localVideoCapture = videoCapture ?: throw java.lang.IllegalStateException("camera failed")
 // TODO: to Repo
-        val model = Model()
+        val model = Video()
         val videoFile = viewModel.getVideoFile(model)
 
         val outputOptions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
@@ -348,18 +355,34 @@ override val binding: FragmentVideoBinding by lazy {
     }
 
     private fun uploadVidToStorage(fileName : String) = CoroutineScope(Dispatchers.IO).launch {
-        try{
-            savedUri?.let {
-                vidRef.child("video/$fileName").putFile(it)
-                withContext(Dispatchers.Main){
-                    Toast.makeText(requireContext(),"successfully",Toast.LENGTH_LONG).show()
+        savedUri?.let {
+            val ref = vidRef.child("video/${fileName.toString()}")
+            val uploadImg = ref.putFile(it)
+
+            val uriTask = uploadImg.continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
                 }
+                ref.downloadUrl
+            }.addOnSuccessListener {
+                val videoUrl = it.toString()
+                val video = Video()
+
+                Firebase.firestore.collection("users")
+                    .document(Firebase.auth.currentUser?.uid!!)
+                    .update("videosUrl", FieldValue.arrayUnion(video))
+
+                Log.e(TAG,"${auth.uid} + video url updated")
             }
 
-        }catch(e:Exception){
             withContext(Dispatchers.Main){
-                Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(),"successfully",Toast.LENGTH_LONG).show()
             }
         }
+
+
+
     }
 }
