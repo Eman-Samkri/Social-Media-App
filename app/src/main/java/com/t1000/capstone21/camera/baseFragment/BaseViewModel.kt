@@ -1,11 +1,9 @@
 package com.t1000.capstone21.camera.baseFragment
 
-import android.content.Context
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModel
-import com.t1000.capstone21.Photo
+import com.t1000.capstone21.models.Photo
 import com.t1000.capstone21.Repo
-import com.t1000.capstone21.Video
+import com.t1000.capstone21.models.Video
 import java.io.File
 
 class BaseViewModel : ViewModel(){

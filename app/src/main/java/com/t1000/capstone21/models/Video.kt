@@ -1,4 +1,4 @@
-package com.t1000.capstone21
+package com.t1000.capstone21.models
 
 import java.util.*
 

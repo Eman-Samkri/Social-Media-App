@@ -39,7 +39,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.t1000.capstone21.KEY_EVENT_EXTRA
-import com.t1000.capstone21.Photo
+import com.t1000.capstone21.models.Photo
 import com.t1000.capstone21.R
 import com.t1000.capstone21.camera.baseFragment.BaseFragment
 import com.t1000.capstone21.camera.baseFragment.BaseViewModel

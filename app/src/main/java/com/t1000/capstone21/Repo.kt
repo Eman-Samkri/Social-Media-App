@@ -1,11 +1,9 @@
 package com.t1000.capstone21
 
 import android.content.Context
-import androidx.core.content.ContentProviderCompat.requireContext
-import com.t1000.capstone21.utils.User
+import com.t1000.capstone21.models.Photo
+import com.t1000.capstone21.models.Video
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
 
 class Repo private constructor(context: Context) {
 

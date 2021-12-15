@@ -34,9 +34,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.t1000.capstone21.KEY_EVENT_EXTRA
-import com.t1000.capstone21.Photo
 import com.t1000.capstone21.R
-import com.t1000.capstone21.Video
+import com.t1000.capstone21.models.Video
 import com.t1000.capstone21.camera.baseFragment.BaseFragment
 import com.t1000.capstone21.camera.baseFragment.BaseViewModel
 import com.t1000.capstone21.databinding.FragmentVideoBinding
@@ -373,6 +372,7 @@ override val binding: FragmentVideoBinding by lazy {
                 Firebase.firestore.collection("users")
                     .document(Firebase.auth.currentUser?.uid!!)
                     .update("videosUrl", FieldValue.arrayUnion(video))
+
 
                 Log.e(TAG,"${auth.uid} + video url updated")
             }

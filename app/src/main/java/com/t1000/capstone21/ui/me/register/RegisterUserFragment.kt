@@ -6,15 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.FragmentRegisterUserBinding
-import com.t1000.capstone21.utils.User
-import kotlinx.coroutines.*
+import com.t1000.capstone21.models.User
 
 
 private const val TAG = "RegisterUserFragment"

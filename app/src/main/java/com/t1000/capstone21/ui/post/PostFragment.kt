@@ -24,7 +24,7 @@ class PostFragment : Fragment() {
         val v = inflater.inflate(R.layout.fragment_post, container, false)
 
         activity?.let{
-            val intent = Intent (it,CameraActivity::class.java)
+            val intent = Intent (it, CameraActivity::class.java)
             it.startActivity(intent)
         }
 

@@ -25,8 +25,8 @@ import androidx.viewbinding.ViewBinding
 import androidx.window.WindowManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.t1000.capstone21.CameraActivity
 import com.t1000.capstone21.KEY_EVENT_ACTION
+
 import com.t1000.capstone21.Repo
 import com.t1000.capstone21.utils.SwipeGestureDetector
 import java.io.File
