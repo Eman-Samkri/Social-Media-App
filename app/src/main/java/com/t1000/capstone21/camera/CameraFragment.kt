@@ -33,6 +33,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -42,15 +43,10 @@ import com.t1000.capstone21.R
 import com.t1000.capstone21.camera.baseFragment.BaseFragment
 import com.t1000.capstone21.camera.baseFragment.BaseViewModel
 import com.t1000.capstone21.databinding.FragmentCameraBinding
-import com.t1000.capstone21.utils.ANIMATION_FAST_MILLIS
-import com.t1000.capstone21.utils.ANIMATION_SLOW_MILLIS
-import com.t1000.capstone21.utils.CameraTimer
-import com.t1000.capstone21.utils.simulateClick
+import com.t1000.capstone21.utils.*
 import kotlinx.coroutines.*
-import java.io.File
 import java.lang.Runnable
 import java.nio.ByteBuffer
-import java.nio.file.Files.createFile
 import java.util.ArrayDeque
 import java.util.Locale
 import kotlin.collections.ArrayList
@@ -73,6 +69,10 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
 
     var savedUri :Uri? = null
     val imgeRef = Firebase.storage.reference
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val userFirestore = Firebase.firestore
+
+
 
     private val viewModel
             by lazy { ViewModelProvider(this)
@@ -446,9 +446,33 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
 
 
     private fun uploadImgToStorage(fileName : String) = CoroutineScope(Dispatchers.IO).launch {
+
         try{
             savedUri?.let {
-                imgeRef.child("images/$fileName").putFile(it)
+               val ref = imgeRef.child("images/${fileName.toString()}")
+               val uploadImg = ref.putFile(it)
+
+                val uriTask = uploadImg.continueWithTask { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let {
+                            throw it
+                        }
+                    }
+                    ref.downloadUrl
+                }.addOnSuccessListener {
+                    val imageUrl = it.toString()
+
+                    Firebase.firestore.collection("users")
+                        .document(Firebase.auth.currentUser?.uid!!)
+                        .update("imageUrl",imageUrl)
+
+                    Log.e(TAG,"${auth.uid} + image url updated")
+                        //.update(hashMapOf("imageUrl" to imageUrl) as Map<String, Any>)
+                        //.update("imageUrl",imageUrl)
+
+
+                }
+
                 withContext(Dispatchers.Main){
                     Toast.makeText(requireContext(),"successfully",Toast.LENGTH_LONG).show()
                 }
@@ -459,7 +483,44 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
                 Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG).show()
             }
         }
+
     }
+//        try{
+//                    savedUri?.let {
+//                        val ref = imgeRef.child("images/"+auth.uid)
+//                        val uploadPhoto = ref.putFile(it)
+//                        val photoUrl = uploadPhoto.continueWithTask { task ->
+//                            if (!task.isSuccessful){
+//                                task.exception?.let {
+//                                    throw it
+//                                }
+//                            }
+//                            ref.downloadUrl
+//                        }.addOnCompleteListener { task ->
+//                            if (task.isSuccessful) {
+//                                val downloadUri = task.result
+//
+//                                if (downloadUri != null) {
+//                                    userFirestore.collection("users")
+//                                        .set(downloadUri,auth.currentUser)
+//                                }
+//
+//
+//                            }
+//                        }
+//                    }
+//            withContext(Dispatchers.Main){
+//                    Toast.makeText(requireContext(),"successfully",Toast.LENGTH_LONG).show()
+//                }
+//
+//        }catch(e:Exception){
+//            withContext(Dispatchers.Main){
+//                Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG).show()
+//
+//                Log.d(TAG, "${e.message}")
+//            }
+//        }
+ //   }
 
 
 

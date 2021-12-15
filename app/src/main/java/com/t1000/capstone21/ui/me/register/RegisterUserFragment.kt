@@ -1,21 +1,21 @@
 package com.t1000.capstone21.ui.me.register
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.FragmentRegisterUserBinding
-import com.t1000.capstone21.ui.me.MeViewModel
+import com.t1000.capstone21.utils.User
 import kotlinx.coroutines.*
-import java.lang.Exception
+
 
 private const val TAG = "RegisterUserFragment"
 class RegisterUserFragment : Fragment(){
@@ -23,7 +23,6 @@ class RegisterUserFragment : Fragment(){
     private lateinit var binding: FragmentRegisterUserBinding
     private lateinit var auth: FirebaseAuth
     private val userFirestore = Firebase.firestore
-    private lateinit var viewModel: MeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,10 +44,20 @@ class RegisterUserFragment : Fragment(){
         binding.registerLoginBtn.setOnClickListener{
             registerUser()
         }
+
+        binding.goToLoginBtn.setOnClickListener {
+
+//            val fragment = LoginUserFragment()
+//            getFragmentManager()
+//                ?.beginTransaction()
+//                ?.add(R.id.fragment_container,fragment)
+//                ?.commit()
+        }
     }
 
 
     private fun registerUser(){
+
 
         val email = binding.registerEmail.text.toString()
         val password = binding.registerPassword.text.toString()
@@ -56,42 +65,29 @@ class RegisterUserFragment : Fragment(){
 
 
         if (email.isNotEmpty() && password.isNotEmpty() && username.isNotEmpty()) {
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
                     auth.createUserWithEmailAndPassword(email,password)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                val user = FirebaseAuth.getInstance().currentUser
-                                val currentUser = hashMapSet(user, username, email, password)
+                                val currentUser = User(auth.uid, username, email, password)
+
+//                                val currentUser = hashMapOf(
+//                                    "userId" to auth.uid,
+//                                    "username" to username,
+//                                    "email" to email,
+//                                    "password" to password,
+//                                    "url" to ""
+//                                )
                                 userFirestore.collection("users")
-                                    .add(currentUser)
-                                Toast.makeText(context, "sucssful", Toast.LENGTH_LONG).show()
+                                    .document(Firebase.auth?.uid!!)
+                                    .set(currentUser)
+                                Toast.makeText(context, "successfully register user $username", Toast.LENGTH_LONG).show()
                             }
                         }
-                } catch (e:Exception){
-                    withContext(Dispatchers.Main){
-                        Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
-                    }
-                }
+
             }
         }
 
     }
 
-    private fun hashMapSet(
-        user: FirebaseUser?,
-        username: String,
-        email: String,
-        password: String
-    ): HashMap<String, String?> {
-        val currentUser = hashMapOf(
-            "User UID" to user?.uid,
-            "username" to username,
-            "email" to email,
-            "password" to password
-        )
-        return currentUser
-    }
 
 
-}

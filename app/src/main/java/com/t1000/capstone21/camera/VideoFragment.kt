@@ -93,6 +93,7 @@ override val binding: FragmentVideoBinding by lazy {
         super.onViewCreated(view, savedInstanceState)
 
         binding.fragment = this
+
         setupView()
 
         postViewFinder(binding.viewFinder)

@@ -1,7 +1,10 @@
 package com.t1000.capstone21
 
+import java.util.*
 
-data class Model( var id:Int = 3) {
+
+data class Model(var id: UUID = UUID.randomUUID()) {
+
 
     val photoFileName:String
         get() = "IMG$id.jpg"
