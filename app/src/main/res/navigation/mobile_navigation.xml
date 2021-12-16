@@ -22,13 +22,22 @@
         android:label=""
         tools:layout="@layout/fragment_me" >
         <action
-            android:id="@+id/action_navigation_me_to_loginUserFragment"
-            app:destination="@id/loginUserFragment" />
-
+            android:id="@+id/action_navigation_me_to_registerUserFragment"
+            app:destination="@id/registerUserFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginUserFragment"
         android:name="com.t1000.capstone21.ui.me.register.LoginUserFragment"
         android:label="fragment_login_user"
         tools:layout="@layout/fragment_login_user" />
+    <fragment
+        android:id="@+id/registerUserFragment"
+        android:name="com.t1000.capstone21.ui.me.register.RegisterUserFragment"
+        android:label="fragment_register_user"
+        tools:layout="@layout/fragment_register_user" >
+        <action
+            android:id="@+id/action_registerUserFragment_to_loginUserFragment"
+            app:destination="@id/loginUserFragment" />
+
+    </fragment>
 </navigation>

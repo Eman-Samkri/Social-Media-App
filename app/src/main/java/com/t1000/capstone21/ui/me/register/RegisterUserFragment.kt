@@ -6,11 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.t1000.capstone21.R
+import com.t1000.capstone21.camera.PermissionsFragmentDirections
 import com.t1000.capstone21.databinding.FragmentRegisterUserBinding
 import com.t1000.capstone21.models.User
 
@@ -45,11 +48,10 @@ class RegisterUserFragment : Fragment(){
 
         binding.goToLoginBtn.setOnClickListener {
 
-//            val fragment = LoginUserFragment()
-//            getFragmentManager()
-//                ?.beginTransaction()
-//                ?.add(R.id.fragment_container,fragment)
-//                ?.commit()
+                    Navigation.findNavController(requireActivity(), R.id.fragment_container).navigate(
+                        PermissionsFragmentDirections.actionPermissionsToCamera())
+
+
         }
     }
 

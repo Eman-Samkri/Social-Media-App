@@ -8,7 +8,7 @@
 
         <variable
             name="fragment"
-            type="com.t1000.capstone21.camera.CameraFragment" />
+            type="com.t1000.capstone21.camera.photoFragment.CameraFragment" />
 
         <variable
             name="flash"

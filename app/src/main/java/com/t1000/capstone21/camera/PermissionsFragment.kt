@@ -14,6 +14,7 @@ import androidx.navigation.Navigation
 import com.t1000.capstone21.R
 
 private const val PERMISSIONS_REQUEST_CODE = 10
+
 private val PERMISSIONS_REQUIRED = arrayOf(Manifest.permission.CAMERA,
     Manifest.permission.RECORD_AUDIO,
     Manifest.permission.READ_EXTERNAL_STORAGE
@@ -56,8 +57,6 @@ class PermissionsFragment : Fragment() {
     }
 
     companion object {
-
-        /** Convenience method used to check if all permissions required by this app are granted */
         fun hasPermissions(context: Context) = PERMISSIONS_REQUIRED.all {
             ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
         }

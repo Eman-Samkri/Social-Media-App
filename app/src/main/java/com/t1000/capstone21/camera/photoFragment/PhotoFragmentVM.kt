@@ -1,4 +1,4 @@
-package com.t1000.capstone21.camera
+package com.t1000.capstone21.camera.photoFragment
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel

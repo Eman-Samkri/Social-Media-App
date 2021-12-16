@@ -1,8 +1,7 @@
 
 
-package com.t1000.capstone21.camera
+package com.t1000.capstone21.camera.photoFragment
 
-import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -34,7 +33,6 @@ import androidx.navigation.Navigation
 import com.t1000.capstone21.KEY_EVENT_EXTRA
 import com.t1000.capstone21.models.Photo
 import com.t1000.capstone21.R
-import com.t1000.capstone21.camera.CameraFragmentDirections
 import com.t1000.capstone21.camera.EXTENSION_WHITELIST
 import com.t1000.capstone21.camera.baseFragment.BaseFragment
 import com.t1000.capstone21.camera.baseFragment.BaseViewModel
@@ -102,11 +100,9 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
     }
 
 
-    @SuppressLint("MissingPermission")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       // binding.fragment = this
         setupView()
 
         postViewFinder(binding.viewFinder)
@@ -114,6 +110,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
         gestureListener(binding.viewFinder){
             Navigation.findNavController(view).navigate(R.id.action_camera_to_video)
         }
+
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -122,7 +119,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
         // Rebind the camera with the updated display metrics
         bindCameraUseCases()
 
-        // Enable or disable switching between cameras
+        // switching between cameras
         updateCameraSwitchButton(binding.cameraSwitchButton)
     }
 
@@ -152,10 +149,10 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
 
         // Get screen metrics used to setup camera for full screen resolution
         val metrics = windowManager.getCurrentWindowMetrics().bounds
-        Log.d(TAG, "Screen metrics: ${metrics.width()} x ${metrics.height()}")
+       // Log.d(TAG, "Screen metrics: ${metrics.width()} x ${metrics.height()}")
 
         val screenAspectRatio = aspectRatio(metrics.width(), metrics.height())
-        Log.d(TAG, "Preview aspect ratio: $screenAspectRatio")
+      //  Log.d(TAG, "Preview aspect ratio: $screenAspectRatio")
 
         val rotation = binding.viewFinder.display.rotation
 
@@ -255,7 +252,6 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
     private fun imagePhoto() {
         imageCapture?.let { imageCapture ->
             val model = Photo()
-            //val photoFile = createFile(outputDirectory.toPath(), FILENAME, PHOTO_EXTENSION)
 
             val photoFile = viewModel.getPhotoFile(model)
 
@@ -389,7 +385,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
             private set
 
 
-        fun onFrameAnalyzed(listener: LumaListener) = listeners.add(listener)
+        //fun onFrameAnalyzed(listener: LumaListener) = listeners.add(listener)
 
 
         private fun ByteBuffer.toByteArray(): ByteArray {
