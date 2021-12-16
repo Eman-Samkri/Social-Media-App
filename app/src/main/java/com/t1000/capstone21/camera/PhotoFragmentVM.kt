@@ -14,9 +14,7 @@ class PhotoFragmentVM:ViewModel() {
     fun uploadPhotoToStorage(localPhotoUri: Uri,photo: Photo)  {
 
         viewModelScope.launch {
-
             repo.uploadPhotoToStorage(localPhotoUri,photo)
-
         }
 
 

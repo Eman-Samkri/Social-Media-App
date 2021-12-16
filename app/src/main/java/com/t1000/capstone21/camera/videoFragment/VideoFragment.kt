@@ -184,6 +184,7 @@ override val binding: FragmentVideoBinding by lazy {
 // TODO: to Repo
         val model = Video()
         val videoFile = viewModel.getVideoFile(model)
+        viewModel2.initVideo(System.currentTimeMillis())
 
         val outputOptions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
             val contentValues = ContentValues().apply {

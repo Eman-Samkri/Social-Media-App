@@ -24,8 +24,10 @@ class VideoFragmentVM : ViewModel() {
             repo.uploadVideoToStorage(localVideoUri,video)
 
         }
+    }
 
 
+    fun initVideo(timeCreated: Long){
 
     }
 }

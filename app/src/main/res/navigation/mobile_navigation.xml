@@ -20,5 +20,15 @@
         android:id="@+id/navigation_me"
         android:name="com.t1000.capstone21.ui.me.MeFragment"
         android:label=""
-        tools:layout="@layout/fragment_me" />
+        tools:layout="@layout/fragment_me" >
+        <action
+            android:id="@+id/action_navigation_me_to_loginUserFragment"
+            app:destination="@id/loginUserFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/loginUserFragment"
+        android:name="com.t1000.capstone21.ui.me.register.LoginUserFragment"
+        android:label="fragment_login_user"
+        tools:layout="@layout/fragment_login_user" />
 </navigation>

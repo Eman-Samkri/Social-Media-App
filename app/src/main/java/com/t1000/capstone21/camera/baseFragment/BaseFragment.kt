@@ -47,20 +47,12 @@ abstract class BaseFragment <B:ViewBinding> :Fragment() {
     abstract val volumeDownReceiver :BroadcastReceiver
     abstract val displayListener:DisplayManager.DisplayListener
 
-    private val baseViewModel
-            by lazy { ViewModelProvider(this)
-                .get(BaseViewModel::class.java) }
+    private val baseViewModel by lazy { ViewModelProvider(this).get(BaseViewModel::class.java) }
 
     open val displayManager by lazy {
         requireContext().getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
     }
 
-
-
-//    open val outputDirectory : File by lazy {
-//       CameraActivity.getOutputDirectory(requireContext())
-//       // Repo.getInstance().fileDir
-//    }
 
     open val outputDirectory : File by lazy { baseViewModel.getFileDir() }
 
@@ -190,16 +182,9 @@ abstract class BaseFragment <B:ViewBinding> :Fragment() {
 
 
     companion object {
-
-//         const val FILENAME = "yyyy-MM-dd-HH-mm-ss-SSS"
-//         const val PHOTO_EXTENSION = ".jpg"
-//         const val VIDEO_EXTENSION = ".MP4"
          const val RATIO_4_3_VALUE = 4.0 / 3.0
          const val RATIO_16_9_VALUE = 16.0 / 9.0
-        // TODO: take create file to Repo
-//         fun createFile(baseFolder: File, format: String, extension: String) =
-//            File(baseFolder, SimpleDateFormat(format, Locale.US)
-//                .format(System.currentTimeMillis()) + extension)
+
     }
 
 
