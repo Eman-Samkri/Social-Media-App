@@ -1,4 +1,4 @@
-package com.t1000.capstone21.camera
+package com.t1000.capstone21.camera.videoFragment
 
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
@@ -28,22 +28,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.t1000.capstone21.KEY_EVENT_EXTRA
 import com.t1000.capstone21.R
+import com.t1000.capstone21.camera.EXTENSION_WHITELIST
 import com.t1000.capstone21.models.Video
 import com.t1000.capstone21.camera.baseFragment.BaseFragment
 import com.t1000.capstone21.camera.baseFragment.BaseViewModel
 import com.t1000.capstone21.databinding.FragmentVideoBinding
 import com.t1000.capstone21.utils.simulateClick
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.*
 
 private const val TAG = "VideoFragment"
@@ -61,13 +57,12 @@ override val binding: FragmentVideoBinding by lazy {
     private var recoerSecondFlashd = 0
 
     var savedUri :Uri? = null
-    val vidRef = Firebase.storage.reference
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
 
-    private val viewModel
-            by lazy { ViewModelProvider(this)
-                .get(BaseViewModel::class.java) }
+
+    private val viewModel by lazy { ViewModelProvider(this).get(BaseViewModel::class.java) }
+
+    private val viewModel2 by lazy { ViewModelProvider(this).get(VideoFragmentVM::class.java) }
 
     override  val volumeDownReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -216,7 +211,7 @@ override val binding: FragmentVideoBinding by lazy {
 
                     override fun onVideoSaved(outputFileResults: VideoCapture.OutputFileResults) {
                         savedUri = outputFileResults.savedUri ?: Uri.fromFile(videoFile)
-                        uploadVidToStorage(videoFile.toString())
+                        uploadVideo()
                         Log.d(TAG, "Photo capture succeeded: $savedUri")
 
                         // We can only change the foreground Drawable using API level 23+ API
@@ -337,8 +332,11 @@ override val binding: FragmentVideoBinding by lazy {
         if (true == outputDirectory.listFiles()?.isNotEmpty()) {
             Navigation.findNavController(
                 requireActivity(), R.id.fragment_container
-            ).navigate(VideoFragmentDirections
-                .actionVideoToGallery(outputDirectory.absolutePath))
+            ).navigate(
+                VideoFragmentDirections.actionVideoToGallery(
+                    outputDirectory.absolutePath
+                )
+            )
         }
     }
 
@@ -353,36 +351,9 @@ override val binding: FragmentVideoBinding by lazy {
         else {value.toString()}
     }
 
-    private fun uploadVidToStorage(fileName : String) = CoroutineScope(Dispatchers.IO).launch {
-        savedUri?.let {
-            val ref = vidRef.child("video/${fileName.toString()}")
-            val uploadImg = ref.putFile(it)
-
-            val uriTask = uploadImg.continueWithTask { task ->
-                if (!task.isSuccessful) {
-                    task.exception?.let {
-                        throw it
-                    }
-                }
-                ref.downloadUrl
-            }.addOnSuccessListener {
-                val videoUrl = it.toString()
-                val video = Video()
-
-                Firebase.firestore.collection("users")
-                    .document(Firebase.auth.currentUser?.uid!!)
-                    .update("videosUrl", FieldValue.arrayUnion(video))
-
-
-                Log.e(TAG,"${auth.uid} + video url updated")
-            }
-
-            withContext(Dispatchers.Main){
-                Toast.makeText(requireContext(),"successfully",Toast.LENGTH_LONG).show()
-            }
-        }
-
-
+    private fun uploadVideo() {
+        val video = Video()
+        savedUri?.let { viewModel2.uploadVideo(it,video) }
 
     }
 }

@@ -13,7 +13,7 @@ import com.t1000.capstone21.R
 import java.io.File
 
 
-class PhotoFragment internal constructor() : Fragment() {
+class Photo internal constructor() : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?) = ImageView(context)
@@ -29,7 +29,7 @@ class PhotoFragment internal constructor() : Fragment() {
 
         private const val FILE_NAME_KEY = "file_name"
 
-        fun create(image: File) = PhotoFragment().apply {
+        fun create(image: File) = Photo().apply {
             arguments = Bundle().apply {
                 putString(FILE_NAME_KEY, image.absolutePath)
             }

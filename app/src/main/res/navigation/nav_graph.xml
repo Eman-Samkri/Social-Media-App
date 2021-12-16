@@ -44,7 +44,7 @@
 
     <fragment
         android:id="@+id/video_fragment"
-        android:name="com.t1000.capstone21.camera.VideoFragment"
+        android:name="com.t1000.capstone21.camera.videoFragment.VideoFragment"
         android:label="VideoFragment" >
 
         <action

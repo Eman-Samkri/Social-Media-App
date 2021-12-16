@@ -10,8 +10,6 @@ class BaseViewModel : ViewModel(){
 
     private val repo = Repo.getInstance()
 
-//    fun createFile(baseFolder: File, format: String, extension: String)
-//    = repo.createFile(baseFolder,format,extension)
 
     fun getPhotoFile(model: Photo):File = repo.getPhotoFile(model)
 

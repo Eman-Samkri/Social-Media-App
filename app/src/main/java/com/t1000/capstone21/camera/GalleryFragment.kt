@@ -38,7 +38,7 @@ class GalleryFragment internal constructor() : Fragment() {
 
     inner class MediaPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
         override fun getCount(): Int = mediaList.size
-        override fun getItem(position: Int): Fragment = PhotoFragment.create(mediaList[position])
+        override fun getItem(position: Int): Fragment = Photo.create(mediaList[position])
         override fun getItemPosition(obj: Any): Int = POSITION_NONE
     }
 

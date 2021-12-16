@@ -54,11 +54,11 @@
 
             <ImageButton
                 android:id="@+id/timer_button"
-                android:layout_width="@dimen/round_button_small"
-                android:layout_height="@dimen/round_button_small"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
                 android:onClick="@{() -> fragment.showTimerOptions()}"
+                android:scaleType="fitCenter"
                 app:layout_constraintBottom_toBottomOf="@+id/view"
                 app:layout_constraintEnd_toStartOf="@+id/guideline"
                 app:layout_constraintStart_toStartOf="@+id/view"
@@ -67,11 +67,11 @@
 
             <ImageButton
                 android:id="@+id/flash_button"
-                android:layout_width="@dimen/round_button_small"
-                android:layout_height="@dimen/round_button_small"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
                 android:onClick="@{() -> fragment.showFlashOptions()}"
+                android:scaleType="fitCenter"
                 app:layout_constraintBottom_toBottomOf="@+id/view"
                 app:layout_constraintEnd_toEndOf="@+id/view"
                 app:layout_constraintStart_toEndOf="@+id/guideline"
@@ -192,9 +192,8 @@
                 <!-- Camera control and gallery buttons -->
                 <ImageButton
                     android:id="@+id/camera_switch_button"
-                    android:layout_width="@dimen/round_button_smallx"
-                    android:layout_height="@dimen/round_button_smallx"
-                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_marginBottom="@dimen/margin_small"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/switch_camera_button_alt"
@@ -221,9 +220,8 @@
 
                 <ImageButton
                     android:id="@+id/photo_view_button"
-                    android:layout_width="@dimen/round_button_smallx"
-                    android:layout_height="@dimen/round_button_smallx"
-                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_marginBottom="@dimen/margin_small"
                     android:background="@drawable/ic_outer_circle"
                     android:contentDescription="@string/gallery_button_alt"

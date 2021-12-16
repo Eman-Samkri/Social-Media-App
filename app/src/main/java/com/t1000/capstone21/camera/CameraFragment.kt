@@ -18,7 +18,6 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.webkit.MimeTypeMap
-import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCapture
@@ -32,15 +31,11 @@ import androidx.core.net.toFile
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.t1000.capstone21.KEY_EVENT_EXTRA
 import com.t1000.capstone21.models.Photo
 import com.t1000.capstone21.R
+import com.t1000.capstone21.camera.CameraFragmentDirections
+import com.t1000.capstone21.camera.EXTENSION_WHITELIST
 import com.t1000.capstone21.camera.baseFragment.BaseFragment
 import com.t1000.capstone21.camera.baseFragment.BaseViewModel
 import com.t1000.capstone21.databinding.FragmentCameraBinding
@@ -55,6 +50,7 @@ import kotlin.collections.ArrayList
 typealias LumaListener = (luma: Double) -> Unit
 
 private const val TAG = "CameraFragment"
+
 class CameraFragment : BaseFragment<FragmentCameraBinding>() {
 
 
@@ -69,15 +65,16 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
     private var seletedTimer = CameraTimer.OFF
 
     var savedUri :Uri? = null
-    val imgeRef = Firebase.storage.reference
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val userFirestore = Firebase.firestore
 
 
 
     private val viewModel
             by lazy { ViewModelProvider(this)
                 .get(BaseViewModel::class.java) }
+
+    private val viewModel2
+            by lazy { ViewModelProvider(this)
+                .get(PhotoFragmentVM::class.java) }
 
 
     override  val volumeDownReceiver = object : BroadcastReceiver() {
@@ -109,7 +106,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.fragment = this
+       // binding.fragment = this
         setupView()
 
         postViewFinder(binding.viewFinder)
@@ -283,7 +280,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
 
                     override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                          savedUri = output.savedUri ?: Uri.fromFile(photoFile)
-                         uploadImgToStorage(photoFile.toString())
+                         uploadPhoto()
                         Log.d(TAG, "Photo capture succeeded: $savedUri")
 
                         // We can only change the foreground Drawable using API level 23+ API
@@ -343,7 +340,8 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
         if (true == outputDirectory.listFiles()?.isNotEmpty()) {
             Navigation.findNavController(
                 requireActivity(), R.id.fragment_container
-            ).navigate(CameraFragmentDirections
+            ).navigate(
+                CameraFragmentDirections
                 .actionCameraToGallery(outputDirectory.absolutePath))
         }
     }
@@ -446,34 +444,9 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
     }
 
 
-    private fun uploadImgToStorage(fileName : String) = CoroutineScope(Dispatchers.IO).launch {
-            savedUri?.let {
-               val ref = imgeRef.child("images/${fileName.toString()}")
-               val uploadImg = ref.putFile(it)
-
-                val uriTask = uploadImg.continueWithTask { task ->
-                    if (!task.isSuccessful) {
-                        task.exception?.let {
-                            throw it
-                        }
-                    }
-                    ref.downloadUrl
-                }.addOnSuccessListener {
-                    val imageUrl = it.toString()
-                     val photo = Photo()
-
-                    Firebase.firestore.collection("users")
-                        .document(Firebase.auth.currentUser?.uid!!)
-                        .update("imagesUrl",FieldValue.arrayUnion(photo))
-
-                    Log.e(TAG,"${auth.uid} + image url updated")
-                }
-
-                withContext(Dispatchers.Main){
-                    Toast.makeText(requireContext(),"successfully",Toast.LENGTH_LONG).show()
-                }
-            }
-
+    private fun uploadPhoto() {
+        val photo = Photo()
+        savedUri?.let { viewModel2.uploadPhotoToStorage(it,photo) }
 
     }
 

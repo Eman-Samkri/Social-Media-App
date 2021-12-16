@@ -20,18 +20,13 @@ import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.navigation.Navigation
 import androidx.viewbinding.ViewBinding
 import androidx.window.WindowManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.t1000.capstone21.KEY_EVENT_ACTION
-
-import com.t1000.capstone21.Repo
 import com.t1000.capstone21.utils.SwipeGestureDetector
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import kotlin.math.abs
