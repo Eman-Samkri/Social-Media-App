@@ -333,15 +333,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
         bindCameraUseCases()
     }
 
-    fun showGallery() {
-        if (true == outputDirectory.listFiles()?.isNotEmpty()) {
-            Navigation.findNavController(
-                requireActivity(), R.id.fragment_container
-            ).navigate(
-                PhotoFragmentDirections
-                .actionCameraToGallery(outputDirectory.absolutePath))
-        }
-    }
+
 
     fun showTimerOptions() {
         binding.timerConteiner.visibility = View.VISIBLE

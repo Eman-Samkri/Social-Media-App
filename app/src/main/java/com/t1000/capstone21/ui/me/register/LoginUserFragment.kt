@@ -10,10 +10,8 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.t1000.capstone21.R
-import com.t1000.capstone21.camera.PermissionsFragmentDirections
 import com.t1000.capstone21.databinding.FragmentLoginUserBinding
 import com.t1000.capstone21.databinding.FragmentRegisterUserBinding
-import com.t1000.capstone21.ui.me.MeFragmentDirections
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,7 +49,6 @@ class LoginUserFragment : Fragment(R.layout.fragment_login_user) {
             val action = LoginUserFragmentDirections.actionLoginUserFragmentToRegisterUserFragment()
             findNavController().navigate(action)
         }
-
 
     }
 

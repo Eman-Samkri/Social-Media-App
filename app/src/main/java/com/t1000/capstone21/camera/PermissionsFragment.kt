@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.t1000.capstone21.R
 
 private const val PERMISSIONS_REQUEST_CODE = 10
@@ -51,8 +52,8 @@ class PermissionsFragment : Fragment() {
 
     private fun navigateToCamera() {
         lifecycleScope.launchWhenStarted {
-            Navigation.findNavController(requireActivity(), R.id.fragment_container).navigate(
-                    PermissionsFragmentDirections.actionPermissionsToCamera())
+            val action = PermissionsFragmentDirections.actionPermissionsToCamera()
+            findNavController().navigate(action)
         }
     }
 

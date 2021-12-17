@@ -329,17 +329,7 @@ override val binding: FragmentVideoBinding by lazy {
     }
 
 
-    fun showGallery() {
-        if (true == outputDirectory.listFiles()?.isNotEmpty()) {
-            Navigation.findNavController(
-                requireActivity(), R.id.fragment_container
-            ).navigate(
-                VideoFragmentDirections.actionVideoToGallery(
-                    outputDirectory.absolutePath
-                )
-            )
-        }
-    }
+
 
     fun String.formatSeconds(seconds:Int):String?{
         return (getTowDecimalsValue(seconds/3600)+":" +
