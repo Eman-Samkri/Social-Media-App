@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.t1000.capstone21.R
+import com.t1000.capstone21.utils.BottomNavViewUtils
 
 private const val PERMISSIONS_REQUEST_CODE = 10
 
@@ -32,6 +33,7 @@ class PermissionsFragment : Fragment() {
             requestPermissions(PERMISSIONS_REQUIRED, PERMISSIONS_REQUEST_CODE)
         } else {
             // If permissions have already been granted, proceed
+                BottomNavViewUtils.hideBottomNavBar(requireActivity())
             navigateToCamera()
         }
     }
