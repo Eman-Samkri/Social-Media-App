@@ -225,7 +225,6 @@
                     android:layout_marginBottom="@dimen/margin_small"
                     android:background="@drawable/ic_outer_circle"
                     android:contentDescription="@string/gallery_button_alt"
-                    android:onClick="@{() -> fragment.showGallery()}"
                     android:padding="@dimen/spacing_large"
                     android:scaleType="fitCenter"
                     app:layout_constraintBottom_toBottomOf="parent"

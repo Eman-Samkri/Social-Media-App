@@ -33,7 +33,6 @@ import androidx.navigation.Navigation
 import com.t1000.capstone21.KEY_EVENT_EXTRA
 import com.t1000.capstone21.models.Photo
 import com.t1000.capstone21.R
-import com.t1000.capstone21.camera.EXTENSION_WHITELIST
 import com.t1000.capstone21.camera.baseFragment.BaseFragment
 import com.t1000.capstone21.camera.baseFragment.BaseViewModel
 import com.t1000.capstone21.databinding.FragmentPhotoBinding
@@ -48,6 +47,8 @@ import kotlin.collections.ArrayList
 typealias LumaListener = (luma: Double) -> Unit
 
 private const val TAG = "PhotoFragment"
+val EXTENSION_WHITELIST = arrayOf("JPG")
+
 
 class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
