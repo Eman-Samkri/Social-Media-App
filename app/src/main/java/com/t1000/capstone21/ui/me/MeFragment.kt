@@ -8,10 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.FragmentMeBinding
 import com.t1000.capstone21.databinding.FragmentRegisterUserBinding
+import com.t1000.capstone21.ui.me.register.LoginUserFragmentDirections
 import com.t1000.capstone21.ui.me.register.RegisterUserFragment
 
 
@@ -32,9 +34,8 @@ class MeFragment : Fragment() {
         binding = FragmentMeBinding.bind(view)
 
         binding.singUpBtn.setOnClickListener {
-            val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction?.replace(R.id.frameLayout2, RegisterUserFragment())
-            transaction?.commit()
+            val action = MeFragmentDirections.actionNavigationMeToLoginUserFragment()
+          findNavController().navigate(action)
         }
     }
 
