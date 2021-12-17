@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import com.t1000.capstone21.R
-import com.t1000.capstone21.camera.PermissionsFragmentDirections
 import com.t1000.capstone21.databinding.FragmentLoginUserBinding
 import com.t1000.capstone21.databinding.FragmentRegisterUserBinding
 import kotlinx.coroutines.CoroutineScope

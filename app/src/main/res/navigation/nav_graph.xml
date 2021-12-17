@@ -1,77 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<navigation
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/permissions_fragment">
+    app:startDestination="@id/navigation_home">
 
     <fragment
-        android:id="@+id/permissions_fragment"
-        android:name="com.t1000.capstone21.camera.PermissionsFragment"
-        android:label="PermissionsFragment" >
-
-        <action
-            android:id="@+id/action_permissions_to_camera"
-            app:destination="@id/camera_fragment"
-            app:popUpTo="@id/permissions_fragment"
-            app:popUpToInclusive="true" />
+        android:id="@+id/navigation_home"
+        android:name="com.t1000.capstone21.ui.home.HomeFragment"
+        android:label=""
+        tools:layout="@layout/fragment_home" >
 
     </fragment>
 
+
     <fragment
-        android:id="@+id/camera_fragment"
-        android:name="com.t1000.capstone21.camera.photoFragment.CameraFragment"
-        android:label="CameraFragment" >
-
+        android:id="@+id/navigation_post"
+        android:name="com.t1000.capstone21.CameraFragment"
+        android:label="">
+<!--        <action-->
+<!--            android:id="@+id/action_navigation_post_to_permissions_fragment"-->
+<!--            app:destination="@id/permissions_fragment" />-->
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_me"
+        android:name="com.t1000.capstone21.ui.me.MeFragment"
+        android:label=""
+        tools:layout="@layout/fragment_me" >
         <action
-            android:id="@+id/action_camera_to_gallery"
-            app:destination="@id/gallery_fragment" />
-
+            android:id="@+id/action_navigation_me_to_registerUserFragment"
+            app:destination="@id/registerUserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginUserFragment"
+        android:name="com.t1000.capstone21.ui.me.register.LoginUserFragment"
+        android:label="fragment_login_user"
+        tools:layout="@layout/fragment_login_user" />
+    <fragment
+        android:id="@+id/registerUserFragment"
+        android:name="com.t1000.capstone21.ui.me.register.RegisterUserFragment"
+        android:label="fragment_register_user"
+        tools:layout="@layout/fragment_register_user" >
         <action
-            android:id="@+id/action_camera_to_permissions"
-            app:destination="@id/permissions_fragment"
-            app:popUpTo="@id/camera_fragment"
-            app:popUpToInclusive="true"/>
-
-        <action
-            android:id="@+id/action_camera_to_video"
-            app:destination="@id/video_fragment"
-            app:popUpTo="@id/camera_fragment"
-            app:popUpToInclusive="true"/>
+            android:id="@+id/action_registerUserFragment_to_loginUserFragment"
+            app:destination="@id/loginUserFragment" />
 
     </fragment>
 
-    <fragment
-        android:id="@+id/video_fragment"
-        android:name="com.t1000.capstone21.camera.videoFragment.VideoFragment"
-        android:label="VideoFragment" >
+<!--    <fragment-->
+<!--        android:id="@+id/permissions_fragment"-->
+<!--        android:name="com.t1000.capstone21.camera.PermissionsFragment"-->
+<!--        android:label="PermissionsFragment" >-->
 
-        <action
-            android:id="@+id/action_video_to_gallery"
-            app:destination="@id/gallery_fragment" />
+<!--        <action-->
+<!--            android:id="@+id/action_permissions_to_photo"-->
+<!--            app:destination="@id/photo_fragment"-->
+<!--            app:popUpTo="@id/permissions_fragment"-->
+<!--            app:popUpToInclusive="true" />-->
 
-        <action
-            android:id="@+id/action_video_to_permissions"
-            app:destination="@id/permissions_fragment"
-            app:popUpTo="@id/video_fragment"
-            app:popUpToInclusive="true"/>
+<!--    </fragment>-->
 
-        <action
-            android:id="@+id/action_video_to_camera"
-            app:destination="@id/camera_fragment"
-            app:popUpTo="@id/video_fragment"
-            app:popUpToInclusive="true"/>
+<!--    <fragment-->
+<!--        android:id="@+id/photo_fragment"-->
+<!--        android:name="com.t1000.capstone21.camera.photoFragment.PhotoFragment"-->
+<!--        android:label="CameraFragment" >-->
 
-    </fragment>
 
-    <fragment
-        android:id="@+id/gallery_fragment"
-        android:name="com.t1000.capstone21.camera.GalleryFragment"
-        android:label="GalleryFragment" >
-        <argument
-            android:name="root_directory"
-            app:argType="string" />
-    </fragment>
+<!--        <action-->
+<!--            android:id="@+id/action_photo_to_permissions"-->
+<!--            app:destination="@id/permissions_fragment"-->
+<!--            app:popUpTo="@id/photo_fragment"-->
+<!--            app:popUpToInclusive="true"/>-->
+
+<!--        <action-->
+<!--            android:id="@+id/action_photo_to_video"-->
+<!--            app:destination="@id/video_fragment"-->
+<!--            app:popUpTo="@id/photo_fragment"-->
+<!--            app:popUpToInclusive="true"/>-->
+
+<!--    </fragment>-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/video_fragment"-->
+<!--        android:name="com.t1000.capstone21.camera.videoFragment.VideoFragment"-->
+<!--        android:label="VideoFragment" >-->
+
+
+<!--        <action-->
+<!--            android:id="@+id/action_video_to_permissions"-->
+<!--            app:destination="@id/permissions_fragment"-->
+<!--            app:popUpTo="@id/video_fragment"-->
+<!--            app:popUpToInclusive="true"/>-->
+
+<!--        <action-->
+<!--            android:id="@+id/action_video_to_photo"-->
+<!--            app:destination="@id/photo_fragment"-->
+<!--            app:popUpTo="@id/video_fragment"-->
+<!--            app:popUpToInclusive="true"/>-->
+
+<!--    </fragment>-->
+
+
+
 
 </navigation>

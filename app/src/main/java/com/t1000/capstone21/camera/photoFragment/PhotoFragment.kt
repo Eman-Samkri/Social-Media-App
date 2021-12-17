@@ -33,10 +33,9 @@ import androidx.navigation.Navigation
 import com.t1000.capstone21.KEY_EVENT_EXTRA
 import com.t1000.capstone21.models.Photo
 import com.t1000.capstone21.R
-import com.t1000.capstone21.camera.EXTENSION_WHITELIST
 import com.t1000.capstone21.camera.baseFragment.BaseFragment
 import com.t1000.capstone21.camera.baseFragment.BaseViewModel
-import com.t1000.capstone21.databinding.FragmentCameraBinding
+import com.t1000.capstone21.databinding.FragmentPhotoBinding
 import com.t1000.capstone21.utils.*
 import kotlinx.coroutines.*
 import java.lang.Runnable
@@ -47,13 +46,15 @@ import kotlin.collections.ArrayList
 
 typealias LumaListener = (luma: Double) -> Unit
 
-private const val TAG = "CameraFragment"
+private const val TAG = "PhotoFragment"
 
-class CameraFragment : BaseFragment<FragmentCameraBinding>() {
+val EXTENSION_WHITELIST = arrayOf("JPG")
+
+class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
 
-    override val binding: FragmentCameraBinding by lazy {
-        FragmentCameraBinding.inflate(layoutInflater)
+    override val binding: FragmentPhotoBinding by lazy {
+        FragmentPhotoBinding.inflate(layoutInflater)
     }
 
 
@@ -91,7 +92,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
         override fun onDisplayAdded(displayId: Int) = Unit
         override fun onDisplayRemoved(displayId: Int) = Unit
         override fun onDisplayChanged(displayId: Int) = view?.let { view ->
-            if (displayId == this@CameraFragment.displayId) {
+            if (displayId == this@PhotoFragment.displayId) {
                 Log.d(TAG, "Rotation changed: ${view.display.rotation}")
                 imageCapture?.targetRotation = view.display.rotation
                 imageAnalyzer?.targetRotation = view.display.rotation
@@ -108,7 +109,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
         postViewFinder(binding.viewFinder)
 
         gestureListener(binding.viewFinder){
-            Navigation.findNavController(view).navigate(R.id.action_camera_to_video)
+        //    Navigation.findNavController(view).navigate(R.id.action_photo_to_video)
         }
 
     }
@@ -332,15 +333,15 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
         bindCameraUseCases()
     }
 
-    fun showGallery() {
-        if (true == outputDirectory.listFiles()?.isNotEmpty()) {
-            Navigation.findNavController(
-                requireActivity(), R.id.fragment_container
-            ).navigate(
-                CameraFragmentDirections
-                .actionCameraToGallery(outputDirectory.absolutePath))
-        }
-    }
+//    fun showGallery() {
+//        if (true == outputDirectory.listFiles()?.isNotEmpty()) {
+//            Navigation.findNavController(
+//                requireActivity(), R.id.fragment_container
+//            ).navigate(
+//                PhotoFragmentDirections
+//                .actionCameraToGallery(outputDirectory.absolutePath))
+//        }
+//    }
 
     fun showTimerOptions() {
         binding.timerConteiner.visibility = View.VISIBLE

@@ -6,6 +6,7 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.t1000.capstone21.R
 
+private const val TAG = "PermissionsFragment"
 private const val PERMISSIONS_REQUEST_CODE = 10
 
 private val PERMISSIONS_REQUIRED = arrayOf(Manifest.permission.CAMERA,
@@ -50,10 +52,13 @@ class PermissionsFragment : Fragment() {
     }
 
     private fun navigateToCamera() {
-        lifecycleScope.launchWhenStarted {
-            Navigation.findNavController(requireActivity(), R.id.fragment_container).navigate(
-                    PermissionsFragmentDirections.actionPermissionsToCamera())
-        }
+   //     lifecycleScope.launchWhenStarted {
+        //    view?.let { Navigation.findNavController(it).navigate(R.id.action_permissions_to_photo)
+          //      Log.e(TAG,"Heeeer")}
+
+//            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(
+//                    PermissionsFragmentDirections.actionPermissionsToCamera())
+ //       }
     }
 
     companion object {

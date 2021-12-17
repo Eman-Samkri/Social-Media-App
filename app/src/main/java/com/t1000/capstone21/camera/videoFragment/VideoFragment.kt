@@ -32,10 +32,10 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.t1000.capstone21.KEY_EVENT_EXTRA
 import com.t1000.capstone21.R
-import com.t1000.capstone21.camera.EXTENSION_WHITELIST
 import com.t1000.capstone21.models.Video
 import com.t1000.capstone21.camera.baseFragment.BaseFragment
 import com.t1000.capstone21.camera.baseFragment.BaseViewModel
+import com.t1000.capstone21.camera.photoFragment.EXTENSION_WHITELIST
 import com.t1000.capstone21.databinding.FragmentVideoBinding
 import com.t1000.capstone21.utils.simulateClick
 import kotlinx.coroutines.Dispatchers
@@ -100,7 +100,7 @@ override val binding: FragmentVideoBinding by lazy {
         postViewFinder(binding.viewFinder)
 
         gestureListener(binding.viewFinder){
-            Navigation.findNavController(view).navigate(R.id.action_video_to_camera)
+           // Navigation.findNavController(view).navigate(R.id.action_video_to_photo)
         }
 
     }
@@ -329,17 +329,17 @@ override val binding: FragmentVideoBinding by lazy {
     }
 
 
-    fun showGallery() {
-        if (true == outputDirectory.listFiles()?.isNotEmpty()) {
-            Navigation.findNavController(
-                requireActivity(), R.id.fragment_container
-            ).navigate(
-                VideoFragmentDirections.actionVideoToGallery(
-                    outputDirectory.absolutePath
-                )
-            )
-        }
-    }
+//    fun showGallery() {
+//        if (true == outputDirectory.listFiles()?.isNotEmpty()) {
+//            Navigation.findNavController(
+//                requireActivity(), R.id.fragment_container
+//            ).navigate(
+//                VideoFragmentDirections.actionVideoToGallery(
+//                    outputDirectory.absolutePath
+//                )
+//            )
+//        }
+//    }
 
     fun String.formatSeconds(seconds:Int):String?{
         return (getTowDecimalsValue(seconds/3600)+":" +

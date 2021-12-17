@@ -2,29 +2,10 @@
 
 package com.t1000.capstone21.camera
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import java.io.File
-import android.content.Intent
-import android.media.MediaScannerConnection
-import android.os.Build
-import android.webkit.MimeTypeMap
-import androidx.core.content.FileProvider
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.navArgs
-import com.t1000.capstone21.R
-import com.t1000.capstone21.databinding.FragmentGalleryBinding
-import com.t1000.capstone21.utils.padWithDisplayCutout
-import com.t1000.capstone21.utils.showImmersive
-import java.util.Locale
 
-val EXTENSION_WHITELIST = arrayOf("JPG")
+
+//val EXTENSION_WHITELIST = arrayOf("JPG")
 
 class GalleryFragment internal constructor() : Fragment() {
 

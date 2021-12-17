@@ -13,7 +13,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.t1000.capstone21.R
-import com.t1000.capstone21.camera.PermissionsFragmentDirections
 import com.t1000.capstone21.databinding.FragmentRegisterUserBinding
 import com.t1000.capstone21.models.User
 
@@ -46,18 +45,14 @@ class RegisterUserFragment : Fragment(){
             registerUser()
         }
 
-        binding.goToLoginBtn.setOnClickListener {
-
-                    Navigation.findNavController(requireActivity(), R.id.fragment_container).navigate(
-                        PermissionsFragmentDirections.actionPermissionsToCamera())
-
-
-        }
+//        binding.goToLoginBtn.setOnClickListener {
+//            Navigation.findNavController(requireActivity(), androidx.navigation.fragment.R.id.nav_host_fragment_container).navigate(
+//          //      PermissionsFragmentDirections.actionPermissionsToPhoto())
+//        }
     }
 
 
     private fun registerUser(){
-
 
         val email = binding.registerEmail.text.toString()
         val password = binding.registerPassword.text.toString()

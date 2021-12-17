@@ -140,7 +140,7 @@
 
         <ImageButton
             android:id="@+id/favourites_icon"
-            android:layout_width="40dp"
+            android:layout_width="48dp"
             android:layout_height="0dp"
             android:layout_marginStart="6dp"
             android:background="@drawable/button_background_style"
