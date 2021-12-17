@@ -36,7 +36,7 @@ import com.t1000.capstone21.R
 import com.t1000.capstone21.camera.EXTENSION_WHITELIST
 import com.t1000.capstone21.camera.baseFragment.BaseFragment
 import com.t1000.capstone21.camera.baseFragment.BaseViewModel
-import com.t1000.capstone21.databinding.FragmentCameraBinding
+import com.t1000.capstone21.databinding.FragmentPhotoBinding
 import com.t1000.capstone21.utils.*
 import kotlinx.coroutines.*
 import java.lang.Runnable
@@ -47,13 +47,13 @@ import kotlin.collections.ArrayList
 
 typealias LumaListener = (luma: Double) -> Unit
 
-private const val TAG = "CameraFragment"
+private const val TAG = "PhotoFragment"
 
-class CameraFragment : BaseFragment<FragmentCameraBinding>() {
+class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
 
-    override val binding: FragmentCameraBinding by lazy {
-        FragmentCameraBinding.inflate(layoutInflater)
+    override val binding: FragmentPhotoBinding by lazy {
+        FragmentPhotoBinding.inflate(layoutInflater)
     }
 
 
@@ -91,7 +91,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
         override fun onDisplayAdded(displayId: Int) = Unit
         override fun onDisplayRemoved(displayId: Int) = Unit
         override fun onDisplayChanged(displayId: Int) = view?.let { view ->
-            if (displayId == this@CameraFragment.displayId) {
+            if (displayId == this@PhotoFragment.displayId) {
                 Log.d(TAG, "Rotation changed: ${view.display.rotation}")
                 imageCapture?.targetRotation = view.display.rotation
                 imageAnalyzer?.targetRotation = view.display.rotation
@@ -337,7 +337,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
             Navigation.findNavController(
                 requireActivity(), R.id.fragment_container
             ).navigate(
-                CameraFragmentDirections
+                PhotoFragmentDirections
                 .actionCameraToGallery(outputDirectory.absolutePath))
         }
     }

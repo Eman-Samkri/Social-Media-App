@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/camera_fragment"
-        android:name="com.t1000.capstone21.camera.photoFragment.CameraFragment"
+        android:name="com.t1000.capstone21.camera.photoFragment.PhotoFragment"
         android:label="CameraFragment" >
 
         <action
