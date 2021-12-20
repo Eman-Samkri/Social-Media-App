@@ -110,7 +110,8 @@ class Repo private constructor(context: Context) {
      private fun saveVideoUrlToFirestore(video: Video, uri:Uri){
          video.videoUrl = uri.toString()
 
-
+        val user = User(userId = currentUserId.toString())
+         video.username = user.username
         Firebase.firestore.collection("users")
             .document(Firebase.auth.currentUser?.uid!!)
             .update("videosUrl", FieldValue.arrayUnion(video))

@@ -122,11 +122,6 @@ class HomeFragment : Fragment() {
 
     }
 
-//    private val homeScrollListener = object : RecyclerView.OnScrollListener() {
-//        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-//
-//        }
-//    }
 
 
 
