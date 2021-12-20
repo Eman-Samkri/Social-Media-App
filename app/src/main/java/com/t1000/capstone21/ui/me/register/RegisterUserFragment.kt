@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -47,11 +46,8 @@ class RegisterUserFragment : Fragment(){
         }
 
         binding.goToLoginBtn.setOnClickListener {
-
-                    Navigation.findNavController(requireActivity(), R.id.fragment_container).navigate(
-                        PermissionsFragmentDirections.actionPermissionsToCamera())
-
-
+          Navigation.findNavController(requireActivity(), R.id.fragment_container).navigate(
+           PermissionsFragmentDirections.actionPermissionsToCamera())
         }
     }
 
@@ -68,7 +64,7 @@ class RegisterUserFragment : Fragment(){
                     auth.createUserWithEmailAndPassword(email,password)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                val currentUser = User(auth.uid, username, email, password)
+                                val currentUser = User(auth?.uid!!, username, email, password)
 
                                 userFirestore.collection("users")
                                     .document(Firebase.auth?.uid!!)

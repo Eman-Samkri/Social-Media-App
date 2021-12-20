@@ -114,7 +114,7 @@ override val binding: FragmentVideoBinding by lazy {
             }
         }
 
-        binding.cameraSwitchButton.isEnabled = false
+      //  binding.cameraSwitchButton.isEnabled = false
     }
 
     override fun setUpCamera() {
@@ -138,7 +138,7 @@ override val binding: FragmentVideoBinding by lazy {
         }, ContextCompat.getMainExecutor(requireContext()))
     }
 
-    @SuppressLint("RestrictedApi", "NewApi")
+    @SuppressLint("RestrictedApi")
     override fun bindCameraUseCases() {
        val metrics = windowManager.getCurrentWindowMetrics().bounds
 
@@ -213,7 +213,7 @@ override val binding: FragmentVideoBinding by lazy {
                     override fun onVideoSaved(outputFileResults: VideoCapture.OutputFileResults) {
                         savedUri = outputFileResults.savedUri ?: Uri.fromFile(videoFile)
                         uploadVideo()
-                        Log.d(TAG, "Photo capture succeeded: $savedUri")
+                        Log.d(TAG, "Video capture succeeded: $savedUri")
 
                         // We can only change the foreground Drawable using API level 23+ API
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

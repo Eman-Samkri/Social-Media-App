@@ -15,17 +15,19 @@ private const val TAG = "MeFragment"
 class MeFragment : Fragment() {
 
     private lateinit var binding:FragmentMeBinding
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_me, container, false)
+        binding = FragmentMeBinding.inflate(layoutInflater)
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding = FragmentMeBinding.bind(view)
 
         binding.singUpBtn.setOnClickListener {
             val action = MeFragmentDirections.actionNavigationMeToLoginUserFragment()

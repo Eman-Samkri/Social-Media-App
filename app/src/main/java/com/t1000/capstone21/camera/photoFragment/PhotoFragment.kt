@@ -37,6 +37,7 @@ import com.t1000.capstone21.camera.baseFragment.BaseFragment
 import com.t1000.capstone21.camera.baseFragment.BaseViewModel
 import com.t1000.capstone21.databinding.FragmentPhotoBinding
 import com.t1000.capstone21.utils.*
+import com.t1000.capstone21.utils.BottomNavViewUtils.showBottomNavBar
 import kotlinx.coroutines.*
 import java.lang.Runnable
 import java.nio.ByteBuffer
@@ -438,6 +439,11 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
         savedUri?.let { viewModel2.uploadPhotoToStorage(it,photo) }
 
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//        showBottomNavBar(activity)
+//    }
 
 
 }

@@ -33,7 +33,7 @@ class PermissionsFragment : Fragment() {
             requestPermissions(PERMISSIONS_REQUIRED, PERMISSIONS_REQUEST_CODE)
         } else {
             // If permissions have already been granted, proceed
-                BottomNavViewUtils.hideBottomNavBar(requireActivity())
+                BottomNavViewUtils.hideBottomNavBar(activity)
             navigateToCamera()
         }
     }

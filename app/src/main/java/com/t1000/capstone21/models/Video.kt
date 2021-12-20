@@ -2,10 +2,13 @@ package com.t1000.capstone21.models
 
 import java.util.*
 
-data class Video (val video :String ="") {
-
-    val id = UUID.randomUUID()
+data class Video (var username: String = "",
+                  var videoUrl: String = "",
+                  var likes: String = "",
+                  var comments: String = "") {
 
     val videoFileName:String
-        get() = "VID$id.mp4"
+        get() = "VID${UUID.randomUUID()}.mp4"
+
+
 }

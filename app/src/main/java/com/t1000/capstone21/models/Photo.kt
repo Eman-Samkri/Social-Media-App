@@ -3,12 +3,13 @@ package com.t1000.capstone21.models
 import java.util.*
 
 
-data class Photo(val photo :String ="") {
-
-    val id = UUID.randomUUID()
+data class Photo(var username: String = "",
+                 var photoUrl: String = "",
+                 var likes: String = "",
+                 var comments: String = "") {
 
     val photoFileName:String
-        get() = "IMG$id.jpg"
+        get() = "IMG${UUID.randomUUID()}.jpg"
 
 
 
