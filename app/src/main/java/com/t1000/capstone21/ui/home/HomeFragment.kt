@@ -1,5 +1,7 @@
 package com.t1000.capstone21.ui.home
 
+import android.Manifest
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.VideoView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +27,7 @@ import com.t1000.capstone21.models.Video
 
 
 private const val TAG = "HomeFragment"
+
 class HomeFragment : Fragment() {
 
 
@@ -32,6 +36,19 @@ class HomeFragment : Fragment() {
 
 
     private lateinit var binding:FragmentHomeBinding
+
+   // private val PERMISSIONS_REQUIRED = Manifest.permission.RECORD_AUDIO
+
+    private val getPermissionLuncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ){
+
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        getPermissionLuncher.launch(Manifest.permission.RECORD_AUDIO)
+    }
 
 
     override fun onCreateView(
@@ -67,31 +84,38 @@ class HomeFragment : Fragment() {
     private inner class HomeVideoHolder(val binding:ItemHomeVideoBinding):RecyclerView.ViewHolder(binding.root){
 
         fun bind(video:Video){
-            binding.textView.text = video.videoFileName
+           // binding.textView.text = video.videoFileName
             binding.usernameText.text = video.username
+//
+//            binding.homeVideoView.setVideoPath(video.videoUrl)
 
-            binding.homeVideoView.setVideoPath(video.videoUrl)
+//            binding.homeVideoView.setOnPreparedListener {
+//                binding.progressBar.visibility = View.GONE
+//                it.start()
+//
+//                val videoRatio =
+//                    it.videoWidth / it.videoHeight.toFloat()
+//                val screenRatio =
+//                    binding.homeVideoView.width / binding.homeVideoView.height.toFloat()
+//                val scale = videoRatio / screenRatio
+//
+//                if (scale >= 1f) {
+//                    binding.homeVideoView.scaleX = scale
+//                } else {
+//                    binding.homeVideoView.scaleY = 1f / scale
+//                }
+//            }
 
-            binding.homeVideoView.setOnPreparedListener {
-                binding.progressBar.visibility = View.GONE
-                it.start()
+//            binding.homeVideoView.setOnCompletionListener {
+//                it.start()
+//            }
 
-                val videoRatio =
-                    it.videoWidth / it.videoHeight.toFloat()
-                val screenRatio =
-                    binding.homeVideoView.width / binding.homeVideoView.height.toFloat()
-                val scale = videoRatio / screenRatio
-
-                if (scale >= 1f) {
-                    binding.homeVideoView.scaleX = scale
-                } else {
-                    binding.homeVideoView.scaleY = 1f / scale
-                }
-            }
-
-            binding.homeVideoView.setOnCompletionListener {
-                it.start()
-            }
+//            binding.shareVideoBtn.setOnClickListener {
+//                // device has the app and make an intent to the app. For now, just create a link to the firebase video
+//                val intent = Intent(Intent.ACTION_SEND)
+//                intent.putExtra(Intent.EXTRA_TEXT, video.videoUrl)
+//                binding.root.context.startActivity(intent)
+//            }
 
 
         }

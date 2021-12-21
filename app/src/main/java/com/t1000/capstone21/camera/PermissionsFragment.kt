@@ -17,7 +17,7 @@ import com.t1000.capstone21.utils.BottomNavViewUtils
 
 private const val PERMISSIONS_REQUEST_CODE = 10
 
-private val PERMISSIONS_REQUIRED = arrayOf(Manifest.permission.CAMERA,
+ val PERMISSIONS_REQUIRED = arrayOf(Manifest.permission.CAMERA,
     Manifest.permission.RECORD_AUDIO,
     Manifest.permission.READ_EXTERNAL_STORAGE
 
