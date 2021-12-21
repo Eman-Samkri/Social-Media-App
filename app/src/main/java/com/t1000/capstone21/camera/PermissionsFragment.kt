@@ -16,6 +16,7 @@ import com.t1000.capstone21.R
 import com.t1000.capstone21.utils.BottomNavViewUtils
 
 private const val PERMISSIONS_REQUEST_CODE = 10
+private const val TAG = "PermissionsFragment"
 
  val PERMISSIONS_REQUIRED = arrayOf(Manifest.permission.CAMERA,
     Manifest.permission.RECORD_AUDIO,

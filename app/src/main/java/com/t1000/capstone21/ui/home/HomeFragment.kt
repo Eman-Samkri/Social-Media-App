@@ -37,17 +37,16 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding:FragmentHomeBinding
 
-   // private val PERMISSIONS_REQUIRED = Manifest.permission.RECORD_AUDIO
 
-    private val getPermissionLuncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ){
-
-    }
+//    private val getPermissionLuncher = registerForActivityResult(
+//        ActivityResultContracts.RequestPermission()
+//    ){
+//
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getPermissionLuncher.launch(Manifest.permission.RECORD_AUDIO)
+  //      getPermissionLuncher.launch(Manifest.permission.RECORD_AUDIO)
     }
 
 
@@ -86,36 +85,36 @@ class HomeFragment : Fragment() {
         fun bind(video:Video){
            // binding.textView.text = video.videoFileName
             binding.usernameText.text = video.username
-//
-//            binding.homeVideoView.setVideoPath(video.videoUrl)
 
-//            binding.homeVideoView.setOnPreparedListener {
-//                binding.progressBar.visibility = View.GONE
-//                it.start()
-//
-//                val videoRatio =
-//                    it.videoWidth / it.videoHeight.toFloat()
-//                val screenRatio =
-//                    binding.homeVideoView.width / binding.homeVideoView.height.toFloat()
-//                val scale = videoRatio / screenRatio
-//
-//                if (scale >= 1f) {
-//                    binding.homeVideoView.scaleX = scale
-//                } else {
-//                    binding.homeVideoView.scaleY = 1f / scale
-//                }
-//            }
+            binding.homeVideoView.setVideoPath(video.videoUrl)
 
-//            binding.homeVideoView.setOnCompletionListener {
-//                it.start()
-//            }
+            binding.homeVideoView.setOnPreparedListener {
+                binding.progressBar.visibility = View.GONE
+                it.start()
 
-//            binding.shareVideoBtn.setOnClickListener {
-//                // device has the app and make an intent to the app. For now, just create a link to the firebase video
-//                val intent = Intent(Intent.ACTION_SEND)
-//                intent.putExtra(Intent.EXTRA_TEXT, video.videoUrl)
-//                binding.root.context.startActivity(intent)
-//            }
+                val videoRatio =
+                    it.videoWidth / it.videoHeight.toFloat()
+                val screenRatio =
+                    binding.homeVideoView.width / binding.homeVideoView.height.toFloat()
+                val scale = videoRatio / screenRatio
+
+                if (scale >= 1f) {
+                    binding.homeVideoView.scaleX = scale
+                } else {
+                    binding.homeVideoView.scaleY = 1f / scale
+                }
+            }
+
+            binding.homeVideoView.setOnCompletionListener {
+                it.start()
+            }
+
+            binding.sharVideoBtn.setOnClickListener {
+                // device has the app and make an intent to the app. For now, just create a link to the firebase video
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.putExtra(Intent.EXTRA_TEXT, video.videoUrl)
+                binding.root.context.startActivity(intent)
+            }
 
 
         }
