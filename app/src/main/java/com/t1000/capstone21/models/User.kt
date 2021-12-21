@@ -5,6 +5,7 @@ data class User(
     val userId: String,
     val username: String = "",
     val email: String = "",
-    val imagesUrl : List<Photo> = listOf(),
-    val videosUrl : List<Video> = listOf()
+    var profilePictureUrl: String?,
+    var followers: Int = 0,
+    var following: Int = 0
 )

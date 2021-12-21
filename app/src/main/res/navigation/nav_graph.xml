@@ -62,7 +62,11 @@
         android:id="@+id/navigation_home"
         android:name="com.t1000.capstone21.ui.home.HomeFragment"
         android:label=""
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_commentFragment"
+            app:destination="@id/commentFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_post"
@@ -105,5 +109,10 @@
         android:name="com.t1000.capstone21.ui.me.ProfileFragment"
         android:label="profile_fragment"
         tools:layout="@layout/profile_fragment" />
+    <fragment
+        android:id="@+id/commentFragment"
+        android:name="com.t1000.capstone21.ui.comment.CommentFragment"
+        android:label="comment_fragment"
+        tools:layout="@layout/comment_fragment" />
 
 </navigation>

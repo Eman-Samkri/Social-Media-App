@@ -65,7 +65,6 @@ class RegisterUserFragment : Fragment(){
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 val currentUser = User(auth?.uid!!, username, email)
-
                                 userFirestore.collection("users")
                                     .document(Firebase.auth?.uid!!)
                                     .set(currentUser)

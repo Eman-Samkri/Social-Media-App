@@ -1,30 +1,20 @@
 package com.t1000.capstone21
 
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.net.Uri
-import android.os.Build
-import android.provider.MediaStore
 import android.util.Log
-import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.QueryDocumentSnapshot
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.t1000.capstone21.models.Comment
 import com.t1000.capstone21.models.Photo
 import com.t1000.capstone21.models.User
 import com.t1000.capstone21.models.Video
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.*
 
@@ -96,30 +86,19 @@ class Repo private constructor(context: Context) {
 
         if (uploadTask.task.isSuccessful){
             val uri = uploadTask.storage.downloadUrl.await()
-            saveVideoUrlToFirestore(video,uri)
+            addVideoToVideoCollection(video,uri)
         }
 
     }
 
-    private fun addVideoToVideoCollection(video: Video){
+    private fun addVideoToVideoCollection(video: Video,uri:Uri){
+        video.videoUrl = uri.toString()
 
         Firebase.firestore.collection("video")
-            .add(video)
+            .document(Firebase.auth?.uid!!)
+            .set(video)
 
     }
-     private fun saveVideoUrlToFirestore(video: Video, uri:Uri){
-         video.videoUrl = uri.toString()
-
-        val user = User(userId = currentUserId.toString())
-         video.username = user.username
-        Firebase.firestore.collection("users")
-            .document(Firebase.auth.currentUser?.uid!!)
-            .update("videosUrl", FieldValue.arrayUnion(video))
-
-
-         addVideoToVideoCollection(video)
-
-     }
 
 
     private fun savePhotoUrlToFirestore(photo: Photo, uri:Uri){
@@ -132,6 +111,39 @@ class Repo private constructor(context: Context) {
     }
 
 
+
+     suspend fun saveCommentToFirestore(comment: Comment, commentText:String){
+       comment.commentText = commentText
+
+
+         Firebase.firestore.collection("video")
+             .document(Firebase.auth.currentUser?.uid!!)
+             .update("comments", FieldValue.arrayUnion(comment))
+             .await()
+
+//        val userObject = Firebase.firestore.collection("users")
+//            .document(Firebase.auth.currentUser?.uid!!)
+//            .get()
+//            .addOnSuccessListener {
+//
+//            }.await()
+//            .toObject(User::class.java)
+////
+//        userObject?.videosUrl?.forEach {
+//            val comment = Comment(userId = userObject.userId,commentText=commentText)
+//            it.comments+= comment
+//            }
+   //     }
+
+
+//             Firebase.firestore.collection("users")
+//                 .document(Firebase.auth.currentUser?.uid!!)
+//                .set(userObject!!)
+
+
+
+
+    }
 
 
     fun getPhotoFile(model: Photo):File = File(fileDir,model.photoFileName)
@@ -196,6 +208,24 @@ class Repo private constructor(context: Context) {
 
     }
 
+    suspend fun fetchVideosComment() : List<Comment> {
+
+        val comment = fireStore.collection("video")
+            .get()
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "Error getting documents: ", exception)
+            }
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    Log.d(TAG, "${document.id} => ${document.data}")
+                }
+            }.await()
+            .toObjects(Comment::class.java)
+
+        return comment
+
+    }
+
 
     suspend fun fetchUserVideo(): Video? {
 
@@ -208,22 +238,6 @@ class Repo private constructor(context: Context) {
             .toObject(Video::class.java)
 
         return video
-
-
-
-
-
-
-//           .addOnSuccessListener {
-//                val userData = it.data
-//                    userData?.forEach {
-//                    when(it.key){
-//                        "username" -> {
-//                            binding.userName.text = it.value.toString()
-//                            Log.d(TAG, "${it.value}")
-//                        }
-//
-//                    }
     }
 
 

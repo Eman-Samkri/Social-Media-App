@@ -13,6 +13,7 @@ import android.widget.VideoView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +25,7 @@ import com.t1000.capstone21.databinding.FragmentHomeBinding
 import com.t1000.capstone21.databinding.ItemHomeVideoBinding
 import com.t1000.capstone21.models.User
 import com.t1000.capstone21.models.Video
+import com.t1000.capstone21.ui.me.register.LoginUserFragmentDirections
 
 
 private const val TAG = "HomeFragment"
@@ -114,6 +116,11 @@ class HomeFragment : Fragment() {
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.putExtra(Intent.EXTRA_TEXT, video.videoUrl)
                 binding.root.context.startActivity(intent)
+            }
+
+            binding.commentVideoBtn.setOnClickListener {
+                val action = HomeFragmentDirections.actionNavigationHomeToCommentFragment()
+                findNavController().navigate(action)
             }
 
 
