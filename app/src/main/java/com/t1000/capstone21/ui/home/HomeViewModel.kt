@@ -17,6 +17,10 @@ class HomeViewModel : ViewModel() {
 
     }
 
+    fun addLike(video:Video){
+        repo.addLike(video)
+    }
+
 
 
 

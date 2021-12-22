@@ -27,10 +27,8 @@ import androidx.core.net.toFile
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.t1000.capstone21.KEY_EVENT_EXTRA
 import com.t1000.capstone21.R
 import com.t1000.capstone21.models.Video
@@ -345,7 +343,7 @@ override val binding: FragmentVideoBinding by lazy {
 
     private fun uploadVideo() {
         val video = Video()
-        video.username = Firebase.auth.currentUser?.uid!!
+        video.userId = Firebase.auth.currentUser?.uid!!
         savedUri?.let { viewModel2.uploadVideo(it,video) }
 
     }

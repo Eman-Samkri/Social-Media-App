@@ -15,6 +15,7 @@ import com.t1000.capstone21.R
 import com.t1000.capstone21.camera.PermissionsFragmentDirections
 import com.t1000.capstone21.databinding.FragmentRegisterUserBinding
 import com.t1000.capstone21.models.User
+import java.lang.Exception
 
 
 private const val TAG = "RegisterUserFragment"
@@ -61,16 +62,24 @@ class RegisterUserFragment : Fragment(){
 
 
         if (email.isNotEmpty() && password.isNotEmpty() && username.isNotEmpty()) {
-                    auth.createUserWithEmailAndPassword(email,password)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                val currentUser = User(auth?.uid!!, username, email)
-                                userFirestore.collection("users")
-                                    .document(Firebase.auth?.uid!!)
-                                    .set(currentUser)
-                                Toast.makeText(context, "successfully register user $username", Toast.LENGTH_LONG).show()
-                            }
+            try {
+
+                auth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val currentUser = User(userId = auth?.uid!!, username = username)
+                            userFirestore.collection("users")
+                                .document(Firebase.auth?.uid!!)
+                                .set(currentUser)
+                            Toast.makeText(context, "successfully register user $username", Toast.LENGTH_LONG).show()
                         }
+                        Toast.makeText(context, "fi $username", Toast.LENGTH_LONG).show()
+
+                    }
+            }catch (e:Exception){
+                Toast.makeText(context,"filed register$e",Toast.LENGTH_LONG).show()
+
+            }
 
             }
         }

@@ -20,9 +20,12 @@ import com.t1000.capstone21.models.Comment
 import com.t1000.capstone21.models.Video
 import com.t1000.capstone21.ui.home.HomeFragment
 
+private const val TAG = "CommentFragment"
 class CommentFragment : Fragment() {
 
     private lateinit var binding :CommentFragmentBinding
+
+    private lateinit var video:Video
 
     private val viewModel by lazy { ViewModelProvider(this).get(CommentViewModel::class.java) }
 
@@ -37,11 +40,9 @@ class CommentFragment : Fragment() {
             uploadComment(comment)
         }
 
+
         binding.commentRv.layoutManager = LinearLayoutManager(context)
 
-//        val list :List<Comment> = listOf()
-//
-//        binding.commentRv.adapter = CommentAdapter(list)
 
         return binding.root
     }
@@ -52,9 +53,17 @@ class CommentFragment : Fragment() {
 
         viewModel.fetchVideosComment().observe(
             viewLifecycleOwner, Observer{
-              //  Log.e(TAG, "onViewCreated: list $it ")
+                Log.e(TAG, "onViewCreated: list $it ")
+                 it.forEach {
+                     video = it
+                 }
 
-                binding.commentRv.adapter = CommentAdapter(it)
+                it.forEach {
+                   val comm = it.comments
+                    binding.commentRv.adapter = CommentAdapter(comm)
+                }
+
+
 
             })
 
@@ -67,6 +76,8 @@ class CommentFragment : Fragment() {
         fun bind(comment:Comment){
 
             binding.commentText.text = comment.commentText
+
+
            // binding.imageView2
 
 
@@ -99,8 +110,14 @@ class CommentFragment : Fragment() {
     }
 
     private fun uploadComment(commentString:String) {
+
+
         val comment = Comment()
-        viewModel.saveCommentToFirestore(comment,commentString)
+        comment.commentText = commentString
+        comment.userId = video.userId
+        viewModel.saveCommentToFirestore(video,comment)
+
+        Log.e(TAG, "uploadComment: ${video.userId}", )
 
     }
 

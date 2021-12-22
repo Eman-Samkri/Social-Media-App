@@ -68,12 +68,13 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/addLikeBtn"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:src="@drawable/like" />
 
             <TextView
-                android:id="@+id/likeText"
+                android:id="@+id/likeTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="kkkkkk"

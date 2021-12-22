@@ -14,15 +14,15 @@ class CommentViewModel : ViewModel() {
 
     private val repo = Repo.getInstance()
 
-    fun saveCommentToFirestore(comment: Comment, commentText:String){
+    fun saveCommentToFirestore(video: Video, comment:Comment){
         viewModelScope.launch {
-            repo.saveCommentToFirestore(comment,commentText)
+            repo.saveCommentToFirestore(video,comment)
         }
 
     }
 
 
-    fun fetchVideosComment() : LiveData<List<Comment>> = liveData {
+    fun fetchVideosComment() : LiveData<List<Video>> = liveData {
 
         emit(repo.fetchVideosComment())
 

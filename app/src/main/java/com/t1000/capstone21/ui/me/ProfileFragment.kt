@@ -1,22 +1,16 @@
 package com.t1000.capstone21.ui.me
 
-import android.content.ContentValues
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.t1000.capstone21.R
-import com.t1000.capstone21.databinding.FragmentHomeBinding
 import com.t1000.capstone21.databinding.ProfileFragmentBinding
-import kotlinx.coroutines.tasks.await
 
 
 private const val TAG = "ProfileFragment"
@@ -43,10 +37,15 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-         viewModel.fetchUser()
-        binding.profileVideoView.setVideoPath("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4")
-        binding.profileVideoView.start()
-        Log.d(TAG, "hhhhhhhhhhhhhhhhhhh")
+        setupLiveData()
+
+
+
+//         val user = viewModel.fetchUser()
+//        binding.userName.text = user.
+//        //binding.profileVideoView.setVideoPath()
+//       // binding.profileVideoView.start()
+//        Log.d(TAG, "hhhhhhhhhhhhhhhhhhh")
 
 
 
@@ -88,22 +87,30 @@ class ProfileFragment : Fragment() {
 
     }
 
-    fun setUpLiveData() {
-//        viewModel.fetchUser().observe(viewLifecycleOwner) { profileUser ->
-//            profileUser?.let {
-//                binding.followersCountNumber.text = profileUser.username
-////                binding.followingCountNumber.text = profileUser.following.toString()
-////                binding.likesCountNumber.text = profileUser.totalLikes.toString()
-//                binding.userTag.text =  profileUser.username
+    fun setupLiveData() {
 
-                // Since the user can chose to stay without a profile picture, lets use the person icon
-                // as a default.
-//                if (profileUser.profilePictureUrl == null)
-//                    loadGlideImage(binding.userPhoto, R.drawable.white_person_icon)
-//                else
-//                    loadGlideImage(binding.userPhoto, profileUser.profilePictureUrl)
-            }
-  //      }
-  //  }
+        viewModel.fetchUser().observe(
+            viewLifecycleOwner, Observer{
+                it?.let{
+                    binding.followersCountNumber.text = it.followers.toString()
+                    binding.followingCountNumber.text = it.following.toString()
+                    binding.userName.text =  it.userId.toString()
+                    Log.e(TAG, "setupLiveData: $it", )
+
+                    // Since the user can chose to stay without a profile picture, lets use the person icon
+                    // as a default.
+                    if (it.profilePictureUrl == null){
+                        //  loadGlideImage(binding.userPhoto, R.drawable.white_person_icon)
+                    }
+
+                    else{
+                        //  loadGlideImage(binding.userPhoto, profileUser.profilePictureUrl)
+                    }
+
+                }
+
+
+            })
+    }
 
 }

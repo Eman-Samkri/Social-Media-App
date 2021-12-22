@@ -1,6 +1,5 @@
 package com.t1000.capstone21.ui.home
 
-import android.Manifest
 import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -9,23 +8,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.VideoView
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.QueryDocumentSnapshot
-import com.google.firebase.ktx.Firebase
-import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.FragmentHomeBinding
 import com.t1000.capstone21.databinding.ItemHomeVideoBinding
-import com.t1000.capstone21.models.User
 import com.t1000.capstone21.models.Video
-import com.t1000.capstone21.ui.me.register.LoginUserFragmentDirections
 
 
 private const val TAG = "HomeFragment"
@@ -86,7 +76,8 @@ class HomeFragment : Fragment() {
 
         fun bind(video:Video){
            // binding.textView.text = video.videoFileName
-            binding.usernameText.text = video.username
+            binding.usernameText.text = video.userId
+            binding.likeTV.text = video.likes.toString()
 
             binding.homeVideoView.setVideoPath(video.videoUrl)
 
@@ -121,6 +112,11 @@ class HomeFragment : Fragment() {
             binding.commentVideoBtn.setOnClickListener {
                 val action = HomeFragmentDirections.actionNavigationHomeToCommentFragment()
                 findNavController().navigate(action)
+            }
+
+            binding.addLikeBtn.setOnClickListener {
+                viewModel.addLike(video)
+                binding.likeTV.text = video.likes.toString()
             }
 
 

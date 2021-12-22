@@ -16,7 +16,6 @@ import com.t1000.capstone21.models.User
 import com.t1000.capstone21.models.Video
 import kotlinx.coroutines.tasks.await
 import java.io.File
-import java.util.*
 
 private const val TAG = "Repo"
 class Repo private constructor(context: Context) {
@@ -95,8 +94,9 @@ class Repo private constructor(context: Context) {
         video.videoUrl = uri.toString()
 
         Firebase.firestore.collection("video")
-            .document(Firebase.auth?.uid!!)
+            .document(video.videoId)
             .set(video)
+            //.update("videoUrl")
 
     }
 
@@ -110,39 +110,41 @@ class Repo private constructor(context: Context) {
 
     }
 
+    fun addLike(video:Video){
+        Firebase.firestore.collection("video")
+            .document(video.videoId)
+            .update("likes", video.likes++)
+
+    }
 
 
-     suspend fun saveCommentToFirestore(comment: Comment, commentText:String){
-       comment.commentText = commentText
 
+      fun saveCommentToFirestore(video:Video, comment:Comment){
 
+          Log.e(TAG, "saveCommentToFirestore: $comment", )
+         // val comm = video.comments
          Firebase.firestore.collection("video")
-             .document(Firebase.auth.currentUser?.uid!!)
+             .document(video.videoId)
              .update("comments", FieldValue.arrayUnion(comment))
-             .await()
 
-//        val userObject = Firebase.firestore.collection("users")
-//            .document(Firebase.auth.currentUser?.uid!!)
-//            .get()
-//            .addOnSuccessListener {
+
+//TODO:
+//         Firebase.firestore.collection("video")
+//             .whereEqualTo("userId",video.userId)
+//             .get()
+//             .addOnSuccessListener {  }
+//             .await()
+//             .documents
 //
-//            }.await()
-//            .toObject(User::class.java)
-////
-//        userObject?.videosUrl?.forEach {
-//            val comment = Comment(userId = userObject.userId,commentText=commentText)
-//            it.comments+= comment
-//            }
-   //     }
-
-
-//             Firebase.firestore.collection("users")
-//                 .document(Firebase.auth.currentUser?.uid!!)
-//                .set(userObject!!)
+             //.add
 
 
 
 
+            // .await()
+
+            // .update("comments", FieldValue.arrayUnion(comment))
+            // .await()
     }
 
 
@@ -151,6 +153,21 @@ class Repo private constructor(context: Context) {
     fun getVideoFile(model: Video):File = File(fileDir , model.videoFileName)
 
     //suspend fun fetchUserProfile():List<User> = getUserProfile()
+
+    suspend fun fetchUser(): User? {
+       val user = fireStore
+            .collection("users")
+            .document(Firebase.auth.currentUser?.uid!!)
+            .get()
+            .addOnSuccessListener {
+//                val user = it.get("username",User::class.java)
+//                Log.d(TAG, "${it["username"]}} => == $user")
+            }
+            .addOnFailureListener { exception ->
+            }.await()
+            .toObject(User::class.java)
+        return user
+    }
 
 
 //    suspend fun getUserProfile() {
@@ -208,9 +225,10 @@ class Repo private constructor(context: Context) {
 
     }
 
-    suspend fun fetchVideosComment() : List<Comment> {
-
-        val comment = fireStore.collection("video")
+    suspend fun fetchVideosComment() : List<Video> {
+val video = Video()
+        val videos = fireStore.collection("video")
+            .whereEqualTo("username",video.userId)
             .get()
             .addOnFailureListener { exception ->
                 Log.d(TAG, "Error getting documents: ", exception)
@@ -219,26 +237,16 @@ class Repo private constructor(context: Context) {
                 for (document in result) {
                     Log.d(TAG, "${document.id} => ${document.data}")
                 }
-            }.await()
-            .toObjects(Comment::class.java)
+            }
+           .await()
+            .toObjects(Video::class.java)
 
-        return comment
+        Log.e(TAG, "fetchVideosComment: $", )
+
+        return videos
 
     }
 
-
-    suspend fun fetchUserVideo(): Video? {
-
-        val video = fireStore
-            .collection("users")
-            .document(Firebase.auth.currentUser?.uid!!)
-            .get()
-            .addOnFailureListener {  }
-            .await()
-            .toObject(Video::class.java)
-
-        return video
-    }
 
 
     companion object{
