@@ -107,7 +107,6 @@ class HomeFragment : Fragment() {
             }
 
             binding.sharVideoBtn.setOnClickListener {
-                //TODO: Not working
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.type = "text/plain"
                 intent.putExtra(Intent.EXTRA_TEXT, video.videoUrl)

@@ -130,7 +130,7 @@ class Repo private constructor(context: Context) {
 
     //suspend fun fetchUserProfile():List<User> = getUserProfile()
 
-    suspend fun fetchUser(): User? {
+    suspend fun fetchUser(): User {
        val user = fireStore
             .collection("users")
             .document(Firebase.auth.currentUser?.uid!!)
@@ -144,7 +144,9 @@ class Repo private constructor(context: Context) {
             }.await()
             .toObject(User::class.java)
         Log.e(TAG, "ffffffffffffff$user")
-        return user
+
+        //TODO:remove !! to avoid the bug
+        return user!!
     }
 
 

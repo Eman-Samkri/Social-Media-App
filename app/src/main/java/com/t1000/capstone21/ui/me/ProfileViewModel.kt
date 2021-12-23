@@ -17,7 +17,7 @@ class ProfileViewModel : ViewModel() {
 
 
     fun fetchUser(): LiveData<User> = liveData {
-        repo.fetchUser()
+        emit(repo.fetchUser())
         Log.e(TAG, "fetchUser: ${repo.fetchUser()}", )
     }
 
