@@ -1,6 +1,6 @@
 package com.t1000.capstone21
 
-import android.content.ContentValues.TAG
+
 import android.content.Context
 import android.net.Uri
 import android.util.Log
@@ -96,8 +96,6 @@ class Repo private constructor(context: Context) {
         Firebase.firestore.collection("video")
             .document(video.videoId)
             .set(video)
-            //.update("videoUrl")
-
     }
 
 
@@ -114,37 +112,15 @@ class Repo private constructor(context: Context) {
         Firebase.firestore.collection("video")
             .document(video.videoId)
             .update("likes", video.likes++)
-
     }
 
 
 
       fun saveCommentToFirestore(video:Video, comment:Comment){
-
-          Log.e(TAG, "saveCommentToFirestore: $comment", )
-         // val comm = video.comments
-         Firebase.firestore.collection("video")
-             .document(video.videoId)
-             .update("comments", FieldValue.arrayUnion(comment))
-
-
-//TODO:
-//         Firebase.firestore.collection("video")
-//             .whereEqualTo("userId",video.userId)
-//             .get()
-//             .addOnSuccessListener {  }
-//             .await()
-//             .documents
-//
-             //.add
-
-
-
-
-            // .await()
-
-            // .update("comments", FieldValue.arrayUnion(comment))
-            // .await()
+          Log.e(TAG, "saveCommentToFirestore: $comment" )
+          Firebase.firestore.collection("video")
+              .document(video.videoId)
+              .update("comments", FieldValue.arrayUnion(comment))
     }
 
 
@@ -161,11 +137,13 @@ class Repo private constructor(context: Context) {
             .get()
             .addOnSuccessListener {
 //                val user = it.get("username",User::class.java)
-//                Log.d(TAG, "${it["username"]}} => == $user")
+                Log.d(TAG, "eeeeeeeeeee$it")
             }
-            .addOnFailureListener { exception ->
+            .addOnFailureListener {
+                Log.d(TAG, "wwwwwwwwwwww$it")
             }.await()
             .toObject(User::class.java)
+        Log.e(TAG, "ffffffffffffff$user")
         return user
     }
 
@@ -225,10 +203,9 @@ class Repo private constructor(context: Context) {
 
     }
 
-    suspend fun fetchVideosComment() : List<Video> {
-val video = Video()
-        val videos = fireStore.collection("video")
-            .whereEqualTo("username",video.userId)
+    suspend fun fetchVideosComment(videoId:String) : List<Comment> {
+        val comments = fireStore.collection("video")
+            .whereEqualTo("videoId",videoId)
             .get()
             .addOnFailureListener { exception ->
                 Log.d(TAG, "Error getting documents: ", exception)
@@ -236,14 +213,23 @@ val video = Video()
             .addOnSuccessListener { result ->
                 for (document in result) {
                     Log.d(TAG, "${document.id} => ${document.data}")
+                    document.data.forEach{
+                        when(it.key){
+                           "comments" -> {
+                               Log.e(TAG, "fetchVideosComment: $it")
+
+
+                           }
+                        }
+                    }
                 }
             }
            .await()
-            .toObjects(Video::class.java)
+            .toObjects(Comment::class.java)
 
         Log.e(TAG, "fetchVideosComment: $", )
 
-        return videos
+        return comments
 
     }
 

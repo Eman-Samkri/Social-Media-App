@@ -1,6 +1,7 @@
 package com.t1000.capstone21.ui.comment
 
 import android.net.Uri
+import androidx.annotation.NonNull
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
@@ -22,9 +23,9 @@ class CommentViewModel : ViewModel() {
     }
 
 
-    fun fetchVideosComment() : LiveData<List<Video>> = liveData {
+    fun fetchVideosComment(videoId: String) : LiveData<List<Comment>> = liveData {
 
-        emit(repo.fetchVideosComment())
+        emit(repo.fetchVideosComment(videoId))
 
 
     }

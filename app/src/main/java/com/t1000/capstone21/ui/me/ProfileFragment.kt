@@ -8,15 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.t1000.capstone21.databinding.ProfileFragmentBinding
 
 
 private const val TAG = "ProfileFragment"
 class ProfileFragment : Fragment() {
-
-    private val fireStore = Firebase.firestore
 
 
     private val viewModel by lazy { ViewModelProvider(this).get(ProfileViewModel::class.java) }
@@ -36,8 +32,19 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupLiveData()
+        Log.e(TAG, "setupLiveData: iiiiiiiiiiiiiiiiiiii")
+        viewModel.fetchUser().observe(
+            viewLifecycleOwner, Observer {
+                Log.e(TAG, "setupLiveData: $it")
+                it?.let {
+                    binding.followersCountNumber.text = it.followers.toString()
+                    binding.followingCountNumber.text = it.following.toString()
+                    binding.userNameTv.text = it.username.toString()
+                    Log.e(TAG, "setupLiveData: $it")
+                }
+            }
+        )
+    }
 
 
 
@@ -85,32 +92,11 @@ class ProfileFragment : Fragment() {
 
 
 
-    }
-
-    fun setupLiveData() {
-
-        viewModel.fetchUser().observe(
-            viewLifecycleOwner, Observer{
-                it?.let{
-                    binding.followersCountNumber.text = it.followers.toString()
-                    binding.followingCountNumber.text = it.following.toString()
-                    binding.userName.text =  it.userId.toString()
-                    Log.e(TAG, "setupLiveData: $it", )
-
-                    // Since the user can chose to stay without a profile picture, lets use the person icon
-                    // as a default.
-                    if (it.profilePictureUrl == null){
-                        //  loadGlideImage(binding.userPhoto, R.drawable.white_person_icon)
-                    }
-
-                    else{
-                        //  loadGlideImage(binding.userPhoto, profileUser.profilePictureUrl)
-                    }
-
-                }
-
-
-            })
-    }
+//    }
+//
+//    fun setupLiveData() {
+//
+//
+//    }
 
 }

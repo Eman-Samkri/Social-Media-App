@@ -1,6 +1,5 @@
 package com.t1000.capstone21.ui.comment
 
-import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -9,25 +8,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.t1000.capstone21.R
-import com.t1000.capstone21.camera.videoFragment.VideoFragmentVM
 import com.t1000.capstone21.databinding.CommentFragmentBinding
-import com.t1000.capstone21.databinding.ItemHomeVideoBinding
 import com.t1000.capstone21.databinding.ItemVideoCommentBinding
 import com.t1000.capstone21.models.Comment
 import com.t1000.capstone21.models.Video
-import com.t1000.capstone21.ui.home.HomeFragment
 
 private const val TAG = "CommentFragment"
 class CommentFragment : Fragment() {
 
     private lateinit var binding :CommentFragmentBinding
 
-    private lateinit var video:Video
+    private val args: CommentFragmentArgs by navArgs()
 
     private val viewModel by lazy { ViewModelProvider(this).get(CommentViewModel::class.java) }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,8 +33,9 @@ class CommentFragment : Fragment() {
     ): View? {
        binding = CommentFragmentBinding.inflate(layoutInflater)
 
+
         binding.addCommentBtn.setOnClickListener {
-           val comment = binding.addNewCommentETV.text.toString()
+            val comment = binding.addNewCommentETV.text.toString()
             uploadComment(comment)
         }
 
@@ -51,21 +50,16 @@ class CommentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.fetchVideosComment().observe(
+        viewModel.fetchVideosComment(args.currentVideoId).observe(
             viewLifecycleOwner, Observer{
-                Log.e(TAG, "onViewCreated: list $it ")
-                 it.forEach {
-                     video = it
-                 }
-
-                it.forEach {
-                   val comm = it.comments
-                    binding.commentRv.adapter = CommentAdapter(comm)
-                }
-
-
+                it?.let{
+                    Log.e(TAG, "onViewCreated: list $it ")
+                    binding.commentRv.adapter = CommentAdapter(it)
+            }
 
             })
+
+
 
     }
 
@@ -110,14 +104,14 @@ class CommentFragment : Fragment() {
     }
 
     private fun uploadComment(commentString:String) {
-
-
         val comment = Comment()
+        val video = Video(videoId = args.currentVideoId)
         comment.commentText = commentString
         comment.userId = video.userId
+        comment.videoId = video.videoId
         viewModel.saveCommentToFirestore(video,comment)
 
-        Log.e(TAG, "uploadComment: ${video.userId}", )
+        Log.e(TAG, "uploadComment: ${video}", )
 
     }
 

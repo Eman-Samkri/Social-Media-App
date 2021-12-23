@@ -10,11 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.t1000.capstone21.databinding.FragmentHomeBinding
 import com.t1000.capstone21.databinding.ItemHomeVideoBinding
+import com.t1000.capstone21.models.Comment
 import com.t1000.capstone21.models.Video
 
 
@@ -28,6 +30,8 @@ class HomeFragment : Fragment() {
 
 
     private lateinit var binding:FragmentHomeBinding
+
+
 
 
 //    private val getPermissionLuncher = registerForActivityResult(
@@ -103,14 +107,16 @@ class HomeFragment : Fragment() {
             }
 
             binding.sharVideoBtn.setOnClickListener {
-                // device has the app and make an intent to the app. For now, just create a link to the firebase video
+                //TODO: Not working
                 val intent = Intent(Intent.ACTION_SEND)
+                intent.type = "text/plain"
                 intent.putExtra(Intent.EXTRA_TEXT, video.videoUrl)
                 binding.root.context.startActivity(intent)
+
             }
 
             binding.commentVideoBtn.setOnClickListener {
-                val action = HomeFragmentDirections.actionNavigationHomeToCommentFragment()
+                val action = HomeFragmentDirections.actionNavigationHomeToCommentFragment(video.videoId)
                 findNavController().navigate(action)
             }
 

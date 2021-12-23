@@ -65,7 +65,9 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_navigation_home_to_commentFragment"
-            app:destination="@id/commentFragment" />
+            app:destination="@id/commentFragment"
+            app:launchSingleTop="false"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
@@ -113,6 +115,11 @@
         android:id="@+id/commentFragment"
         android:name="com.t1000.capstone21.ui.comment.CommentFragment"
         android:label="comment_fragment"
-        tools:layout="@layout/comment_fragment" />
+        tools:layout="@layout/comment_fragment" >
+        <argument
+            android:name="currentVideoId"
+            app:argType="string" />
+    </fragment>
+
 
 </navigation>
