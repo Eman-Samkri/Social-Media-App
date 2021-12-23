@@ -23,7 +23,7 @@ class CommentViewModel : ViewModel() {
     }
 
 
-    fun fetchVideosComment(videoId: String) : LiveData<List<Comment>> = liveData {
+    fun fetchVideosComment(videoId: String) : LiveData<List<Video>> = liveData {
 
         emit(repo.fetchVideosComment(videoId))
 

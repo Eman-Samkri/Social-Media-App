@@ -54,7 +54,12 @@ class CommentFragment : Fragment() {
             viewLifecycleOwner, Observer{
                 it?.let{
                     Log.e(TAG, "onViewCreated: list $it ")
-                    binding.commentRv.adapter = CommentAdapter(it)
+                    it.forEach {
+                       val comments =  it.comments
+                            binding.commentRv.adapter = CommentAdapter(comments)
+
+                    }
+
             }
 
             })

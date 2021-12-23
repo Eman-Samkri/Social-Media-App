@@ -7,20 +7,29 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="98dp"
-        android:layout_height="92dp"
+        android:layout_width="87dp"
+        android:layout_height="63dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/commentText"
-        android:layout_width="311dp"
-        android:layout_height="85dp"
-        android:layout_marginStart="118dp"
+        android:layout_width="263dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/deletCommentBtn"
+        android:layout_width="57dp"
+        android:layout_height="61dp"
+        android:layout_marginEnd="4dp"
+        android:text="delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/commentText"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

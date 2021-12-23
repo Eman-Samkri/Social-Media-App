@@ -111,7 +111,7 @@ class Repo private constructor(context: Context) {
     fun addLike(video:Video){
         Firebase.firestore.collection("video")
             .document(video.videoId)
-            .update("likes", video.likes++)
+            .update("likes", ++video.likes)
     }
 
 
@@ -135,15 +135,8 @@ class Repo private constructor(context: Context) {
             .collection("users")
             .document(Firebase.auth.currentUser?.uid!!)
             .get()
-            .addOnSuccessListener {
-//                val user = it.get("username",User::class.java)
-                Log.d(TAG, "eeeeeeeeeee$it")
-            }
-            .addOnFailureListener {
-                Log.d(TAG, "wwwwwwwwwwww$it")
-            }.await()
+            .await()
             .toObject(User::class.java)
-        Log.e(TAG, "ffffffffffffff$user")
 
         //TODO:remove !! to avoid the bug
         return user!!
@@ -205,7 +198,7 @@ class Repo private constructor(context: Context) {
 
     }
 
-    suspend fun fetchVideosComment(videoId:String) : List<Comment> {
+    suspend fun fetchVideosComment(videoId:String) : List<Video> {
         val comments = fireStore.collection("video")
             .whereEqualTo("videoId",videoId)
             .get()
@@ -213,21 +206,21 @@ class Repo private constructor(context: Context) {
                 Log.d(TAG, "Error getting documents: ", exception)
             }
             .addOnSuccessListener { result ->
-                for (document in result) {
-                    Log.d(TAG, "${document.id} => ${document.data}")
-                    document.data.forEach{
-                        when(it.key){
-                           "comments" -> {
-                               Log.e(TAG, "fetchVideosComment: $it")
-
-
-                           }
-                        }
-                    }
-                }
+//                for (document in result) {
+//                    Log.d(TAG, "${document.id} => ${document.data}")
+//                    document.data.forEach{
+//                        when(it.key){
+//                           "comments" -> {
+//                               Log.e(TAG, "fetchVideosComment: $it")
+//
+//
+//                           }
+//                        }
+//                    }
+//                }
             }
            .await()
-            .toObjects(Comment::class.java)
+            .toObjects(Video::class.java)
 
         Log.e(TAG, "fetchVideosComment: $", )
 
