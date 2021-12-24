@@ -17,6 +17,7 @@ import com.t1000.capstone21.databinding.ItemVideoCommentBinding
 import com.t1000.capstone21.models.Comment
 import com.t1000.capstone21.models.Video
 import com.t1000.capstone21.ui.me.register.LoginUserFragmentDirections
+import com.t1000.capstone21.ui.sticker.StickerFragment
 
 private const val TAG = "CommentFragment"
 class CommentFragment : Fragment() {

@@ -13,12 +13,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.t1000.capstone21.databinding.ItemStickerBinding
 import com.t1000.capstone21.databinding.StickerFragmentBinding
 import com.t1000.capstone21.stipop.models.Sticker
 
 private const val TAG = "StickerFragment"
-class StickerFragment : Fragment() {
+class StickerFragment : BottomSheetDialogFragment() {
 
     private val viewModel by lazy { ViewModelProvider(this).get(StickerViewModel::class.java) }
 

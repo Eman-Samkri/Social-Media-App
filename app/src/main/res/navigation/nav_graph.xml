@@ -123,11 +123,15 @@
             android:id="@+id/action_commentFragment_to_stickerFragment"
             app:destination="@id/stickerFragment" />
     </fragment>
-    <fragment
+    <dialog
         android:id="@+id/stickerFragment"
         android:name="com.t1000.capstone21.ui.sticker.StickerFragment"
         android:label="sticker_fragment"
-        tools:layout="@layout/sticker_fragment" />
+        tools:layout="@layout/sticker_fragment" >
+        <action
+            android:id="@+id/action_stickerFragment_to_commentFragment"
+            app:destination="@id/commentFragment" />
+    </dialog>
 
 
 </navigation>
