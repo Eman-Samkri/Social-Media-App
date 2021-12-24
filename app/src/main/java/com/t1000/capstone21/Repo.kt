@@ -128,8 +128,6 @@ class Repo private constructor(context: Context) {
 
     fun getVideoFile(model: Video):File = File(fileDir , model.videoFileName)
 
-    //suspend fun fetchUserProfile():List<User> = getUserProfile()
-
     suspend fun fetchUser(): User {
        val user = fireStore
             .collection("users")
@@ -141,43 +139,6 @@ class Repo private constructor(context: Context) {
         //TODO:remove !! to avoid the bug
         return user!!
     }
-
-
-//    suspend fun getUserProfile() {
-//        fireStore
-//            .collection("users")
-//            .document(Firebase.auth.currentUser?.uid!!)
-//            .get()
-//            .addOnSuccessListener {
-////                binding.userTag.text = it["username"].toString()
-////                Toast.makeText(context,"${it["username"]} ## ", Toast.LENGTH_LONG).show()
-//                val user = it.get("username",User::class.java)
-//                Log.d(TAG, "${it["username"]}} => == $user")
-//            }
-//            .addOnFailureListener { exception ->
-////                Log.w(ContentValues.TAG, "Error getting documents.", exception)
-//            }.await()
-//
-//    }
-
-//    private suspend fun fetchVideoMetaData():List<Video>{
-//        var videoItems:List<Video> = emptyList()
-//
-//        val refrence= fireStore.document().
-//            .awaitResponse()
-//
-//        if (response.isSuccessful){
-//            galleryItems = response.body()?.photos?.galleryItems ?: emptyList()
-//            galleryItems = galleryItems.filterNot { it.url.isBlank() }
-//
-//
-//        }else{
-//            Log.e(TAG , "something gone wrong ${response.errorBody()}")
-//        }
-//
-//        return galleryItems
-//
-//    }
 
 
      suspend fun fetchRandomVideos() : List<Video> {
@@ -198,35 +159,27 @@ class Repo private constructor(context: Context) {
 
     }
 
-    suspend fun fetchVideosComment(videoId:String) : List<Video> {
-        val comments = fireStore.collection("video")
+    suspend fun fetchVideosById(videoId:String) : List<Video> {
+        val video = fireStore.collection("video")
             .whereEqualTo("videoId",videoId)
             .get()
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "Error getting documents: ", exception)
-            }
-            .addOnSuccessListener { result ->
-//                for (document in result) {
-//                    Log.d(TAG, "${document.id} => ${document.data}")
-//                    document.data.forEach{
-//                        when(it.key){
-//                           "comments" -> {
-//                               Log.e(TAG, "fetchVideosComment: $it")
-//
-//
-//                           }
-//                        }
-//                    }
-//                }
-            }
            .await()
             .toObjects(Video::class.java)
-
-        Log.e(TAG, "fetchVideosComment: $", )
-
-        return comments
+        return video
 
     }
+
+//TODO: use this
+    suspend fun deleteVideo(videoId:String){
+        Firebase.firestore.collection("video")
+            .document(videoId)
+            .delete()
+            .await()
+    }
+
+
+
+
 
 
 

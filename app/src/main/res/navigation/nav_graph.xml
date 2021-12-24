@@ -119,7 +119,15 @@
         <argument
             android:name="currentVideoId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_commentFragment_to_stickerFragment"
+            app:destination="@id/stickerFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/stickerFragment"
+        android:name="com.t1000.capstone21.ui.sticker.StickerFragment"
+        android:label="sticker_fragment"
+        tools:layout="@layout/sticker_fragment" />
 
 
 </navigation>

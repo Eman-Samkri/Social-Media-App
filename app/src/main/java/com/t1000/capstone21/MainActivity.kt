@@ -50,38 +50,38 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.fragmentContainer.postDelayed({
-            hideSystemUI()
-        }, IMMERSIVE_FLAG_TIMEOUT)
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        binding.fragmentContainer.postDelayed({
+//          //  hideSystemUI()
+//        }, IMMERSIVE_FLAG_TIMEOUT)
+//    }
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        return when (keyCode) {
-            KeyEvent.KEYCODE_VOLUME_DOWN -> {
-                val intent = Intent(KEY_EVENT_ACTION).apply { putExtra(KEY_EVENT_EXTRA, keyCode) }
-                LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
-                true
-            }
-            else -> super.onKeyDown(keyCode, event)
-        }
-    }
+//    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+//        return when (keyCode) {
+//            KeyEvent.KEYCODE_VOLUME_DOWN -> {
+//                val intent = Intent(KEY_EVENT_ACTION).apply { putExtra(KEY_EVENT_EXTRA, keyCode) }
+//                LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+//                true
+//            }
+//            else -> super.onKeyDown(keyCode, event)
+//        }
+//    }
 
-    override fun onBackPressed() {
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-            finishAfterTransition()
-        } else {
-            super.onBackPressed()
-        }
-    }
+//    override fun onBackPressed() {
+//        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
+//            finishAfterTransition()
+//        } else {
+//            super.onBackPressed()
+//        }
+//    }
 
 
-    private fun hideSystemUI() {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        WindowInsetsControllerCompat(window,binding.fragmentContainer).let { controller ->
-            controller.hide(WindowInsetsCompat.Type.systemBars())
-            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        }
-    }
+//    private fun hideSystemUI() {
+//        WindowCompat.setDecorFitsSystemWindows(window, false)
+//        WindowInsetsControllerCompat(window,binding.fragmentContainer).let { controller ->
+//            controller.hide(WindowInsetsCompat.Type.systemBars())
+//            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+//        }
+//    }
 }

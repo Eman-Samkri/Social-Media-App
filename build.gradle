@@ -13,6 +13,8 @@ buildscript {
 
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.0"
         classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0-alpha01"
+        classpath 'com.google.ar.sceneform:plugin:1.8.0'
+
 
 
 

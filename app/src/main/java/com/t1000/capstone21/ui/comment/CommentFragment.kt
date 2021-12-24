@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +16,7 @@ import com.t1000.capstone21.databinding.CommentFragmentBinding
 import com.t1000.capstone21.databinding.ItemVideoCommentBinding
 import com.t1000.capstone21.models.Comment
 import com.t1000.capstone21.models.Video
+import com.t1000.capstone21.ui.me.register.LoginUserFragmentDirections
 
 private const val TAG = "CommentFragment"
 class CommentFragment : Fragment() {
@@ -37,6 +39,11 @@ class CommentFragment : Fragment() {
         binding.addCommentBtn.setOnClickListener {
             val comment = binding.addNewCommentETV.text.toString()
             uploadComment(comment)
+        }
+
+        binding.addStickerBtn.setOnClickListener {
+            val action = CommentFragmentDirections.actionCommentFragmentToStickerFragment()
+            findNavController().navigate(action)
         }
 
 
@@ -75,8 +82,10 @@ class CommentFragment : Fragment() {
         fun bind(comment:Comment){
 
             binding.commentText.text = comment.commentText
+            binding.deletCommentBtn.setOnClickListener {
 
-
+            }
+            //adapterPosition
            // binding.imageView2
 
 
@@ -115,7 +124,7 @@ class CommentFragment : Fragment() {
         comment.userId = video.userId
         comment.videoId = video.videoId
         viewModel.saveCommentToFirestore(video,comment)
-
+        
         Log.e(TAG, "uploadComment: ${video}", )
 
     }
