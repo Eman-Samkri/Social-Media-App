@@ -1,10 +1,10 @@
-package com.t1000.capstone21.stipop.repo
+package com.t1000.capstone21.giphy.repo
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
-import com.t1000.capstone21.stipop.api.StipopAPI
-import com.t1000.capstone21.stipop.models.Sticker
+import com.t1000.capstone21.giphy.api.GiphyAPI
+import com.t1000.capstone21.giphy.models.Sticker
 import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -19,7 +19,7 @@ open class StipopRepo {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    private val stipopApi:StipopAPI = retrofit.create(StipopAPI::class.java)
+    private val stipopApi:GiphyAPI = retrofit.create(GiphyAPI::class.java)
 
 
 

@@ -1,4 +1,4 @@
-package com.t1000.capstone21.stipop.models
+package com.t1000.capstone21.giphy.models
 
 import com.google.gson.annotations.SerializedName
 

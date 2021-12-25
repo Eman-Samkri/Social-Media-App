@@ -11,8 +11,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.t1000.capstone21.R
-import com.t1000.capstone21.camera.PermissionsFragmentDirections
 import com.t1000.capstone21.databinding.FragmentRegisterUserBinding
 import com.t1000.capstone21.models.User
 import java.lang.Exception
@@ -29,7 +27,9 @@ class RegisterUserFragment : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_register_user, container, false)
+        binding = FragmentRegisterUserBinding.inflate(layoutInflater)
+
+        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,15 +41,10 @@ class RegisterUserFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding = FragmentRegisterUserBinding.bind(view)
         binding.registerLoginBtn.setOnClickListener{
             registerUser()
         }
 
-        binding.goToLoginBtn.setOnClickListener {
-          Navigation.findNavController(requireActivity(), R.id.fragment_container).navigate(
-           PermissionsFragmentDirections.actionPermissionsToCamera())
-        }
     }
 
 

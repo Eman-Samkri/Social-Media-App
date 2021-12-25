@@ -1,6 +1,6 @@
 
 
-package com.t1000.capstone21.camera
+package com.t1000.capstone21.utils
 
 import android.Manifest
 import android.content.Context
@@ -10,21 +10,18 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import com.t1000.capstone21.R
 import com.t1000.capstone21.utils.BottomNavViewUtils
 
 private const val PERMISSIONS_REQUEST_CODE = 10
-private const val TAG = "PermissionsFragment"
-
+private const val TAG = "CameraPermissions"
  val PERMISSIONS_REQUIRED = arrayOf(Manifest.permission.CAMERA,
     Manifest.permission.RECORD_AUDIO,
     Manifest.permission.READ_EXTERNAL_STORAGE
 
 )
 
-class PermissionsFragment : Fragment() {
+class CameraPermissions : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +52,7 @@ class PermissionsFragment : Fragment() {
 
     private fun navigateToCamera() {
         lifecycleScope.launchWhenStarted {
-            val action = PermissionsFragmentDirections.actionPermissionsToCamera()
+            val action = CameraPermissionsDirections.actionPermissionsToCamera()
             findNavController().navigate(action)
         }
     }

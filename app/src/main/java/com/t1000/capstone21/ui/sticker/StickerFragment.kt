@@ -3,20 +3,16 @@ package com.t1000.capstone21.ui.sticker
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.t1000.capstone21.databinding.ItemStickerBinding
 import com.t1000.capstone21.databinding.StickerFragmentBinding
-import com.t1000.capstone21.stipop.models.Sticker
+import com.t1000.capstone21.giphy.models.Sticker
 
 private const val TAG = "StickerFragment"
 class StickerFragment : BottomSheetDialogFragment() {

@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/permissions_fragment"
-        android:name="com.t1000.capstone21.camera.PermissionsFragment"
+        android:name="com.t1000.capstone21.utils.CameraPermissions"
         android:label="PermissionsFragment" >
 
         <action
