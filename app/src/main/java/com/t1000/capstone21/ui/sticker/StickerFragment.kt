@@ -2,25 +2,34 @@ package com.t1000.capstone21.ui.sticker
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.t1000.capstone21.databinding.ItemStickerBinding
 import com.t1000.capstone21.databinding.StickerFragmentBinding
 import com.t1000.capstone21.giphy.model.Data
+import com.t1000.capstone21.models.Comment
+import com.t1000.capstone21.models.Video
+import com.t1000.capstone21.ui.comment.CommentFragmentArgs
 
 private const val TAG = "StickerFragment"
 class StickerFragment : BottomSheetDialogFragment() {
+
 
     private val viewModel by lazy { ViewModelProvider(this).get(StickerViewModel::class.java) }
 
 
     private lateinit var binding :StickerFragmentBinding
+
+
+
+
 
 
     override fun onCreateView(
@@ -48,15 +57,31 @@ class StickerFragment : BottomSheetDialogFragment() {
 
 
     private inner class StickersHolder(val binding: ItemStickerBinding)
-        : RecyclerView.ViewHolder(binding.root){
+        : RecyclerView.ViewHolder(binding.root),View.OnClickListener{
+
+        init {
+            itemView.setOnClickListener(this)
+        }
 
         fun bind(sticker: Data){
             binding.StickerVideoView.setVideoPath(sticker.images.downsized_small.mp4)
-            binding.StickerVideoView.start()
-
-            Log.d(TAG, "bind: sssssssssssssssssss")
+                binding.stickerProgressBar.visibility = View.GONE
+                binding.StickerVideoView.start()
 
         }
+
+        override fun onClick(v: View?) {
+//            val video = Video(args.currentVideoId)
+//            val comment = Comment(args.currentCommentId)
+//            comment.commentText =
+//
+//                sticker.images.downsized_small.mp4
+//
+//          viewModel.saveCommentToFirestore()
+
+        }
+
+
     }
 
 

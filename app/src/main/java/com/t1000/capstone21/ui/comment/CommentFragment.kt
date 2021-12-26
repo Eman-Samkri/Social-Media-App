@@ -3,7 +3,6 @@ package com.t1000.capstone21.ui.comment
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,15 +17,12 @@ import com.t1000.capstone21.databinding.CommentFragmentBinding
 import com.t1000.capstone21.databinding.ItemVideoCommentBinding
 import com.t1000.capstone21.models.Comment
 import com.t1000.capstone21.models.Video
-import com.t1000.capstone21.ui.me.register.LoginUserFragmentDirections
-import com.t1000.capstone21.ui.sticker.StickerFragment
+
 
 private const val TAG = "CommentFragment"
 class CommentFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding :CommentFragmentBinding
-
-    private lateinit var comment:Comment
 
     private val args: CommentFragmentArgs by navArgs()
 
@@ -67,7 +63,7 @@ class CommentFragment : BottomSheetDialogFragment() {
                     it.forEach {
                        val comments =  it.comments
                             binding.commentRv.adapter = CommentAdapter(comments)
-                         //   CommentAdapter().setData()
+                        //    CommentAdapter().setData()
                     }
 
             }
@@ -90,11 +86,12 @@ class CommentFragment : BottomSheetDialogFragment() {
         fun bind(comment:Comment){
 
             binding.commentText.text = comment.commentText
+
             binding.deletCommentBtn.setOnClickListener {
+                viewModel.deleteVideoComment(args.currentVideoId,adapterPosition)
+                Log.e(TAG, "bind: deleted ${args.currentVideoId} ----$adapterPosition" )
 
             }
-            //adapterPosition
-           // binding.imageView2
 
 
         }
@@ -136,12 +133,11 @@ class CommentFragment : BottomSheetDialogFragment() {
     }
 
     private fun uploadComment(commentString: String) {
-        val cc = Comment()
+        val comment = Comment()
         val video = Video(videoId = args.currentVideoId)
-        cc.commentText = commentString
-        cc.userId = video.userId
-        cc.videoId = video.videoId
-        comment = cc
+        comment.commentText = commentString
+        comment.userId = video.userId
+        comment.videoId = video.videoId
         viewModel.saveCommentToFirestore(video, comment)
 
         Log.e(TAG, "uploadComment: ${video}",)

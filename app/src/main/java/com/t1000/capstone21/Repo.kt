@@ -3,6 +3,7 @@ package com.t1000.capstone21
 
 import android.content.Context
 import android.net.Uri
+import android.provider.SyncStateContract.Helpers.update
 import android.util.Log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -152,17 +153,9 @@ class Repo private constructor(context: Context) {
 
 
      suspend fun fetchRandomVideos() : List<Video> {
-
          val videos = fireStore.collection("video")
                .get()
-             .addOnFailureListener { exception ->
-                 Log.d(TAG, "Error getting documents: ", exception)
-             }
-             .addOnSuccessListener { result ->
-                 for (document in result) {
-                     Log.d(TAG, "${document.id} => ${document.data}")
-                 }
-             }.await()
+            .await()
              .toObjects(Video::class.java)
 
          return videos
@@ -179,14 +172,23 @@ class Repo private constructor(context: Context) {
 
     }
 
-//TODO: use this
+    suspend fun deleteVideoComment(videoId:String, index: Int){
+        Log.e(TAG, "11deleteVideoComment: ${FieldValue.arrayRemove(index)}", )
+        Firebase.firestore.collection("video")
+            .document(videoId)
+            .update("comments", FieldValue.arrayRemove(index))
+            .await()
+        Log.e(TAG, "deleteVideoComment: ${FieldValue.arrayRemove(index)}", )
+    }
+
+
+    //TODO: use this
     suspend fun deleteVideo(videoId:String){
         Firebase.firestore.collection("video")
             .document(videoId)
             .delete()
             .await()
     }
-
 
 
 

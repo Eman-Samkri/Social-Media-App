@@ -11,10 +11,7 @@ class HomeViewModel : ViewModel() {
 
     private val repo = Repo.getInstance()
     fun fetchRandomVideos() : LiveData<List<Video>> = liveData {
-
             emit(repo.fetchRandomVideos())
-
-
     }
 
     fun addLike(video:Video){
