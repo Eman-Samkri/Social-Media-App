@@ -4,10 +4,13 @@ package com.t1000.capstone21
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.t1000.capstone21.models.Comment
@@ -112,6 +115,7 @@ class Repo private constructor(context: Context) {
         Firebase.firestore.collection("video")
             .document(video.videoId)
             .update("likes", ++video.likes)
+
     }
 
 
@@ -121,6 +125,12 @@ class Repo private constructor(context: Context) {
           Firebase.firestore.collection("video")
               .document(video.videoId)
               .update("comments", FieldValue.arrayUnion(comment))
+//              .addOnCompleteListener (object : ValueEventListener, OnCompleteListener<Void> {
+//                  override fun onComplete(p0: Task<Void>) {
+//                      TODO("Not yet implemented")
+//                  }
+//
+//              })
     }
 
 

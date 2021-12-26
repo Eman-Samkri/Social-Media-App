@@ -57,16 +57,16 @@ class MainActivity : AppCompatActivity() {
 //        }, IMMERSIVE_FLAG_TIMEOUT)
 //    }
 
-//    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-//        return when (keyCode) {
-//            KeyEvent.KEYCODE_VOLUME_DOWN -> {
-//                val intent = Intent(KEY_EVENT_ACTION).apply { putExtra(KEY_EVENT_EXTRA, keyCode) }
-//                LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
-//                true
-//            }
-//            else -> super.onKeyDown(keyCode, event)
-//        }
-//    }
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        return when (keyCode) {
+            KeyEvent.KEYCODE_VOLUME_DOWN -> {
+                val intent = Intent(KEY_EVENT_ACTION).apply { putExtra(KEY_EVENT_EXTRA, keyCode) }
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+                true
+            }
+            else -> super.onKeyDown(keyCode, event)
+        }
+    }
 //
 //    override fun onBackPressed() {
 //        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {

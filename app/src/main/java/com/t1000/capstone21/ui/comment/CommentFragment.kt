@@ -10,8 +10,10 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.t1000.capstone21.databinding.CommentFragmentBinding
 import com.t1000.capstone21.databinding.ItemVideoCommentBinding
 import com.t1000.capstone21.models.Comment
@@ -20,11 +22,14 @@ import com.t1000.capstone21.ui.me.register.LoginUserFragmentDirections
 import com.t1000.capstone21.ui.sticker.StickerFragment
 
 private const val TAG = "CommentFragment"
-class CommentFragment : Fragment() {
+class CommentFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding :CommentFragmentBinding
 
+    private lateinit var comment:Comment
+
     private val args: CommentFragmentArgs by navArgs()
+
 
     private val viewModel by lazy { ViewModelProvider(this).get(CommentViewModel::class.java) }
 
@@ -37,10 +42,7 @@ class CommentFragment : Fragment() {
        binding = CommentFragmentBinding.inflate(layoutInflater)
 
 
-        binding.addCommentBtn.setOnClickListener {
-            val comment = binding.addNewCommentETV.text.toString()
-            uploadComment(comment)
-        }
+
 
         binding.addStickerBtn.setOnClickListener {
             val action = CommentFragmentDirections.actionCommentFragmentToStickerFragment()
@@ -65,12 +67,17 @@ class CommentFragment : Fragment() {
                     it.forEach {
                        val comments =  it.comments
                             binding.commentRv.adapter = CommentAdapter(comments)
-
+                         //   CommentAdapter().setData()
                     }
 
             }
 
             })
+
+        binding.addCommentBtn.setOnClickListener {
+           val  comment = binding.addNewCommentETV.text.toString()
+            uploadComment(comment)
+        }
 
 
 
@@ -97,7 +104,10 @@ class CommentFragment : Fragment() {
     private inner class CommentAdapter(val comments:List<Comment>):
         RecyclerView.Adapter<CommentHolder>() {
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentFragment.CommentHolder {
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int
+        ): CommentFragment.CommentHolder {
             val binding = ItemVideoCommentBinding.inflate(
                 layoutInflater,
                 parent,
@@ -109,26 +119,32 @@ class CommentFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: CommentFragment.CommentHolder, position: Int) {
-            val commentItem : Comment = comments[position]
+            val commentItem: Comment = comments[position]
             holder.bind(commentItem)
         }
 
         override fun getItemCount(): Int = comments.size
 
+        fun setData(newCommentList:List<Comment>){
+            val diffUtil = RvDiffUtil(comments,newCommentList)
+            val diffResult = DiffUtil.calculateDiff(diffUtil)
+
+            diffResult.dispatchUpdatesTo(this)
+        }
+
 
     }
 
-    private fun uploadComment(commentString:String) {
-        val comment = Comment()
+    private fun uploadComment(commentString: String) {
+        val cc = Comment()
         val video = Video(videoId = args.currentVideoId)
-        comment.commentText = commentString
-        comment.userId = video.userId
-        comment.videoId = video.videoId
-        viewModel.saveCommentToFirestore(video,comment)
-        
-        Log.e(TAG, "uploadComment: ${video}", )
+        cc.commentText = commentString
+        cc.userId = video.userId
+        cc.videoId = video.videoId
+        comment = cc
+        viewModel.saveCommentToFirestore(video, comment)
+
+        Log.e(TAG, "uploadComment: ${video}",)
 
     }
-
-
 }

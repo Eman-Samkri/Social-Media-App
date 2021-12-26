@@ -7,3 +7,4 @@ class StickerResponse {
     @SerializedName("data")
     lateinit var Stickers:List<Sticker>
 }
+

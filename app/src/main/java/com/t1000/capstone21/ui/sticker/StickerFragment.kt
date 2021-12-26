@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.t1000.capstone21.databinding.ItemStickerBinding
 import com.t1000.capstone21.databinding.StickerFragmentBinding
-import com.t1000.capstone21.giphy.models.Sticker
+import com.t1000.capstone21.giphy.model.Data
 
 private const val TAG = "StickerFragment"
 class StickerFragment : BottomSheetDialogFragment() {
@@ -50,11 +50,11 @@ class StickerFragment : BottomSheetDialogFragment() {
     private inner class StickersHolder(val binding: ItemStickerBinding)
         : RecyclerView.ViewHolder(binding.root){
 
-        fun bind(sticker: Sticker){
+        fun bind(sticker: Data){
 
-          // binding.StickerTv.load("https://en.wikipedia.org/wiki/Image#/media/File:Image_created_with_a_mobile_phone.png")
-
-            binding.StickerTv.text = sticker.url
+            binding.Stickertv.text = sticker.id
+            binding.StickerVideoView.setVideoPath(sticker.images.downsized_small.mp4)
+            binding.StickerVideoView.start()
 
             Log.d(TAG, "bind: sssssssssssssssssss")
 
@@ -62,7 +62,7 @@ class StickerFragment : BottomSheetDialogFragment() {
     }
 
 
-    private inner class StickersAdapter(val stickers:List<Sticker>):
+    private inner class StickersAdapter(val stickers:List<Data>):
         RecyclerView.Adapter<StickersHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StickersHolder {
             val binding = ItemStickerBinding.inflate(

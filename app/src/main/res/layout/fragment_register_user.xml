@@ -9,17 +9,32 @@
 
 
     <ImageView
-        android:id="@+id/profilePic"
+        android:id="@+id/profilePicView"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="160dp"
         android:contextClickable="true"
         android:tooltipText="select photo"
         app:cornerRadius="17sp"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.553"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/profilePicBtn"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="108dp"
+        android:contextClickable="true"
+        app:cornerRadius="17sp"
+        app:layout_constraintBottom_toTopOf="@+id/register_userName"
+        app:layout_constraintHorizontal_bias="0.553"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.333"
+        tools:text="select photo" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/register_userName"
@@ -31,16 +46,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilePic" />
+        app:layout_constraintTop_toBottomOf="@+id/profilePicView" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/register_Email"
         android:layout_width="297dp"
         android:layout_height="48dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="20dp"
         android:hint="email"
         app:cornerRadius="17sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.578"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register_userName" />
 

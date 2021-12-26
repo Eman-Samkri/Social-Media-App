@@ -1,12 +1,18 @@
 package com.t1000.capstone21.ui.me.register
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import coil.load
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -22,6 +28,7 @@ class RegisterUserFragment : Fragment(){
     private lateinit var binding: FragmentRegisterUserBinding
     private lateinit var auth: FirebaseAuth
     private val userFirestore = Firebase.firestore
+    private var selectedPhotoUri: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +50,12 @@ class RegisterUserFragment : Fragment(){
 
         binding.registerLoginBtn.setOnClickListener{
             registerUser()
+        }
+
+        binding.profilePicBtn.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, 0)
         }
 
     }
@@ -78,6 +91,26 @@ class RegisterUserFragment : Fragment(){
 
             }
         }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
+            selectedPhotoUri = data.data ?: return
+            Log.d(TAG, "Photo was selected")
+            // Get and resize profile image
+            val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+//            contentResolver.query(selectedPhotoUri!!, filePathColumn, null, null, null)?.use {
+//                it.moveToFirst()
+//                val columnIndex = it.getColumnIndex(filePathColumn[0])
+//                val picturePath = it.getString(columnIndex)
+//                if (picturePath.contains("DCIM")) {
+//                    binding.profilePicView.load(selectedPhotoUri)
+//                } else {
+//                    binding.profilePicView.load(selectedPhotoUri)
+//                }
+//
+//            }
+        }
+    }
 
     }
 

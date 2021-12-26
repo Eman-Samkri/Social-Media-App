@@ -4,13 +4,16 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.t1000.capstone21.giphy.api.GiphyAPI
+import com.t1000.capstone21.giphy.model.Data
+import com.t1000.capstone21.giphy.model.DownsizedSmall
 import com.t1000.capstone21.giphy.models.Sticker
+import com.t1000.capstone21.giphy.models.att
 import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 private const val TAG = "StipopRepo"
-open class StipopRepo {
+open class GiphyRepo {
 
 
 
@@ -24,15 +27,15 @@ open class StipopRepo {
 
 
 
-    fun getStickers(): LiveData<List<Sticker>> {
+    fun getStickers(): LiveData<List<Data>> {
         return liveData(Dispatchers.IO) {
             val response = stipopApi.getStickers()
             if (response.isSuccessful){
-                response.body()?.Stickers?.let {
-
+                response.body()?.data?.let {
                     emit(it)
+                    Log.e(TAG, "getStickers: ssssssssssssssseeeeeeee", )
+                }
 
-                    Log.e(TAG, "getStickers: successfuly", )}
             }else{
                 Log.e(TAG , "the error is ${response.errorBody()}")
             }
