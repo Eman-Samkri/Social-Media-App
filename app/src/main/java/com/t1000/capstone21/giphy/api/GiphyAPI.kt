@@ -2,7 +2,6 @@ package com.t1000.capstone21.giphy.api
 
 import com.t1000.capstone21.giphy.model.Data
 import com.t1000.capstone21.giphy.model.Sticker
-import com.t1000.capstone21.giphy.models.StickerResponse
 import retrofit2.Response
 import retrofit2.http.GET
 

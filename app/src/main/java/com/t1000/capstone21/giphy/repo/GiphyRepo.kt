@@ -5,9 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.t1000.capstone21.giphy.api.GiphyAPI
 import com.t1000.capstone21.giphy.model.Data
-import com.t1000.capstone21.giphy.model.DownsizedSmall
-import com.t1000.capstone21.giphy.models.Sticker
-import com.t1000.capstone21.giphy.models.att
 import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -33,7 +30,6 @@ open class GiphyRepo {
             if (response.isSuccessful){
                 response.body()?.data?.let {
                     emit(it)
-                    Log.e(TAG, "getStickers: ssssssssssssssseeeeeeee", )
                 }
 
             }else{

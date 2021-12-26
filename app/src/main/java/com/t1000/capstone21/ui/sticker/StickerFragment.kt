@@ -51,8 +51,6 @@ class StickerFragment : BottomSheetDialogFragment() {
         : RecyclerView.ViewHolder(binding.root){
 
         fun bind(sticker: Data){
-
-            binding.Stickertv.text = sticker.id
             binding.StickerVideoView.setVideoPath(sticker.images.downsized_small.mp4)
             binding.StickerVideoView.start()
 
