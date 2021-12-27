@@ -115,7 +115,7 @@ class HomeFragment : Fragment() {
             }
 
             binding.commentVideoBtn.setOnClickListener {
-                val action = HomeFragmentDirections.actionNavigationHomeToCommentFragment(video.videoId)
+                val action = HomeFragmentDirections.actionNavigationHomeToCommentFragment(video.videoId,video.userId)
                 findNavController().navigate(action)
             }
 

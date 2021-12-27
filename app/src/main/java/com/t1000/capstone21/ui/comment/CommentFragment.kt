@@ -92,10 +92,10 @@ class CommentFragment : BottomSheetDialogFragment() {
 
 
     private inner class CommentHolder(val binding:ItemVideoCommentBinding):RecyclerView.ViewHolder(binding.root){
-
         fun bind(comment:Comment){
             val current =video.userId
             binding.commentText.text = comment.commentText
+            binding.userTv.text = comment.userId
 
             if (auth.currentUser?.uid != current){
                 binding.deletCommentBtn.visibility = View.GONE
@@ -148,10 +148,9 @@ class CommentFragment : BottomSheetDialogFragment() {
 
     private fun uploadComment(commentString: String) {
         val comment = Comment()
-        val video = Video(videoId = args.currentVideoId)
         comment.commentText = commentString
-        comment.userId = video.userId
-        comment.videoId = video.videoId
+        comment.userId = args.currentUserId
+        comment.videoId = args.currentVideoId
         viewModel.saveCommentToFirestore(video, comment)
 
         Log.e(TAG, "uploadComment: ${video}",)

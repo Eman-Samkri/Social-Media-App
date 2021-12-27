@@ -145,6 +145,18 @@ class Repo private constructor(context: Context) {
         return user!!
     }
 
+    suspend fun fetchUserById(userId:String): User {
+        val user = fireStore
+            .collection("users")
+            .document(userId)
+            .get()
+            .await()
+            .toObject(User::class.java)
+
+        //TODO:remove !! to avoid the bug
+        return user!!
+    }
+
 
 
      suspend fun fetchRandomVideos() : List<Video> {
