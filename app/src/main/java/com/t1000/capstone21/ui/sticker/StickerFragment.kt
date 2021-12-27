@@ -2,9 +2,11 @@ package com.t1000.capstone21.ui.sticker
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
@@ -14,9 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.t1000.capstone21.databinding.ItemStickerBinding
 import com.t1000.capstone21.databinding.StickerFragmentBinding
 import com.t1000.capstone21.giphy.model.Data
-import com.t1000.capstone21.models.Comment
-import com.t1000.capstone21.models.Video
-import com.t1000.capstone21.ui.comment.CommentFragmentArgs
+
 
 private const val TAG = "StickerFragment"
 class StickerFragment : BottomSheetDialogFragment() {
@@ -29,9 +29,6 @@ class StickerFragment : BottomSheetDialogFragment() {
 
 
 
-
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,6 +36,9 @@ class StickerFragment : BottomSheetDialogFragment() {
         binding = StickerFragmentBinding.inflate(layoutInflater)
 
         binding.stickerRv.layoutManager = GridLayoutManager(context,3)
+
+          //  binding.stickerSearch
+
 
 
         return binding.root
@@ -48,11 +48,12 @@ class StickerFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.dataLiveData.observe(
-            viewLifecycleOwner,
-            Observer {
+            viewLifecycleOwner, Observer {
                 binding.stickerRv.adapter = StickersAdapter(it)
+                Log.e(TAG, "onViewCreated: $it", )
             }
         )
+
     }
 
 
