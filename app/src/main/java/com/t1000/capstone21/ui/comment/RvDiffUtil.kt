@@ -1,13 +1,13 @@
 package com.t1000.capstone21.ui.comment
 
-import android.os.Parcel
-import android.os.Parcelable
+
 import androidx.recyclerview.widget.DiffUtil
 import com.t1000.capstone21.models.Comment
 
 class RvDiffUtil(
     private val oldCommentList:List<Comment>,
     private val newCommentList:List<Comment>
+
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int {
        return oldCommentList.size

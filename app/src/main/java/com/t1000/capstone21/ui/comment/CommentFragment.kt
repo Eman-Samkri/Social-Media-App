@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.t1000.capstone21.databinding.CommentFragmentBinding
 import com.t1000.capstone21.databinding.ItemVideoCommentBinding
 import com.t1000.capstone21.models.Comment
@@ -25,11 +28,17 @@ class CommentFragment : BottomSheetDialogFragment() {
     private lateinit var binding :CommentFragmentBinding
 
     private val args: CommentFragmentArgs by navArgs()
+    private lateinit var auth: FirebaseAuth
+    private lateinit var video:Video
 
 
     private val viewModel by lazy { ViewModelProvider(this).get(CommentViewModel::class.java) }
 
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        auth = FirebaseAuth.getInstance()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,9 +70,10 @@ class CommentFragment : BottomSheetDialogFragment() {
                 it?.let{
                     Log.e(TAG, "onViewCreated: list $it ")
                     it.forEach {
+                        video =it
                        val comments =  it.comments
                             binding.commentRv.adapter = CommentAdapter(comments)
-                        //    CommentAdapter().setData()
+                        //   CommentAdapter().setData()
                     }
 
             }
@@ -84,9 +94,13 @@ class CommentFragment : BottomSheetDialogFragment() {
     private inner class CommentHolder(val binding:ItemVideoCommentBinding):RecyclerView.ViewHolder(binding.root){
 
         fun bind(comment:Comment){
-
+            val current =video.userId
             binding.commentText.text = comment.commentText
 
+            if (auth.currentUser?.uid != current){
+                binding.deletCommentBtn.visibility = View.GONE
+                Log.e(TAG, "bind: cureeent user ${auth.currentUser?.uid}--- ${args.currentVideoId} ---$current", )
+            }
             binding.deletCommentBtn.setOnClickListener {
                 viewModel.deleteVideoComment(args.currentVideoId,adapterPosition)
                 Log.e(TAG, "bind: deleted ${args.currentVideoId} ----$adapterPosition" )

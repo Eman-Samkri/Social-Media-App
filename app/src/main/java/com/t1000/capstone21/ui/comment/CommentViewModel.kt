@@ -7,6 +7,7 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.t1000.capstone21.Repo
 import com.t1000.capstone21.models.Comment
+import com.t1000.capstone21.models.User
 import com.t1000.capstone21.models.Video
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,6 +29,7 @@ class CommentViewModel : ViewModel() {
     fun fetchVideosComment(videoId: String) : LiveData<List<Video>> = liveData {
         emit(repo.fetchVideosById(videoId))
     }
+
 
     fun deleteVideoComment(videoId:String, index: Int) {
         viewModelScope.launch(Dispatchers.IO) {
