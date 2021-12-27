@@ -1,5 +1,6 @@
 package com.t1000.capstone21.ui.comment
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
@@ -7,7 +8,10 @@ import androidx.lifecycle.viewModelScope
 import com.t1000.capstone21.Repo
 import com.t1000.capstone21.models.Comment
 import com.t1000.capstone21.models.Video
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
+private const val TAG = "CommentViewModel"
 
 class CommentViewModel : ViewModel() {
 
@@ -25,8 +29,11 @@ class CommentViewModel : ViewModel() {
         emit(repo.fetchVideosById(videoId))
     }
 
-    fun deleteVideoComment(videoId:String, index: Int) =  liveData {
-        emit(repo.deleteVideoComment(videoId,index))
+    fun deleteVideoComment(videoId:String, index: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.deleteVideoComment(videoId,index)
+            }
+
     }
 
 }

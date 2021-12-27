@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface GiphyAPI {
 
     @GET("/v1/gifs/trending?")
-    suspend fun getStickers(): Response<Sticker>
+    suspend fun getStickers(): Call<Sticker>
 
 
     @GET("v1/gifs/search?")

@@ -126,12 +126,6 @@ class Repo private constructor(context: Context) {
           Firebase.firestore.collection("video")
               .document(video.videoId)
               .update("comments", FieldValue.arrayUnion(comment))
-//              .addOnCompleteListener (object : ValueEventListener, OnCompleteListener<Void> {
-//                  override fun onComplete(p0: Task<Void>) {
-//                      TODO("Not yet implemented")
-//                  }
-//
-//              })
     }
 
 
@@ -173,10 +167,24 @@ class Repo private constructor(context: Context) {
     }
 
     suspend fun deleteVideoComment(videoId:String, index: Int){
-        Log.e(TAG, "11deleteVideoComment: ${FieldValue.arrayRemove(index)}", )
-        Firebase.firestore.collection("video")
+        val video = Firebase.firestore.collection("video")
             .document(videoId)
-            .update("comments", FieldValue.arrayRemove(index))
+            .get()
+            .await()
+            .toObject(Video::class.java)
+
+
+
+              val mutableCommentList = mutableListOf<Comment>()
+                //original comment list
+              video?.comments?.forEach {
+                  mutableCommentList += it
+            }
+
+        mutableCommentList.remove(mutableCommentList[index])
+
+        Firebase.firestore.collection("video").document(videoId)
+            .update("comments", mutableCommentList)
             .await()
         Log.e(TAG, "deleteVideoComment: ${FieldValue.arrayRemove(index)}", )
     }

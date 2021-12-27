@@ -35,21 +35,21 @@ open class GiphyRepo {
 
 
 
-
-    fun getStickers(): LiveData<List<Data>> {
-        return liveData(Dispatchers.IO) {
-            val response = giphyApi.getStickers()
-            if (response.isSuccessful){
-                response.body()?.data?.let {
-                    emit(it)
-                }
-
-            }else{
-                Log.e(TAG , "the error is ${response.errorBody()}")
-            }
-        }
-
-    }
+//
+//    fun getStickers(): LiveData<List<Data>> {
+//        return liveData(Dispatchers.IO) {
+//            val response = giphyApi.getStickers()
+//            if (response.isSuccessful){
+//                response.body()?.data?.let {
+//                    emit(it)
+//                }
+//
+//            }else{
+//                Log.e(TAG , "the error is ${response.errorBody()}")
+//            }
+//        }
+//
+//    }
 //
 //    fun searchStickers(query: String): LiveData<List<Data>> {
 //        return liveData(Dispatchers.IO) {
@@ -66,12 +66,12 @@ open class GiphyRepo {
 //
 //    }
 
-//    suspend fun getStickers():List<Data> = fetchStickerMetaData(giphyApi.getStickers())
-//
-//
-//    suspend fun searchStickers(query: String): List<Data> {
-//        return fetchStickerMetaData(giphyApi.searchStickers(query))
-//    }
+    suspend fun getStickers():List<Data> = fetchStickerMetaData(giphyApi.getStickers())
+
+
+    suspend fun searchStickers(query: String): List<Data> {
+        return fetchStickerMetaData(giphyApi.searchStickers(query))
+    }
 
 
     private suspend fun fetchStickerMetaData(request: Call<Sticker>) : List<Data> {

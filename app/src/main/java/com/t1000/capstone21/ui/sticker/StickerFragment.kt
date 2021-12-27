@@ -47,8 +47,8 @@ class StickerFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.dataLiveData.observe(
-            viewLifecycleOwner, Observer {
+        viewModel.stickersLiveData().observe(
+            viewLifecycleOwner, {
                 binding.stickerRv.adapter = StickersAdapter(it)
                 Log.e(TAG, "onViewCreated: $it", )
             }
