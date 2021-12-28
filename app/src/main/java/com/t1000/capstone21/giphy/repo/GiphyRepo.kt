@@ -35,21 +35,21 @@ open class GiphyRepo {
 
 
 
-//
-//    fun getStickers(): LiveData<List<Data>> {
-//        return liveData(Dispatchers.IO) {
-//            val response = giphyApi.getStickers()
-//            if (response.isSuccessful){
-//                response.body()?.data?.let {
-//                    emit(it)
-//                }
-//
-//            }else{
-//                Log.e(TAG , "the error is ${response.errorBody()}")
-//            }
-//        }
-//
-//    }
+
+    fun getStickers(): LiveData<List<Data>> {
+        return liveData(Dispatchers.IO) {
+            val response = giphyApi.getStickers()
+            if (response.isSuccessful){
+                response.body()?.data?.let {
+                    emit(it)
+                }
+
+            }else{
+                Log.e(TAG , "the error is ${response.errorBody()}")
+            }
+        }
+
+    }
 //
 //    fun searchStickers(query: String): LiveData<List<Data>> {
 //        return liveData(Dispatchers.IO) {
@@ -66,31 +66,32 @@ open class GiphyRepo {
 //
 //    }
 
-    suspend fun getStickers():List<Data> = fetchStickerMetaData(giphyApi.getStickers())
+//    suspend fun getStickers():List<Data> = fetchStickerMetaData(giphyApi.getStickers())
 
 
-    suspend fun searchStickers(query: String): List<Data> {
-        return fetchStickerMetaData(giphyApi.searchStickers(query))
-    }
+//    suspend fun searchStickers(query: String): List<Data> {
+//        return fetchStickerMetaData(giphyApi.searchStickers(query))
+//    }
 
-
-    private suspend fun fetchStickerMetaData(request: Call<Sticker>) : List<Data> {
-        var stickerItems:List<Data> = emptyList()
-
-        val response: Response<Sticker> = request.awaitResponse()
-
-        if (response.isSuccessful){
-            stickerItems = response.body()?.data ?: emptyList()
-            stickerItems = stickerItems.filter { it.images.downsized_small.mp4.isBlank() }
-
-
-        }else{
-            Log.e(TAG , "something gone wrong ${response.errorBody()}")
-        }
-
-        return stickerItems
-
-    }
+//
+//    private  fun fetchStickerMetaData(response: Response<Sticker>) : List<Data> {
+//
+//        if (response.isSuccessful){
+////            stickerItems = response.body()?.data ?: emptyList()
+////            stickerItems = stickerItems.filter { it.images.downsized_small.mp4.isBlank() }
+//            response.body()?.data?.let {
+//
+//                    emit(it)
+//            }
+//
+//
+//        }else{
+//            Log.e(TAG , "something gone wrong ${response.errorBody()}")
+//        }
+//
+//        return stickerItems
+//
+//    }
 
 
 

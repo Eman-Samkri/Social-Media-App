@@ -118,11 +118,13 @@
         tools:layout="@layout/comment_fragment" >
         <argument
             android:name="currentVideoId"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true" />
 
         <argument
             android:name="currentUserId"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true" />
 
         <action
             android:id="@+id/action_commentFragment_to_stickerFragment"
@@ -134,10 +136,20 @@
         android:name="com.t1000.capstone21.ui.sticker.StickerFragment"
         android:label="sticker_fragment"
         tools:layout="@layout/sticker_fragment" >
+        <argument
+            android:name="currentVideoId"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="currentUserId"
+            app:argType="string"
+            app:nullable="true" />
 
         <action
             android:id="@+id/action_stickerFragment_to_commentFragment"
             app:destination="@id/commentFragment" />
+
 
     </dialog>
 

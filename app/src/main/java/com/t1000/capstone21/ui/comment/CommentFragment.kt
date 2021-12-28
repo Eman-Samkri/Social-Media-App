@@ -50,7 +50,7 @@ class CommentFragment : BottomSheetDialogFragment() {
 
 
         binding.addStickerBtn.setOnClickListener {
-            val action = CommentFragmentDirections.actionCommentFragmentToStickerFragment()
+            val action = CommentFragmentDirections.actionCommentFragmentToStickerFragment(args.currentVideoId,args.currentUserId)
             findNavController().navigate(action)
         }
 
@@ -65,20 +65,22 @@ class CommentFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.fetchVideosComment(args.currentVideoId).observe(
-            viewLifecycleOwner, Observer{
-                it?.let{
-                    Log.e(TAG, "onViewCreated: list $it ")
-                    it.forEach {
-                        video =it
-                       val comments =  it.comments
+        args.currentVideoId?.let {
+            viewModel.fetchVideosComment(it).observe(
+                viewLifecycleOwner, Observer{
+                    it?.let{
+                        Log.e(TAG, "onViewCreated: list $it ")
+                        it.forEach {
+                            video =it
+                            val comments =  it.comments
                             binding.commentRv.adapter = CommentAdapter(comments)
-                        //   CommentAdapter().setData()
-                    }
+                            //   CommentAdapter().setData()
+                        }
 
-            }
+                }
 
-            })
+                })
+        }
 
         binding.addCommentBtn.setOnClickListener {
            val  comment = binding.addNewCommentETV.text.toString()
@@ -93,16 +95,16 @@ class CommentFragment : BottomSheetDialogFragment() {
 
     private inner class CommentHolder(val binding:ItemVideoCommentBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(comment:Comment){
-            val current =video.userId
+
             binding.commentText.text = comment.commentText
             binding.userTv.text = comment.userId
 
-            if (auth.currentUser?.uid != current){
+            if (auth.currentUser?.uid != video.userId){
                 binding.deletCommentBtn.visibility = View.GONE
-                Log.e(TAG, "bind: cureeent user ${auth.currentUser?.uid}--- ${args.currentVideoId} ---$current", )
+                Log.e(TAG, "bind: cureeent user ${auth.currentUser?.uid}--- ${args.currentVideoId}", )
             }
             binding.deletCommentBtn.setOnClickListener {
-                viewModel.deleteVideoComment(args.currentVideoId,adapterPosition)
+                args.currentVideoId?.let { it1 -> viewModel.deleteVideoComment(it1,adapterPosition) }
                 Log.e(TAG, "bind: deleted ${args.currentVideoId} ----$adapterPosition" )
 
             }
@@ -149,11 +151,12 @@ class CommentFragment : BottomSheetDialogFragment() {
     private fun uploadComment(commentString: String) {
         val comment = Comment()
         comment.commentText = commentString
-        comment.userId = args.currentUserId
-        comment.videoId = args.currentVideoId
-        viewModel.saveCommentToFirestore(video, comment)
+        comment.userId = args.currentUserId.toString()
+        comment.videoId = args.currentVideoId.toString()
+        comment.commentType = "Text"
+        viewModel.saveCommentToFirestore(args.currentVideoId.toString(), comment)
 
-        Log.e(TAG, "uploadComment: ${video}",)
+        Log.e(TAG, "uploadComment Text: ${video}",)
 
     }
 }

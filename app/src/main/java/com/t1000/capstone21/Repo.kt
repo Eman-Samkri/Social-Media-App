@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.ktx.Firebase
@@ -121,11 +122,23 @@ class Repo private constructor(context: Context) {
 
 
 
-      fun saveCommentToFirestore(video:Video, comment:Comment){
-          Log.e(TAG, "saveCommentToFirestore: $comment" )
-          Firebase.firestore.collection("video")
-              .document(video.videoId)
-              .update("comments", FieldValue.arrayUnion(comment))
+      suspend fun saveCommentToFirestore(videoId:String,comment:Comment){
+          val video = Firebase.firestore.collection("video")
+              .document(videoId)
+              .get()
+              .await()
+              .toObject(Video::class.java)
+
+          val mutableCommentList = mutableListOf<Comment>()
+          //original comment list
+          video?.comments?.forEach {
+              mutableCommentList += it
+          }
+          mutableCommentList.add(comment)
+
+          Firebase.firestore.collection("video").document(videoId)
+              .update("comments", mutableCommentList)
+              .await()
     }
 
 
@@ -144,17 +157,15 @@ class Repo private constructor(context: Context) {
         //TODO:remove !! to avoid the bug
         return user!!
     }
-
-    suspend fun fetchUserById(userId:String): User {
+//TODO: Not working
+    suspend fun fetchUserById(userId:String): QuerySnapshot? {
         val user = fireStore
             .collection("users")
-            .document(userId)
+            .whereEqualTo("userId",userId)
             .get()
             .await()
-            .toObject(User::class.java)
 
-        //TODO:remove !! to avoid the bug
-        return user!!
+        return user
     }
 
 
@@ -198,7 +209,6 @@ class Repo private constructor(context: Context) {
         Firebase.firestore.collection("video").document(videoId)
             .update("comments", mutableCommentList)
             .await()
-        Log.e(TAG, "deleteVideoComment: ${FieldValue.arrayRemove(index)}", )
     }
 
 

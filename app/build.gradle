@@ -118,6 +118,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
 
     implementation("io.coil-kt:coil:1.4.0")
+    implementation("io.coil-kt:coil-gif:1.4.0")
 
     
 

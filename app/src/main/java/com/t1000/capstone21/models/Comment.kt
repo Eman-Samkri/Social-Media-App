@@ -5,4 +5,5 @@ data class Comment (
     var videoId : String = "",
     var commentText : String = "",
     var commentLikes : Long = 0,
+    var commentType:String =""
 )
