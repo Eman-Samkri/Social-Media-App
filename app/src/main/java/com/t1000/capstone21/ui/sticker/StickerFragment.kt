@@ -36,7 +36,7 @@ class StickerFragment : BottomSheetDialogFragment() {
 
     private val args: StickerFragmentArgs by navArgs()
     
-    private lateinit var stickerUrl:String
+
 
 
 
@@ -71,36 +71,26 @@ class StickerFragment : BottomSheetDialogFragment() {
     private inner class StickersHolder(val binding: ItemStickerBinding)
         : RecyclerView.ViewHolder(binding.root),View.OnClickListener{
 
+        private lateinit var data: Data
+
         init {
             itemView.setOnClickListener(this)
         }
 
         fun bind(sticker: Data){
+            data = sticker
+
             Glide.with(this@StickerFragment).asGif().load(sticker.images.downsized_still.url).into(binding.imageView3)
-            stickerUrl = sticker.images.downsized_still.url
-           // binding.imageView3.setImageDrawable(sticker.images.downsized_still.url)
-
-    //        binding.StickerVideoView.setVideoPath(sticker.images.downsized_small.mp4)
                 binding.stickerProgressBar.visibility = View.GONE
-//                binding.StickerVideoView.start()
-
-
-
         }
 
-        override fun onClick(v: View?) {
-//            val comment =Comment()
-//            comment.commentText = stickerUrl
-//            comment.videoId = args.currentVideoId.toString()
-//            comment.userId = args.currentUserId.toString()
-//            comment.commentType = "images"
-//            viewModel.saveCommentToFirestore(args.currentVideoId.toString(),comment)
-//            Log.e(TAG, "onClick: save", )
 
-            uploadComment(stickerUrl)
-            Log.e(TAG, "onClick: $stickerUrl", )
-            val action = StickerFragmentDirections.actionStickerFragmentToCommentFragment(args.currentVideoId, args.currentUserId)
-            findNavController().navigate(action)
+        override fun onClick(v: View?) {
+            if (v == itemView){
+                uploadComment(data.images.downsized_still.url)
+                val action = StickerFragmentDirections.actionStickerFragmentToCommentFragment(args.currentVideoId, args.currentUserId)
+                findNavController().navigate(action)
+            }
         }
 
 
