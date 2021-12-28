@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
@@ -50,7 +51,9 @@ class CommentFragment : BottomSheetDialogFragment() {
 
 
         binding.addStickerBtn.setOnClickListener {
-            val action = CommentFragmentDirections.actionCommentFragmentToStickerFragment(args.currentVideoId,args.currentUserId)
+            val currentUser:String = args.currentUserId.toString()
+            val currentVideo:String = args.currentVideoId.toString()
+            val action = CommentFragmentDirections.actionCommentFragmentToStickerFragment(currentVideo,currentUser)
             findNavController().navigate(action)
         }
 
@@ -95,8 +98,18 @@ class CommentFragment : BottomSheetDialogFragment() {
 
     private inner class CommentHolder(val binding:ItemVideoCommentBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(comment:Comment){
+            if (comment.commentType == "Image"){
+                Glide.with(this@CommentFragment).asGif().load(comment.commentText).into(binding.commentImg)
+                binding.commentText.visibility = View.GONE
+                Log.e(TAG, "bind: immmage", )
 
-            binding.commentText.text = comment.commentText
+            }else if (comment.commentType == "Text"){
+                binding.commentText.text = comment.commentText
+                binding.commentImg.visibility = View.GONE
+                Log.e(TAG, "bind: texxxt", )
+            }
+
+
             binding.userTv.text = comment.userId
 
             if (auth.currentUser?.uid != video.userId){

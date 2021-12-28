@@ -21,6 +21,7 @@ import com.t1000.capstone21.models.User
 import com.t1000.capstone21.models.Video
 import kotlinx.coroutines.tasks.await
 import java.io.File
+import kotlin.math.log
 
 private const val TAG = "Repo"
 class Repo private constructor(context: Context) {
@@ -123,23 +124,32 @@ class Repo private constructor(context: Context) {
 
 
       suspend fun saveCommentToFirestore(videoId:String,comment:Comment){
+          Log.d(TAG, "saveCommentToFirestore: id:  $videoId")
           val video = Firebase.firestore.collection("video")
               .document(videoId)
               .get()
-              .await()
-              .toObject(Video::class.java)
+              .addOnSuccessListener {
+                  Log.d(TAG, "addOnSuccessListener: $it")
+                  val videoData = it.toObject(Video::class.java)
+                  val mutableCommentList = mutableListOf<Comment>()
+                  //original comment list
+                  videoData?.comments?.forEach {
+                      mutableCommentList += it
+                  }
+                  mutableCommentList.add(comment)
 
-          val mutableCommentList = mutableListOf<Comment>()
-          //original comment list
-          video?.comments?.forEach {
-              mutableCommentList += it
-          }
-          mutableCommentList.add(comment)
+                  Firebase.firestore.collection("video").document(videoId)
+                      .update("comments", mutableCommentList)
+                      .addOnFailureListener {
+                          Log.e(TAG, "saveCommentToFirestore: ", it)
 
-          Firebase.firestore.collection("video").document(videoId)
-              .update("comments", mutableCommentList)
-              .await()
-    }
+                      }.addOnSuccessListener {
+                          Log.d(TAG, "saveCommentToFirestore: Done")
+                      }
+
+              }
+
+      }
 
 
     fun getPhotoFile(model: Photo):File = File(fileDir,model.photoFileName)

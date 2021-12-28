@@ -138,13 +138,11 @@
         tools:layout="@layout/sticker_fragment" >
         <argument
             android:name="currentVideoId"
-            app:argType="string"
-            app:nullable="true" />
+            app:argType="string" />
 
         <argument
             android:name="currentUserId"
-            app:argType="string"
-            app:nullable="true" />
+            app:argType="string" />
 
         <action
             android:id="@+id/action_stickerFragment_to_commentFragment"
