@@ -18,6 +18,7 @@ import com.t1000.capstone21.databinding.FragmentHomeBinding
 import com.t1000.capstone21.databinding.ItemHomeVideoBinding
 import com.t1000.capstone21.models.Comment
 import com.t1000.capstone21.models.Video
+import com.t1000.capstone21.ui.sticker.StickerFragmentArgs
 
 
 private const val TAG = "HomeFragment"
@@ -31,19 +32,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding:FragmentHomeBinding
 
-
-
-
-//    private val getPermissionLuncher = registerForActivityResult(
-//        ActivityResultContracts.RequestPermission()
-//    ){
-//
-//    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-  //      getPermissionLuncher.launch(Manifest.permission.RECORD_AUDIO)
-    }
 
 
     override fun onCreateView(
@@ -80,7 +68,7 @@ class HomeFragment : Fragment() {
 
         fun bind(video:Video){
            // binding.textView.text = video.videoFileName
-            binding.usernameText.text = video.userId
+            binding.usernameTv.text = video.userId
             binding.likeTV.text = video.likes.toString()
 
             binding.homeVideoView.setVideoPath(video.videoUrl)
@@ -122,6 +110,11 @@ class HomeFragment : Fragment() {
             binding.addLikeBtn.setOnClickListener {
                 viewModel.addLike(video)
                 binding.likeTV.text = video.likes.toString()
+            }
+
+            binding.usernameTv.setOnClickListener {
+                val action = HomeFragmentDirections.actionNavigationHomeToProfileFragment(video.userId)
+                findNavController().navigate(action)
             }
 
 

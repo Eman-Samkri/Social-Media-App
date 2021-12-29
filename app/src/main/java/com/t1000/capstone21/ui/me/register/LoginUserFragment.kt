@@ -77,7 +77,7 @@ class LoginUserFragment : Fragment() {
                 if (!it.isSuccessful) return@addOnCompleteListener
                 if (it.isSuccessful){
                     Log.d(TAG, "Successfully logged in: ${it.result!!.user?.uid}")
-                    val action = LoginUserFragmentDirections.actionLoginUserFragmentToProfileFragment()
+                    val action = LoginUserFragmentDirections.actionLoginUserFragmentToProfileFragment(null)
                     findNavController().navigate(action)
                 }
 

@@ -10,6 +10,8 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.getField
@@ -131,6 +133,7 @@ class Repo private constructor(context: Context) {
               .addOnSuccessListener {
                   Log.d(TAG, "addOnSuccessListener: $it")
                   val videoData = it.toObject(Video::class.java)
+
                   val mutableCommentList = mutableListOf<Comment>()
                   //original comment list
                   videoData?.comments?.forEach {
@@ -168,12 +171,13 @@ class Repo private constructor(context: Context) {
         return user!!
     }
 //TODO: Not working
-    suspend fun fetchUserById(userId:String): QuerySnapshot? {
+    suspend fun fetchUserById(userId:String): List<User> {
         val user = fireStore
             .collection("users")
             .whereEqualTo("userId",userId)
             .get()
             .await()
+            .toObjects(User::class.java)
 
         return user
     }
@@ -196,6 +200,20 @@ class Repo private constructor(context: Context) {
             .get()
            .await()
             .toObjects(Video::class.java)
+        return video
+    }
+
+    suspend fun fetchVideosCommentById(videoId:String):List<Video> {
+//        val video = fireStore.collection("video")
+//            .whereEqualTo("videoId",videoId)
+        val video =
+            FirebaseFirestore
+                .getInstance()
+                .collection("video")
+                .get()
+                .await()
+                .toObjects(Video::class.java)
+
         return video
 
     }

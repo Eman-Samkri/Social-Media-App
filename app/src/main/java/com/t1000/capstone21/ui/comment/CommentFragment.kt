@@ -80,10 +80,11 @@ class CommentFragment : BottomSheetDialogFragment() {
                             //   CommentAdapter().setData()
                         }
 
-                }
+                    }
 
                 })
         }
+
 
         binding.addCommentBtn.setOnClickListener {
            val  comment = binding.addNewCommentETV.text.toString()
@@ -101,12 +102,10 @@ class CommentFragment : BottomSheetDialogFragment() {
             if (comment.commentType == "Image"){
                 Glide.with(this@CommentFragment).asGif().load(comment.commentText).into(binding.commentImg)
                 binding.commentText.visibility = View.GONE
-                Log.e(TAG, "bind: immmage", )
 
             }else if (comment.commentType == "Text"){
                 binding.commentText.text = comment.commentText
                 binding.commentImg.visibility = View.GONE
-                Log.e(TAG, "bind: texxxt", )
             }
 
 

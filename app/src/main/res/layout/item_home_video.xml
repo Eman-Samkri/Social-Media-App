@@ -136,7 +136,7 @@
 
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageUser"
         android:layout_width="50dp"
         android:layout_height="48dp"
         android:layout_marginStart="28dp"
@@ -145,7 +145,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/username_text"
+        android:id="@+id/usernameTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"

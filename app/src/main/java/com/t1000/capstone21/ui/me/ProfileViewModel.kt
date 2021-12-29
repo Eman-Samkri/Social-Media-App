@@ -14,12 +14,14 @@ class ProfileViewModel : ViewModel() {
 
     private val repo = Repo.getInstance()
 
-
-
-    fun fetchUser(): LiveData<User> = liveData {
-        emit(repo.fetchUser())
-        Log.e(TAG, "fetchUser: ${repo.fetchUser()}", )
+    fun fetchUserById(userId: String) : LiveData<List<User>> = liveData {
+        emit(repo.fetchUserById(userId))
     }
+
+//    fun fetchUser(): LiveData<User> = liveData {
+//        emit(repo.fetchUser())
+//        Log.e(TAG, "fetchUser: ${repo.fetchUser()}", )
+//    }
 
 
 }

@@ -33,6 +33,11 @@ class CommentViewModel : ViewModel() {
         emit(repo.fetchVideosById(videoId))
     }
 
+    fun fetchVideosCommentById(videoId:String): LiveData<List<Video>> = liveData {
+        emit(repo.fetchVideosById(videoId))
+    }
+
+
 
     fun deleteVideoComment(videoId:String, index: Int) {
         viewModelScope.launch(Dispatchers.IO) {
