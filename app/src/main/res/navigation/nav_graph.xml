@@ -116,7 +116,7 @@
         android:label="profile_fragment"
         tools:layout="@layout/profile_fragment" >
     <argument
-        android:name="currentVideoId"
+        android:name="currentUserId"
         app:argType="string"
         app:nullable="true" />
 

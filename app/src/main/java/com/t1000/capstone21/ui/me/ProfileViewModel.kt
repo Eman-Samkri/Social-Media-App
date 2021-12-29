@@ -18,6 +18,12 @@ class ProfileViewModel : ViewModel() {
         emit(repo.fetchUserById(userId))
     }
 
+    fun addFollowing(userId :String){
+        viewModelScope.launch {
+            repo.addFollowing(userId)
+        }
+    }
+
 //    fun fetchUser(): LiveData<User> = liveData {
 //        emit(repo.fetchUser())
 //        Log.e(TAG, "fetchUser: ${repo.fetchUser()}", )

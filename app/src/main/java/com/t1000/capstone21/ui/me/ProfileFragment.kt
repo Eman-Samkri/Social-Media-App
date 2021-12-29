@@ -29,6 +29,8 @@ class ProfileFragment : Fragment() {
 
     private lateinit var userId:String
 
+    private val currentUser = FirebaseAuth.getInstance().currentUser?.uid!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,26 +44,40 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userId = if (args.currentVideoId != null){
-            args.currentVideoId.toString()
+        userId = if (args.currentUserId != null){
+            args.currentUserId.toString()
         }else{
-            FirebaseAuth.getInstance().currentUser?.uid!!
+           currentUser
         }
+
+        if (FirebaseAuth.getInstance().currentUser?.uid!! == args.currentUserId){
+            binding.follwingBtn.visibility = View.GONE
+        }
+
         Log.e(TAG, "onViewCreated: profile $userId", )
         viewModel.fetchUserById(userId).observe(
             viewLifecycleOwner, Observer {
                 Log.e(TAG, "setupLiveData: $it")
                 it?.let {
-                    it.forEach {
-                        //                    binding.followersCountNumber.text = it.followers.toString()
-//                    binding.followingCountNumber.text = it.following.toString()
-                        binding.userNameTv.text = it.username.toString()
+                    it.forEach { user->
+//TODO: check if the currentUser is following already
+//                        if (currentUser == user.following.contains(currentUser)){
+//                            binding.follwingBtn.isEnabled = false
+//                        }
+                         binding.followersCountNumber.text = user.followers.count().toString()
+                         binding.followingCountNumber.text = user.following.count().toString()
+                        binding.userNameTv.text = user.username
                         Log.e(TAG, "setupLiveData: $it")
                     }
 
                 }
             }
         )
+
+
+        binding.follwingBtn.setOnClickListener {
+            viewModel.addFollowing(userId)
+        }
     }
 
 

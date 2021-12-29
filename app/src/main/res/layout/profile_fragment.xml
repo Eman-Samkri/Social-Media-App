@@ -41,6 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#020202"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/following_plain_text"
                 app:layout_constraintStart_toStartOf="@+id/following_plain_text"
                 app:layout_constraintTop_toTopOf="parent"
@@ -64,6 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#050505"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/follower_plain_text"
                 app:layout_constraintStart_toStartOf="@+id/follower_plain_text"
                 app:layout_constraintTop_toTopOf="parent"
@@ -89,6 +91,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="#101010"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/like_plain_text"
                 app:layout_constraintStart_toStartOf="@+id/like_plain_text"
                 app:layout_constraintTop_toTopOf="parent"
@@ -118,20 +121,23 @@
             android:text="Edit profile"
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.071"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profile_constraint_layout" />
 
-        <ImageButton
-            android:id="@+id/favourites_icon"
-            android:layout_width="48dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="6dp"
+        <Button
+            android:id="@+id/follwingBtn"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="26dp"
             android:background="@drawable/button_background_style"
-            android:contentDescription="add to favourites"
-            app:layout_constraintBottom_toBottomOf="@+id/edit_profile_btn"
+            android:text="Following"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.734"
             app:layout_constraintStart_toEndOf="@+id/edit_profile_btn"
-            app:layout_constraintTop_toTopOf="@+id/edit_profile_btn"
-            app:srcCompat="@drawable/ic_bookmark_border_black" />
+            app:layout_constraintTop_toBottomOf="@+id/profile_constraint_layout" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/profile_tab_layout"

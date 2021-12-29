@@ -8,6 +8,6 @@ data class User(
     val userId: String = Firebase.auth.currentUser!!.toString(),
     val username: String = "",
     var profilePictureUrl: String? = null,
-    var followers: List<Int> = listOf(),
-    var following: List<Int> = listOf()
+    var followers: List<String> = listOf(),
+    var following: List<String> = listOf()
 )

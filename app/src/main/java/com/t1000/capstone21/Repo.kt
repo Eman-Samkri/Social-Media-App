@@ -126,8 +126,7 @@ class Repo private constructor(context: Context) {
 
 
       suspend fun saveCommentToFirestore(videoId:String,comment:Comment){
-          Log.d(TAG, "saveCommentToFirestore: id:  $videoId")
-          val video = Firebase.firestore.collection("video")
+          Firebase.firestore.collection("video")
               .document(videoId)
               .get()
               .addOnSuccessListener {
@@ -143,16 +142,31 @@ class Repo private constructor(context: Context) {
 
                   Firebase.firestore.collection("video").document(videoId)
                       .update("comments", mutableCommentList)
-                      .addOnFailureListener {
-                          Log.e(TAG, "saveCommentToFirestore: ", it)
-
-                      }.addOnSuccessListener {
-                          Log.d(TAG, "saveCommentToFirestore: Done")
-                      }
 
               }
 
       }
+
+    suspend fun addFollowing(userId :String){
+
+        val currUser = Firebase.firestore.collection("users")
+            .document(Firebase.auth.currentUser?.uid!!)
+            .get()
+            .await()
+            .toObject(User::class.java)
+
+        val mutableFollowingList = mutableListOf<String>()
+        //original comment list
+        currUser?.following?.forEach {
+            mutableFollowingList += it
+        }
+        mutableFollowingList.add(userId)
+
+        Firebase.firestore.collection("users").document(Firebase.auth.currentUser?.uid!!)
+            .update("following", mutableFollowingList)
+
+
+    }
 
 
     fun getPhotoFile(model: Photo):File = File(fileDir,model.photoFileName)
@@ -170,7 +184,8 @@ class Repo private constructor(context: Context) {
         //TODO:remove !! to avoid the bug
         return user!!
     }
-//TODO: Not working
+
+
     suspend fun fetchUserById(userId:String): List<User> {
         val user = fireStore
             .collection("users")
