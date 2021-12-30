@@ -164,8 +164,6 @@ class Repo private constructor(context: Context) {
 
         Firebase.firestore.collection("users").document(Firebase.auth.currentUser?.uid!!)
             .update("following", mutableFollowingList)
-
-
     }
 
 
@@ -186,7 +184,7 @@ class Repo private constructor(context: Context) {
     }
 
 
-    suspend fun fetchUserById(userId:String): List<User> {
+    suspend fun fetchUserById(userId:String): User {
         val user = fireStore
             .collection("users")
             .whereEqualTo("userId",userId)
@@ -194,7 +192,7 @@ class Repo private constructor(context: Context) {
             .await()
             .toObjects(User::class.java)
 
-        return user
+        return user[0]
     }
 
 
@@ -228,6 +226,11 @@ class Repo private constructor(context: Context) {
                 .get()
                 .await()
                 .toObjects(Video::class.java)
+
+        for (document in video) {
+
+//            Log.d("MainActivity ${document.comments}  ")
+        }
 
         return video
 

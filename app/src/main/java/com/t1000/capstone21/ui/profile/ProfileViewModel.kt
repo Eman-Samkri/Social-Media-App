@@ -1,4 +1,4 @@
-package com.t1000.capstone21.ui.me
+package com.t1000.capstone21.ui.profile
 
 import android.util.Log
 import androidx.lifecycle.*
@@ -15,7 +15,7 @@ class ProfileViewModel : ViewModel() {
     private val repo = Repo.getInstance()
 
     fun fetchUserById(userId: String) : LiveData<List<User>> = liveData {
-        emit(repo.fetchUserById(userId))
+        emit(listOf(repo.fetchUserById(userId)))
     }
 
     fun addFollowing(userId :String){

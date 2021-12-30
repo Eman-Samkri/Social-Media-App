@@ -10,4 +10,6 @@ data class User(
     var profilePictureUrl: String? = null,
     var followers: List<String> = listOf(),
     var following: List<String> = listOf()
-)
+) {
+
+}

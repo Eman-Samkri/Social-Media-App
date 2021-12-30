@@ -112,13 +112,16 @@
         tools:layout="@layout/fragment_register_user" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.t1000.capstone21.ui.me.ProfileFragment"
+        android:name="com.t1000.capstone21.ui.profile.ProfileFragment"
         android:label="profile_fragment"
         tools:layout="@layout/profile_fragment" >
     <argument
         android:name="currentUserId"
         app:argType="string"
         app:nullable="true" />
+        <action
+            android:id="@+id/action_profileFragment_to_followFragment"
+            app:destination="@id/followFragment" />
 
     </fragment>
 
@@ -163,6 +166,18 @@
 
 
     </dialog>
+    <fragment
+        android:id="@+id/followFragment"
+        android:name="com.t1000.capstone21.ui.follow.FollowFragment"
+        android:label="follow_fragment"
+        tools:layout="@layout/follow_fragment" >
+
+    <argument
+        android:name="currentUserId"
+        app:argType="string"
+        app:nullable="true" />
+
+    </fragment>
 
 
 </navigation>

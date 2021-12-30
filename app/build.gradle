@@ -91,8 +91,6 @@ dependencies {
     // Testing Navigation
     androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
 
-    // Jetpack Compose Integration
-    implementation("androidx.navigation:navigation-compose:2.4.0-beta02")
 
     // CameraX core library
     def camerax_version = '1.0.1'
@@ -120,6 +118,8 @@ dependencies {
 
     implementation("io.coil-kt:coil:1.4.0")
     implementation("io.coil-kt:coil-gif:1.4.0")
+
+    implementation 'com.github.brotoo25:firestore-coroutines:1.0.2'
 
     
 

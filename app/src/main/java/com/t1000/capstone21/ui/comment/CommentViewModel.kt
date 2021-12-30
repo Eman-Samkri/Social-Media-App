@@ -9,7 +9,9 @@ import com.t1000.capstone21.Repo
 import com.t1000.capstone21.models.Comment
 import com.t1000.capstone21.models.User
 import com.t1000.capstone21.models.Video
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 private const val TAG = "CommentViewModel"
@@ -33,8 +35,10 @@ class CommentViewModel : ViewModel() {
         emit(repo.fetchVideosById(videoId))
     }
 
-    fun fetchVideosCommentById(videoId:String): LiveData<List<Video>> = liveData {
-        emit(repo.fetchVideosById(videoId))
+    fun fetchVideosCommentById(videoId:String) {
+        GlobalScope.launch(Dispatchers.IO) {
+            repo.fetchVideosById(videoId)
+        }
     }
 
 
