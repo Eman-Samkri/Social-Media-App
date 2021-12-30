@@ -26,7 +26,7 @@ class ProfileViewModel : ViewModel() {
 
     fun unFollow(userId :String){
         viewModelScope.launch {
-           // repo.deleteUserFollow(userId)
+            repo.deleteUserFollow(userId)
         }
     }
 

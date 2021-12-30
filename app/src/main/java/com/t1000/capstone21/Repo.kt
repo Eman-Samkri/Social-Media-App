@@ -257,6 +257,29 @@ class Repo private constructor(context: Context) {
             .await()
     }
 
+    suspend fun deleteUserFollow(userId:String){
+        val currentUser = Firebase.firestore.collection("users")
+            .document(Firebase.auth.currentUser?.uid!!)
+            .get()
+            .await()
+            .toObject(User::class.java)
+
+        val mutableFollowList = mutableListOf<String>()
+        currentUser?.followers?.forEach {
+            mutableFollowList += it
+        }
+
+        mutableFollowList.remove(userId)
+
+        Firebase.firestore.collection("users")
+            .document(Firebase.auth.currentUser?.uid!!)
+            .update("following", mutableFollowList)
+            .await()
+
+
+
+    }
+
 
     //TODO: use this
     suspend fun deleteVideo(videoId:String){

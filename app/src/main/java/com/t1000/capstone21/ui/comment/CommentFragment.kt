@@ -116,7 +116,7 @@ class CommentFragment : BottomSheetDialogFragment() {
                 Log.e(TAG, "bind: cureeent user ${auth.currentUser?.uid}--- ${args.currentVideoId}", )
             }
             binding.deletCommentBtn.setOnClickListener {
-                args.currentVideoId?.let { it1 -> viewModel.deleteVideoComment(it1,adapterPosition) }
+                args.currentVideoId?.let { viewModel.deleteVideoComment(it,adapterPosition) }
                 Log.e(TAG, "bind: deleted ${args.currentVideoId} ----$adapterPosition" )
 
             }
