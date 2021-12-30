@@ -24,6 +24,12 @@ class ProfileViewModel : ViewModel() {
         }
     }
 
+    fun unFollow(userId :String){
+        viewModelScope.launch {
+           // repo.deleteUserFollow(userId)
+        }
+    }
+
 //    fun fetchUser(): LiveData<User> = liveData {
 //        emit(repo.fetchUser())
 //        Log.e(TAG, "fetchUser: ${repo.fetchUser()}", )

@@ -41,25 +41,29 @@ class FollowFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-
         viewModel.fetchFollow(args.currentUserId.toString()).observe(
             viewLifecycleOwner, Observer{
-                    val followers = mutableListOf<User>()
-                    //TODo: must check come from followers or following
+                val followers = mutableListOf<User>()
+                // must check come from followers or following
+                if (args.isFollowing){
                     it.following.forEach { usersFollow ->
                         viewModel.fetchFollow(usersFollow).observe(
                             viewLifecycleOwner, Observer {follower->
                                 followers += follower
-                                Log.d(TAG, "onViewCreated: $followers")
-                                binding.followRvv.adapter = FollowAdapter(followers)
+                                binding.followRvv.adapter = FollowAdapter(followers.distinct())
                             }
                         )
-                     }
-
-
-
-
-
+                    }
+                }else{
+                    it.followers.forEach { usersFollow ->
+                        viewModel.fetchFollow(usersFollow).observe(
+                            viewLifecycleOwner, Observer {follower->
+                                followers += follower
+                                binding.followRvv.adapter = FollowAdapter(followers.distinct())
+                            }
+                        )
+                    }
+                }
             })
 
     }

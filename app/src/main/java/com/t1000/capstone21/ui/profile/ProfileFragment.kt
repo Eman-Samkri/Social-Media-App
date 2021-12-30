@@ -52,9 +52,6 @@ class ProfileFragment : Fragment() {
         binding = ProfileFragmentBinding.inflate(layoutInflater)
 
 
-
-
-
         return binding.root
     }
 
@@ -75,13 +72,13 @@ class ProfileFragment : Fragment() {
             viewLifecycleOwner, Observer {
                 it?.let {
                     it.forEach { user->
-//TODO: check if the currentUser is following already
-                        val set = user.followers.distinct()
-//                        if (currentUser == set.contains(currentUser)){
-//                            binding.follwingBtn.isEnabled = false
-//                        }
-                        binding.followersCountNumber.text = user.followers.count().toString()
-                        binding.followingCountNumber.text = user.following.count().toString()
+                        if (user.following.contains(currentUser)){
+                            binding.follwingBtn.visibility = View.GONE
+                            binding.unFollowBtn.visibility = View.VISIBLE
+                        }
+
+                        binding.followersCountNumber.text = user.followers.distinct().count().toString()
+                        binding.followingCountNumber.text = user.following.distinct().count().toString()
                         binding.userNameTv.text = user.username
                         Log.e(TAG, "setupLiveData: $it")
                     }
@@ -93,15 +90,23 @@ class ProfileFragment : Fragment() {
 
         binding.follwingBtn.setOnClickListener {
             viewModel.addFollowing(userId)
+            binding.follwingBtn.visibility = View.GONE
+            binding.unFollowBtn.visibility = View.VISIBLE
+        }
+
+        binding.unFollowBtn.setOnClickListener {
+            viewModel.unFollow(userId)
+            binding.follwingBtn.visibility = View.VISIBLE
+            binding.unFollowBtn.visibility = View.GONE
         }
 
         binding.followersCountNumber.setOnClickListener {
-            val action = ProfileFragmentDirections.actionProfileFragmentToFollowFragment(args.currentUserId)
+            val action = ProfileFragmentDirections.actionProfileFragmentToFollowFragment(args.currentUserId,false)
             findNavController().navigate(action)
         }
 
         binding.followingCountNumber.setOnClickListener {
-            val action = ProfileFragmentDirections.actionProfileFragmentToFollowFragment(args.currentUserId)
+            val action = ProfileFragmentDirections.actionProfileFragmentToFollowFragment(args.currentUserId,true)
             findNavController().navigate(action)
         }
     }

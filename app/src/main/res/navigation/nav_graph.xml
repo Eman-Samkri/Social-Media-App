@@ -177,6 +177,10 @@
         app:argType="string"
         app:nullable="true" />
 
+        <argument
+            android:name="isFollowing"
+            app:argType="boolean" />
+
     </fragment>
 
 

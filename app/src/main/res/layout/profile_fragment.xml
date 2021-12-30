@@ -151,6 +151,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.734"
             app:layout_constraintStart_toEndOf="@+id/edit_profile_btn"
+            app:layout_constraintTop_toBottomOf="@+id/profile_constraint_layout"
+            tools:ignore="DuplicateClickableBoundsCheck" />
+
+        <Button
+            android:id="@+id/unFollowBtn"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="26dp"
+            android:background="@drawable/button_background_style"
+            android:text="un follow"
+            android:textAllCaps="false"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.734"
+            app:layout_constraintStart_toEndOf="@+id/edit_profile_btn"
             app:layout_constraintTop_toBottomOf="@+id/profile_constraint_layout" />
 
         <com.google.android.material.tabs.TabLayout
