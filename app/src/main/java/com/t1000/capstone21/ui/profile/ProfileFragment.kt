@@ -72,7 +72,7 @@ class ProfileFragment : Fragment() {
             viewLifecycleOwner, Observer {
                 it?.let {
                     it.forEach { user->
-                        if (user.following.contains(currentUser)){
+                        if (user.followers.contains(currentUser)){
                             binding.follwingBtn.visibility = View.GONE
                             binding.unFollowBtn.visibility = View.VISIBLE
                         }
@@ -80,7 +80,6 @@ class ProfileFragment : Fragment() {
                         binding.followersCountNumber.text = user.followers.distinct().count().toString()
                         binding.followingCountNumber.text = user.following.distinct().count().toString()
                         binding.userNameTv.text = user.username
-                        Log.e(TAG, "setupLiveData: $it")
                     }
 
                 }

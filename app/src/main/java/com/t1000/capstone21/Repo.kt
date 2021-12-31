@@ -156,7 +156,6 @@ class Repo private constructor(context: Context) {
             .toObject(User::class.java)
 
         val mutableFollowingList = mutableListOf<String>()
-        //original comment list
         currUser?.following?.forEach {
             mutableFollowingList += it
         }
@@ -164,6 +163,24 @@ class Repo private constructor(context: Context) {
 
         Firebase.firestore.collection("users").document(Firebase.auth.currentUser?.uid!!)
             .update("following", mutableFollowingList)
+
+        //------------------------------------
+
+        val followUser = Firebase.firestore.collection("users")
+            .document(userId)
+            .get()
+            .await()
+            .toObject(User::class.java)
+
+        val mutableFollowersList = mutableListOf<String>()
+        followUser?.followers?.forEach {
+            mutableFollowersList += it
+        }
+        mutableFollowersList.add(Firebase.auth.currentUser?.uid!!)
+
+        Firebase.firestore.collection("users")
+            .document(userId)
+            .update("followers", mutableFollowersList)
     }
 
 
@@ -171,17 +188,6 @@ class Repo private constructor(context: Context) {
 
     fun getVideoFile(model: Video):File = File(fileDir , model.videoFileName)
 
-    suspend fun fetchUser(): User {
-       val user = fireStore
-            .collection("users")
-            .document(Firebase.auth.currentUser?.uid!!)
-            .get()
-            .await()
-            .toObject(User::class.java)
-
-        //TODO:remove !! to avoid the bug
-        return user!!
-    }
 
 
     suspend fun fetchUserById(userId:String): User {
@@ -275,7 +281,25 @@ class Repo private constructor(context: Context) {
             .document(Firebase.auth.currentUser?.uid!!)
             .update("following", mutableFollowList)
             .await()
+//-----------------------------------------------------------------
+        val unfollowUser = Firebase.firestore.collection("users")
+            .document(userId)
+            .get()
+            .await()
+            .toObject(User::class.java)
 
+
+        val mutableFollowingList = mutableListOf<String>()
+        unfollowUser?.following?.forEach {
+            mutableFollowingList += it
+        }
+
+        mutableFollowingList.remove(Firebase.auth.currentUser?.uid!!)
+
+        Firebase.firestore.collection("users")
+            .document(userId)
+            .update("followers", mutableFollowingList)
+            .await()
 
 
     }
