@@ -18,6 +18,8 @@ import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.t1000.capstone21.models.*
 import com.t1000.capstone21.notification.PushNotification
 import com.t1000.capstone21.notification.RetrofitInstance
@@ -43,6 +45,8 @@ class Repo private constructor(context: Context) {
     private val fireStore = Firebase.firestore
 
     val currentUserId = auth.currentUser?.uid
+
+    val gson = Gson()
 
 
 
@@ -402,46 +406,22 @@ class Repo private constructor(context: Context) {
 
 //--------------------------------------------------------
 
-    private val messageCollectionReference = Firebase.firestore.collection("RoomMassage")
-    private val messagesList: MutableList<ChatMessage> = mutableListOf<ChatMessage>()
+    private val messagesList: MutableList<ChatMessage> = mutableListOf()
     private val chatFileMapMutableLiveData = MutableLiveData<Map<String, Any?>>()
     private val messagesMutableLiveData = MutableLiveData<List<ChatMessage>>()
 
-    fun loadChatMessages(chatMassage:ChatMessage, senderId: String?, receiverId: String): LiveData<List<ChatMessage>> {
+    fun loadChatMessages(senderId: String?, receiverId: String): LiveData<List<ChatMessage>> {
 
         if (messagesMutableLiveData.value != null) return messagesMutableLiveData
 
-            messageCollectionReference.addSnapshotListener(EventListener { querySnapShot, firebaseFirestoreException ->
+        Firebase.firestore.collection("RoomMassage")
+            .addSnapshotListener(EventListener { querySnapShot, firebaseFirestoreException ->
             if (firebaseFirestoreException == null) {
                 messagesList.clear()//clear message list so won't get duplicated with each new message
                 querySnapShot?.documents?.forEach {
-                    if (it.id == "${senderId}_${receiverId}" || it.id == "${receiverId}_${senderId}") {
-                        //this is the chat document we should read messages array
-                        val messagesFromFirestore = it.get("messages") as List<HashMap<String, Any>>?
-                            ?: throw Exception("My cast can't be done")
-                        messagesFromFirestore.forEach { messageHashMap ->
-
-                            val message = when (messageHashMap["type"] as String) {
-                                "Text"-> {
-                                    chatMassage.type = "Text"
-
-                                }
-                                "Image" -> {
-
-                                }
-                                "File" -> {
-
-                                }
-                                "Voice" -> {
-
-                                }
-                                else -> {
-                                    throw Exception("unknown type")
-                                }
-                            }
-
-
-                           // messagesList.add(message)
+                    if (it.id == "${senderId}_${receiverId}"
+                        || it.id == "${receiverId}_${senderId}") {
+                        it.get("messages")
                         }
 
                         if (!messagesList.isNullOrEmpty())
@@ -450,61 +430,56 @@ class Repo private constructor(context: Context) {
 
                 }
             }
-        })
+        )
 
         return messagesMutableLiveData
     }
 
 
 
+    fun sendMessage(message: ChatMessage, senderId:String, receiverId:String) {
+        //todo add last message date field to chat members document so we can sort home chats with
 
-//    fun sendMessage(message: ChatMessage, senderId: String?,  receiverId: String) {
-//
-//        messageCollectionReference.document("${senderId}_${receiverId}").get()
-//            .addOnSuccessListener { documentSnapshot ->
-//                if (documentSnapshot.exists()) {
-//                    //this node exists send your message
-//                    messageCollectionReference.document("${senderId}_${receiverId}")
-//                        .update("messages", FieldValue.arrayUnion(message.serializeToMap()))
-//
-//                } else {
-//                    //senderId_receiverId node doesn't exist check receiverId_senderId
-//                    messageCollectionReference.document("${receiverId}_${senderId}").get()
-//                        .addOnSuccessListener { documentSnapshot2 ->
-//
-//                            if (documentSnapshot2.exists()) {
-//                                messageCollectionReference.document("${receiverId}_${senderId}")
-//                                    .update(
-//                                        "messages",
-//                                        FieldValue.arrayUnion(message.serializeToMap())
-//                                    )
-//                            } else {
-//                                //no previous chat history(senderId_receiverId & receiverId_senderId both don't exist)
-//                                //so we create document senderId_receiverId then messages array then add messageMap to messages
-//                                messageCollectionReference.document("${senderId}_${receiverId}")
-//                                    .set(
-//                                        mapOf("messages" to mutableListOf<ChatMessage>()),
-//                                        SetOptions.merge()
-//                                    ).addOnSuccessListener {
-//                                        //this node exists send your message
-//                                        messageCollectionReference.document("${senderId}_${receiverId}")
-//                                            .update("messages", FieldValue.arrayUnion(message.serializeToMap())
-//                                            )
-//
-//                                        //add ids of chat members
-//                                        messageCollectionReference.document("${senderId}_${receiverId}")
-//                                            .update("chat_members", FieldValue.arrayUnion(senderId, receiverId)
-//                                            )
-//
-//                                    }
-//                            }
-//                        }
-//                }
-//            }
-//
-//    }
+        //one node for the same chat
+        Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}").get()
+            .addOnSuccessListener {
+                if (it.exists()) {
+                    //this node exists send your message
+                    Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
+                        .update("messages", FieldValue.arrayUnion(message))
+
+                } else {
+                    //senderId_receiverId node doesn't exist check receiverId_senderId
+                    Firebase.firestore.collection("RoomMassage").document("${receiverId}_${senderId}").get()
+                        .addOnSuccessListener {
+
+                            if (it.exists()) {
+                                Firebase.firestore.collection("RoomMassage").document("${receiverId}_${senderId}")
+                                    .update("messages", FieldValue.arrayUnion(message))
+                            } else {
+                                //no previous chat history(senderId_receiverId & receiverId_senderId both don't exist)
+                                //so we create document senderId_receiverId
+                                Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
+                                    .set(mapOf("messages" to mutableListOf<ChatMessage>()),
+                                        SetOptions.merge()
+                                    ).addOnSuccessListener {
+                                        //this node exists send your message
+                                        Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
+                                            .update("messages", FieldValue.arrayUnion(message))
+
+                                        //add ids of chat members
+                                        Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
+                                            .update("chat_members", FieldValue.arrayUnion(senderId, receiverId))
+
+                                    }
+                            }
 
 
+                        }
+                }
+            }
+
+    }
 
     companion object{
         private var INSTANCE:Repo? = null
