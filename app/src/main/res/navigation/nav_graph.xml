@@ -13,29 +13,34 @@
 
         <action
             android:id="@+id/action_permissions_to_camera"
-            app:destination="@id/camera_fragment"
+            app:destination="@id/photo_fragment"
             app:popUpTo="@id/permissions_fragment"
             app:popUpToInclusive="true" />
 
     </fragment>
 
     <fragment
-        android:id="@+id/camera_fragment"
+        android:id="@+id/photo_fragment"
         android:name="com.t1000.capstone21.camera.photoFragment.PhotoFragment"
-        android:label="CameraFragment" >
+        android:label="PhotoFragment" >
 
 
         <action
             android:id="@+id/action_camera_to_permissions"
             app:destination="@id/permissions_fragment"
-            app:popUpTo="@id/camera_fragment"
+            app:popUpTo="@id/photo_fragment"
             app:popUpToInclusive="true"/>
 
         <action
             android:id="@+id/action_camera_to_video"
             app:destination="@id/video_fragment"
-            app:popUpTo="@id/camera_fragment"
+            app:popUpTo="@id/photo_fragment"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_photo_fragment_to_previewFragment"
+            app:destination="@id/previewFragment" >
+
+           </action>
 
     </fragment>
 
@@ -52,9 +57,16 @@
 
         <action
             android:id="@+id/action_video_to_camera"
-            app:destination="@id/camera_fragment"
+            app:destination="@id/photo_fragment"
             app:popUpTo="@id/video_fragment"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_video_fragment_to_previewFragment"
+            app:destination="@id/previewFragment" >
+            <argument
+                android:name="savedUri"
+                app:argType="string" />
+        </action>
 
     </fragment>
 
@@ -91,6 +103,9 @@
         <action
             android:id="@+id/action_navigation_me_to_loginUserFragment"
             app:destination="@id/loginUserFragment" />
+        <action
+            android:id="@+id/action_navigation_me_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginUserFragment"
@@ -182,6 +197,11 @@
             app:argType="boolean" />
 
     </fragment>
+    <fragment
+        android:id="@+id/previewFragment"
+        android:name="com.t1000.capstone21.camera.preview.PreviewFragment"
+        android:label="preview_fragment"
+        tools:layout="@layout/preview_fragment" />
 
 
 </navigation>

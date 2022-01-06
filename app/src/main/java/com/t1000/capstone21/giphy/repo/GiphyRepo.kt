@@ -50,48 +50,7 @@ open class GiphyRepo {
         }
 
     }
-//
-//    fun searchStickers(query: String): LiveData<List<Data>> {
-//        return liveData(Dispatchers.IO) {
-//            val response = giphyApi.searchStickers(query)
-//            if (response.isSuccessful){
-//                response.body()?.data?.let {
-//                    emit(it)
-//                }
-//
-//            }else{
-//                Log.e(TAG , "the error is ${response.errorBody()}")
-//            }
-//        }
-//
-//    }
 
-//    suspend fun getStickers():List<Data> = fetchStickerMetaData(giphyApi.getStickers())
-
-
-//    suspend fun searchStickers(query: String): List<Data> {
-//        return fetchStickerMetaData(giphyApi.searchStickers(query))
-//    }
-
-//
-//    private  fun fetchStickerMetaData(response: Response<Sticker>) : List<Data> {
-//
-//        if (response.isSuccessful){
-////            stickerItems = response.body()?.data ?: emptyList()
-////            stickerItems = stickerItems.filter { it.images.downsized_small.mp4.isBlank() }
-//            response.body()?.data?.let {
-//
-//                    emit(it)
-//            }
-//
-//
-//        }else{
-//            Log.e(TAG , "something gone wrong ${response.errorBody()}")
-//        }
-//
-//        return stickerItems
-//
-//    }
 
 
 

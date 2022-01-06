@@ -13,6 +13,6 @@ interface GiphyAPI {
 
 
     @GET("v1/gifs/search?")
-    fun searchStickers(@Query("text") query: String): Response<Sticker>
+    fun searchStickers(@Query("text") query: String): Call<Sticker>
 
 }

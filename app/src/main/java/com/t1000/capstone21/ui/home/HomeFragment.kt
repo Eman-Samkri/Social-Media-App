@@ -14,6 +14,8 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.FragmentHomeBinding
 import com.t1000.capstone21.databinding.ItemHomeVideoBinding
 import com.t1000.capstone21.models.Comment
@@ -32,6 +34,16 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding:FragmentHomeBinding
 
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+
+        if (FirebaseAuth.getInstance().currentUser == null){
+           
+        }
+    }
 
 
     override fun onCreateView(
@@ -114,6 +126,7 @@ class HomeFragment : Fragment() {
 
             binding.usernameTv.setOnClickListener {
                 val action = HomeFragmentDirections.actionNavigationHomeToProfileFragment(video.userId)
+                Log.e(TAG, "bind: ${video.userId}", )
                 findNavController().navigate(action)
             }
 

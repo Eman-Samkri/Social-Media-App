@@ -18,9 +18,20 @@ class ProfileViewModel : ViewModel() {
         emit(listOf(repo.fetchUserById(userId)))
     }
 
+
+    fun fetchVideosUser(userId: String) : LiveData<List<Video>> = liveData {
+        emit(repo.fetchVideosUser(userId))
+    }
+
     fun addFollowing(userId :String){
         viewModelScope.launch {
             repo.addFollowing(userId)
+        }
+    }
+
+    fun sendNotificationToUser(userId :String, title:String ,message:String){
+        viewModelScope.launch {
+            repo.sendNotificationToUser(userId,title,message)
         }
     }
 
@@ -30,10 +41,6 @@ class ProfileViewModel : ViewModel() {
         }
     }
 
-//    fun fetchUser(): LiveData<User> = liveData {
-//        emit(repo.fetchUser())
-//        Log.e(TAG, "fetchUser: ${repo.fetchUser()}", )
-//    }
 
 
 }

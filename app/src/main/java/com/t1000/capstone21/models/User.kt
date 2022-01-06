@@ -9,7 +9,8 @@ data class User(
     val username: String = "",
     var profilePictureUrl: String? = null,
     var followers: List<String> = listOf(),
-    var following: List<String> = listOf()
+    var following: List<String> = listOf(),
+   // val token :String = ""
 ) {
 
 }

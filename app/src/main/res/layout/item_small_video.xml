@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="2sp">
+
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/small_video"
+            android:layout_width="100sp"
+            android:layout_height="120sp"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@drawable/ic_launcher_background"
+            tools:ignore="MissingConstraints" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/loading_bar"
+            android:layout_width="40sp"
+            android:layout_height="40sp"
+            android:indeterminate="true"
+            android:layout_gravity="center"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/small_video_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1sp"
+            android:textColor="@android:color/white"
+            tools:text="0:18"
+            tools:ignore="MissingConstraints" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+

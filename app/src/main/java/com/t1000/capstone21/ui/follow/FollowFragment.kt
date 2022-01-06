@@ -40,7 +40,6 @@ class FollowFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         viewModel.fetchFollow(args.currentUserId.toString()).observe(
             viewLifecycleOwner, Observer{
                 val followers = mutableListOf<User>()
@@ -103,6 +102,7 @@ class FollowFragment : Fragment() {
 
 
     }
+
 
 
 

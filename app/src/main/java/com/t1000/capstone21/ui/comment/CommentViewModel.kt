@@ -1,6 +1,5 @@
 package com.t1000.capstone21.ui.comment
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
@@ -9,7 +8,6 @@ import com.t1000.capstone21.Repo
 import com.t1000.capstone21.models.Comment
 import com.t1000.capstone21.models.User
 import com.t1000.capstone21.models.Video
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -35,11 +33,15 @@ class CommentViewModel : ViewModel() {
         emit(repo.fetchVideosById(videoId))
     }
 
-    fun fetchVideosCommentById(videoId:String) {
-        GlobalScope.launch(Dispatchers.IO) {
-            repo.fetchVideosById(videoId)
-        }
-    }
+//    fun fetchVideosCommentById(videoId: String, comment: Comment)  {
+//       repo.fetchVideosCommentById(videoId,comment, List<Comment>())
+//    }
+
+//    fun fetchVideosCommentById(videoId: String) {
+//        GlobalScope.launch(Dispatchers.IO) {
+//            repo.fetchVideosCommentById(videoId)
+//        }
+//    }
 
 
 

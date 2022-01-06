@@ -1,6 +1,7 @@
 package com.t1000.capstone21
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +18,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.iid.internal.FirebaseInstanceIdInternal
+import com.google.firebase.messaging.FirebaseMessaging
 import com.t1000.capstone21.databinding.ActivityMainBinding
+import com.t1000.capstone21.notification.FirebaseService
+import com.t1000.capstone21.ui.profile.TOPIC
 
 const val KEY_EVENT_ACTION = "key_event_action"
 const val KEY_EVENT_EXTRA = "key_event_extra"
@@ -50,12 +56,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        binding.fragmentContainer.postDelayed({
-//          //  hideSystemUI()
-//        }, IMMERSIVE_FLAG_TIMEOUT)
-//    }
+    override fun onResume() {
+        super.onResume()
+        binding.fragmentContainer.postDelayed({
+            hideSystemUI()
+        }, IMMERSIVE_FLAG_TIMEOUT)
+    }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         return when (keyCode) {
@@ -67,21 +73,21 @@ class MainActivity : AppCompatActivity() {
             else -> super.onKeyDown(keyCode, event)
         }
     }
-//
-//    override fun onBackPressed() {
-//        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-//            finishAfterTransition()
-//        } else {
-//            super.onBackPressed()
-//        }
-//    }
+
+    override fun onBackPressed() {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
+            finishAfterTransition()
+        } else {
+            super.onBackPressed()
+        }
+    }
 
 
-//    private fun hideSystemUI() {
-//        WindowCompat.setDecorFitsSystemWindows(window, false)
-//        WindowInsetsControllerCompat(window,binding.fragmentContainer).let { controller ->
-//            controller.hide(WindowInsetsCompat.Type.systemBars())
-//            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-//        }
-//    }
+    private fun hideSystemUI() {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowInsetsControllerCompat(window,binding.fragmentContainer).let { controller ->
+            controller.hide(WindowInsetsCompat.Type.systemBars())
+            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+    }
 }

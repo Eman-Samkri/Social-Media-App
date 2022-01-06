@@ -1,6 +1,7 @@
 package com.t1000.capstone21.camera.baseFragment
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.IntentFilter
@@ -20,11 +21,17 @@ import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import androidx.window.WindowManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.t1000.capstone21.KEY_EVENT_ACTION
+import com.t1000.capstone21.MainActivity
+import com.t1000.capstone21.camera.videoFragment.VideoFragmentDirections
+import com.t1000.capstone21.utils.CameraPermissions
+import com.t1000.capstone21.utils.CameraPermissionsDirections
 import com.t1000.capstone21.utils.SwipeGestureDetector
 import java.io.File
 import java.util.concurrent.ExecutorService
@@ -49,9 +56,7 @@ abstract class BaseFragment <B:ViewBinding> :Fragment() {
 
     private val baseViewModel by lazy { ViewModelProvider(this).get(BaseViewModel::class.java) }
 
-    open val displayManager by lazy {
-        requireContext().getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
-    }
+    open val displayManager by lazy { requireContext().getSystemService(Context.DISPLAY_SERVICE) as DisplayManager}
 
 
     open val outputDirectory : File by lazy { baseViewModel.getFileDir() }
@@ -71,9 +76,9 @@ abstract class BaseFragment <B:ViewBinding> :Fragment() {
 //        super.onResume()
 //        // Make sure that all permissions are still present, since the
 //        // user could have removed them while the app was in paused state.
-//        if (!PermissionsFragment.hasPermissions(requireContext())) {
-//            Navigation.findNavController(requireActivity(),R.id.fragment_container).navigate(
-//                CameraFragmentDirections.actionCameraToPermissions()
+//        if (!CameraPermissions.hasPermissions(requireContext())) {
+//            Navigation.findNavController(requireActivity(),R.id.).navigate(
+//                CameraPermissionsDirections.actionPermissionsToCamera()
 //            )
 //        }
 //    }
@@ -114,14 +119,14 @@ abstract class BaseFragment <B:ViewBinding> :Fragment() {
             displayId = viewFinder.display.displayId
 
             // Build UI controls
-            updateCameraUi()
+           // updateCameraUi()
 
             setUpCamera()
         }
     }
 
-    @SuppressLint ("ClickableViewAccessibility")
-    fun gestureListener(viewFinder: PreviewView,callable: ()->Unit){
+    @SuppressLint("ClickableViewAccessibility")
+    fun gestureListener(viewFinder: PreviewView, callable: ()->Unit){
 
         val swipeGestureDetector = SwipeGestureDetector().apply {
             setSwipeCallback(left = {
@@ -135,25 +140,28 @@ abstract class BaseFragment <B:ViewBinding> :Fragment() {
             }
          }
 
-    abstract fun updateCameraUi()
+    //abstract fun updateCameraUi()
 
     abstract fun setUpCamera()
 
     abstract fun bindCameraUseCases()
 
-    fun setGalleryThumbnail(imageButton: ImageButton, uri:Uri){
-            imageButton.post {
-                // Remove thumbnail padding
-                imageButton.setPadding(2)
+    //TODO:benefit load imge
 
-                // Load thumbnail into circular button using Glide
-                Glide.with(imageButton)
-                    .load(uri)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(imageButton)
+//    fun setGalleryThumbnail(imageButton: ImageButton, uri:Uri){
+//            imageButton.post {
+//                // Remove thumbnail padding
+//                imageButton.setPadding(2)
+//
+//                // Load thumbnail into circular button using Glide
+//                Glide.with(imageButton)
+//                    .load(uri)
+//                    .apply(RequestOptions.circleCropTransform())
+//                    .into(imageButton)
+//
+//        }
+//    }
 
-        }
-    }
 
     open fun updateCameraSwitchButton(cameraSwitchButton: ImageButton) {
         try {

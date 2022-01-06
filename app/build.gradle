@@ -4,6 +4,7 @@ plugins {
     id 'androidx.navigation.safeargs'
     id 'com.google.gms.google-services'
     id 'com.google.ar.sceneform.plugin'
+
 }
 
 
@@ -33,10 +34,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
     dataBinding {
         enabled = true
     }
+
 
     viewBinding {
         enabled = true
@@ -119,9 +120,21 @@ dependencies {
     implementation("io.coil-kt:coil:1.4.0")
     implementation("io.coil-kt:coil-gif:1.4.0")
 
-    implementation 'com.github.brotoo25:firestore-coroutines:1.0.2'
 
-    
+
+    // Circle Image View
+    implementation "de.hdodenhof:circleimageview:2.2.0"
+
+
+    // Apply the Crashlytics Gradle plugin
+    // Recommended: Add the Firebase SDK for Google Analytics.
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    // Add the Firebase SDK for Crashlytics.
+    // FCM
+    implementation 'com.google.firebase:firebase-messaging:20.1.7'
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5'
 
 
 
