@@ -437,39 +437,39 @@ class Repo private constructor(context: Context) {
 
 
 
-    fun sendMessage(message: ChatMessage, senderId:String, receiverId:String) {
+    fun sendMessage(message: ChatMessage) {
         //todo add last message date field to chat members document so we can sort home chats with
 
         //one node for the same chat
-        Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}").get()
+        Firebase.firestore.collection("RoomMassage").document("${message.senderId}_${message.receiverId}").get()
             .addOnSuccessListener {
                 if (it.exists()) {
                     //this node exists send your message
-                    Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
+                    Firebase.firestore.collection("RoomMassage").document("${message.senderId}_${message.receiverId}")
                         .update("messages", FieldValue.arrayUnion(message))
 
                 } else {
                     //senderId_receiverId node doesn't exist check receiverId_senderId
-                    Firebase.firestore.collection("RoomMassage").document("${receiverId}_${senderId}").get()
+                    Firebase.firestore.collection("RoomMassage").document("${message.receiverId}_${message.senderId}").get()
                         .addOnSuccessListener {
 
                             if (it.exists()) {
-                                Firebase.firestore.collection("RoomMassage").document("${receiverId}_${senderId}")
+                                Firebase.firestore.collection("RoomMassage").document("${message.receiverId}_${message.senderId}")
                                     .update("messages", FieldValue.arrayUnion(message))
                             } else {
                                 //no previous chat history(senderId_receiverId & receiverId_senderId both don't exist)
                                 //so we create document senderId_receiverId
-                                Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
+                                Firebase.firestore.collection("RoomMassage").document("${message.senderId}_${message.receiverId}")
                                     .set(mapOf("messages" to mutableListOf<ChatMessage>()),
                                         SetOptions.merge()
                                     ).addOnSuccessListener {
                                         //this node exists send your message
-                                        Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
+                                        Firebase.firestore.collection("RoomMassage").document("${message.senderId}_${message.receiverId}")
                                             .update("messages", FieldValue.arrayUnion(message))
 
                                         //add ids of chat members
-                                        Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
-                                            .update("chat_members", FieldValue.arrayUnion(senderId, receiverId))
+                                        Firebase.firestore.collection("RoomMassage").document("${message.senderId}_${message.receiverId}")
+                                            .update("chat_members", FieldValue.arrayUnion(message.senderId, message.receiverId))
 
                                     }
                             }

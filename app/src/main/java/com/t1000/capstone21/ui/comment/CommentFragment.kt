@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -47,9 +48,6 @@ class CommentFragment : BottomSheetDialogFragment() {
     ): View? {
        binding = CommentFragmentBinding.inflate(layoutInflater)
 
-
-
-
         binding.addStickerBtn.setOnClickListener {
             val currentUser:String = args.currentUserId.toString()
             val currentVideo:String = args.currentVideoId.toString()
@@ -57,9 +55,7 @@ class CommentFragment : BottomSheetDialogFragment() {
             findNavController().navigate(action)
         }
 
-
         binding.commentRv.layoutManager = LinearLayoutManager(context)
-
 
         return binding.root
     }
@@ -86,9 +82,16 @@ class CommentFragment : BottomSheetDialogFragment() {
         }
 
 
-        binding.addCommentBtn.setOnClickListener {
-           val  comment = binding.addNewCommentETV.text.toString()
+//        binding.addCommentBtn.setOnClickListener {
+//           val  comment = binding.addNewCommentETV.text.toString()
+//            uploadComment(comment)
+//        }
+
+        //send comment on keyboard done click
+        binding.addNewCommentETV.setOnEditorActionListener { _, actionId, _ ->
+            val  comment = binding.addNewCommentETV.text.toString()
             uploadComment(comment)
+            true
         }
 
 

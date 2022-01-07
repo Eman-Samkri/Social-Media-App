@@ -8,13 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.t1000.capstone21.databinding.FollowFragmentBinding
 import com.t1000.capstone21.databinding.ItemUserFollowBinding
+import com.t1000.capstone21.giphy.model.Data
 import com.t1000.capstone21.models.User
+import com.t1000.capstone21.ui.chat.ChatFragmentDirections
+import com.t1000.capstone21.ui.sticker.StickerFragmentDirections
 
 private const val TAG = "FollowFragment"
 
@@ -68,13 +72,27 @@ class FollowFragment : Fragment() {
     }
 
 
-    private inner class FollowHolder(val binding: ItemUserFollowBinding):RecyclerView.ViewHolder(binding.root){
+    private inner class FollowHolder(val binding: ItemUserFollowBinding):RecyclerView.ViewHolder(binding.root), View.OnClickListener{
+
+        private lateinit var chatReceivedId: String
+
+        init {
+            itemView.setOnClickListener(this)
+        }
 
         fun bind(user: User){
+            chatReceivedId =user.userId
             binding.imageView.load(user.profilePictureUrl)
             binding.usernamTv.text = user.username
             Log.e(TAG, "bind: ${user.username}", )
 
+        }
+
+        override fun onClick(v: View?) {
+            if (v == itemView){
+                val action = FollowFragmentDirections.actionFollowFragmentToNavigationIndex(chatReceivedId)
+                findNavController().navigate(action)
+            }
         }
 
     }

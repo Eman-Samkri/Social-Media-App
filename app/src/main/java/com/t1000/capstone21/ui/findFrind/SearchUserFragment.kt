@@ -115,7 +115,6 @@ private lateinit var binding :SearchUserFragmentBinding
         fun bind(user: User){
             binding.imageView.load(user.profilePictureUrl)
             binding.usernamTv.text = user.username
-
         }
 
     }

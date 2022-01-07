@@ -119,7 +119,15 @@
         android:id="@+id/navigation_index"
         android:name="com.t1000.capstone21.ui.chat.ChatFragment"
         android:label="chat_fragment"
-        tools:layout="@layout/chat_fragment" />
+        tools:layout="@layout/chat_fragment" >
+        <argument
+            android:name="chatReceivedId"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_navigation_index_to_followFragment"
+            app:destination="@id/followFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/loginUserFragment"
@@ -210,6 +218,9 @@
         <argument
             android:name="isFollowing"
             app:argType="boolean" />
+        <action
+            android:id="@+id/action_followFragment_to_navigation_index"
+            app:destination="@id/navigation_index" />
 
     </fragment>
 
