@@ -1,13 +1,10 @@
 package com.t1000.capstone21
 
-import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -17,13 +14,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.iid.internal.FirebaseInstanceIdInternal
-import com.google.firebase.messaging.FirebaseMessaging
 import com.t1000.capstone21.databinding.ActivityMainBinding
-import com.t1000.capstone21.notification.FirebaseService
-import com.t1000.capstone21.ui.profile.TOPIC
 
 const val KEY_EVENT_ACTION = "key_event_action"
 const val KEY_EVENT_EXTRA = "key_event_extra"
@@ -49,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.navigation_home, R.id.navigation_post, R.id.navigation_me
+            R.id.navigation_home,R.id.navigation_findFrind, R.id.navigation_post, R.id.navigation_index,R.id.navigation_me
         ))
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)

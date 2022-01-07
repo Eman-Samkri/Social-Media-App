@@ -28,7 +28,7 @@ import com.t1000.capstone21.KEY_EVENT_EXTRA
 import com.t1000.capstone21.R
 import com.t1000.capstone21.models.Video
 import com.t1000.capstone21.camera.baseFragment.BaseFragment
-import com.t1000.capstone21.camera.baseFragment.BaseViewModel
+import com.t1000.capstone21.camera.baseFragment.CameraViewModel
 import com.t1000.capstone21.databinding.FragmentVideoBinding
 import com.t1000.capstone21.utils.formatSeconds
 import com.t1000.capstone21.utils.simulateClick
@@ -48,7 +48,7 @@ override val binding: FragmentVideoBinding by lazy {
     private var timer:Timer?=null
     private var recoerSecondFlashd = 0
 
-    private val viewModel by lazy { ViewModelProvider(this).get(BaseViewModel::class.java) }
+    private val viewModel by lazy { ViewModelProvider(this).get(CameraViewModel::class.java) }
 
 
     override  val volumeDownReceiver = object : BroadcastReceiver() {

@@ -1,12 +1,10 @@
 package com.t1000.capstone21.camera.baseFragment
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.IntentFilter
 import android.hardware.display.DisplayManager
-import android.net.Uri
 import android.os.Bundle
 import android.view.GestureDetector
 import android.view.LayoutInflater
@@ -17,21 +15,12 @@ import androidx.camera.core.*
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import androidx.window.WindowManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.t1000.capstone21.KEY_EVENT_ACTION
-import com.t1000.capstone21.MainActivity
-import com.t1000.capstone21.camera.videoFragment.VideoFragmentDirections
-import com.t1000.capstone21.utils.CameraPermissions
-import com.t1000.capstone21.utils.CameraPermissionsDirections
 import com.t1000.capstone21.utils.SwipeGestureDetector
 import java.io.File
 import java.util.concurrent.ExecutorService
@@ -54,7 +43,7 @@ abstract class BaseFragment <B:ViewBinding> :Fragment() {
     abstract val volumeDownReceiver :BroadcastReceiver
     abstract val displayListener:DisplayManager.DisplayListener
 
-    private val baseViewModel by lazy { ViewModelProvider(this).get(BaseViewModel::class.java) }
+    private val baseViewModel by lazy { ViewModelProvider(this).get(CameraViewModel::class.java) }
 
     open val displayManager by lazy { requireContext().getSystemService(Context.DISPLAY_SERVICE) as DisplayManager}
 

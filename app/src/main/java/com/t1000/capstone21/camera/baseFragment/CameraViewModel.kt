@@ -11,7 +11,7 @@ import java.io.File
 
 
 
-class BaseViewModel : ViewModel(){
+class CameraViewModel : ViewModel(){
 
     private val repo = Repo.getInstance()
 
@@ -19,9 +19,9 @@ class BaseViewModel : ViewModel(){
 
 
 
-    fun getPhotoFile(model: Photo):File = repo.getPhotoFile(model)
+    fun getPhotoFile(photo: Photo):File = repo.getPhotoFile(photo)
 
-    fun getVideoFile(model: Video):File = repo.getVideoFile(model)
+    fun getVideoFile(video: Video):File = repo.getVideoFile(video)
 
     fun getFileDir() = repo.fileDir
 

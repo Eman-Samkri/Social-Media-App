@@ -107,6 +107,20 @@
             android:id="@+id/action_navigation_me_to_profileFragment"
             app:destination="@id/profileFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_findFrind"
+        android:name="com.t1000.capstone21.ui.findFrind.SearchUserFragment"
+        android:label="search_user_fragment"
+        tools:layout="@layout/search_user_fragment" />
+
+
+    <fragment
+        android:id="@+id/navigation_index"
+        android:name="com.t1000.capstone21.ui.chat.ChatFragment"
+        android:label="chat_fragment"
+        tools:layout="@layout/chat_fragment" />
+
     <fragment
         android:id="@+id/loginUserFragment"
         android:name="com.t1000.capstone21.ui.me.register.LoginUserFragment"
@@ -181,6 +195,7 @@
 
 
     </dialog>
+
     <fragment
         android:id="@+id/followFragment"
         android:name="com.t1000.capstone21.ui.follow.FollowFragment"
@@ -197,11 +212,13 @@
             app:argType="boolean" />
 
     </fragment>
+
     <fragment
         android:id="@+id/previewFragment"
         android:name="com.t1000.capstone21.camera.preview.PreviewFragment"
         android:label="preview_fragment"
         tools:layout="@layout/preview_fragment" />
+
 
 
 </navigation>

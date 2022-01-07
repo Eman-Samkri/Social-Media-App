@@ -9,16 +9,13 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.hardware.display.DisplayManager
-import android.media.MediaScannerConnection
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.MimeTypeMap
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCapture
@@ -28,25 +25,21 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
-import androidx.core.net.toFile
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.t1000.capstone21.KEY_EVENT_EXTRA
 import com.t1000.capstone21.models.Photo
 import com.t1000.capstone21.R
 import com.t1000.capstone21.camera.baseFragment.BaseFragment
-import com.t1000.capstone21.camera.baseFragment.BaseViewModel
+import com.t1000.capstone21.camera.baseFragment.CameraViewModel
 import com.t1000.capstone21.databinding.FragmentPhotoBinding
-import com.t1000.capstone21.ui.comment.CommentFragmentDirections
 import com.t1000.capstone21.utils.*
 import com.t1000.capstone21.utils.BottomNavViewUtils.showBottomNavBar
 import kotlinx.coroutines.*
 import java.lang.Runnable
 import java.nio.ByteBuffer
 import java.util.ArrayDeque
-import java.util.Locale
 import kotlin.collections.ArrayList
 
 typealias LumaListener = (luma: Double) -> Unit
@@ -66,14 +59,14 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
     private var lensFacing: Int = CameraSelector.LENS_FACING_BACK
     private var imageCapture: ImageCapture? = null
     private var imageAnalyzer: ImageAnalysis? = null
-    private var seletedTimer = CameraTimer.OFF
+    private var selectedTimer = CameraTimer.OFF
 
 
     var savedUri :Uri? = null
 
 
 
-    private val viewModel by lazy { ViewModelProvider(this).get(BaseViewModel::class.java) }
+    private val viewModel by lazy { ViewModelProvider(this).get(CameraViewModel::class.java) }
 
 
 
@@ -282,7 +275,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
     fun takePicture() {
         lifecycleScope.launch(Dispatchers.Main) {
-            when (seletedTimer) {
+            when (selectedTimer) {
                 CameraTimer.SEC3 -> for (i in 3 downTo 1) {
                     binding.countdown.text = i.toString()
                     delay(1000)
@@ -388,7 +381,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
     }
 
     fun closeTimerAndSelect(timer: CameraTimer) {
-        seletedTimer = timer
+        selectedTimer = timer
         binding.timerConteiner.visibility = View.GONE
         binding.timerButton.setImageResource(setImageDrawableSelect(timer))
     }
