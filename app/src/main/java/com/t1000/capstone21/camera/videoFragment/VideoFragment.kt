@@ -23,6 +23,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.t1000.capstone21.KEY_EVENT_EXTRA
 import com.t1000.capstone21.R
@@ -46,7 +47,7 @@ override val binding: FragmentVideoBinding by lazy {
     private var videoCapture:VideoCapture? = null
     private var isRecording = false
     private var timer:Timer?=null
-    private var recoerSecondFlashd = 0
+    private var recordSecondFlashy = 0
 
     private val viewModel by lazy { ViewModelProvider(this).get(CameraViewModel::class.java) }
 
@@ -284,16 +285,16 @@ override val binding: FragmentVideoBinding by lazy {
     private fun updateTimer(){
         Handler(Looper.getMainLooper()).post{
             if (isRecording){
-                recoerSecondFlashd ++
-                binding.countdown.text = "".formatSeconds(recoerSecondFlashd)
+                recordSecondFlashy ++
+                binding.countdown.text = "".formatSeconds(recordSecondFlashy)
             }
         }
 
     }
 
     private fun restTimer(){
-        recoerSecondFlashd = 0
-        binding.countdown.text = "".formatSeconds(recoerSecondFlashd)
+        recordSecondFlashy = 0
+        binding.countdown.text = "".formatSeconds(recordSecondFlashy)
         binding.countdown.visibility= View.GONE
         stopTimer()
     }

@@ -26,13 +26,6 @@ class CameraViewModel : ViewModel(){
     fun getFileDir() = repo.fileDir
 
 
-    fun uploadPhotoToStorage(localPhotoUri: Uri, photo: Photo)  {
-
-        viewModelScope.launch {
-            repo.uploadPhotoToStorage(localPhotoUri,photo)
-        }
-
-    }
 
 
     fun uploadVideo(localVideoUri: Uri, video: Video) {

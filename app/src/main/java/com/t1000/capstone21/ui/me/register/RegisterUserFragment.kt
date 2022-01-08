@@ -4,14 +4,14 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import coil.load
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -19,6 +19,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.t1000.capstone21.databinding.FragmentRegisterUserBinding
 import com.t1000.capstone21.models.User
+import com.t1000.capstone21.ui.me.MeViewModel
 import java.lang.Exception
 
 
@@ -29,6 +30,9 @@ class RegisterUserFragment : Fragment(){
     private lateinit var auth: FirebaseAuth
     private val userFirestore = Firebase.firestore
     private var selectedPhotoUri: Uri? = null
+
+    private val viewModel by lazy { ViewModelProvider(this).get(MeViewModel::class.java) }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +54,8 @@ class RegisterUserFragment : Fragment(){
 
         binding.registerLoginBtn.setOnClickListener{
             registerUser()
+            val action = RegisterUserFragmentDirections.actionRegisterUserFragmentToNavigationHome()
+            findNavController().navigate(action)
         }
 
         binding.profilePicBtn.setOnClickListener {
@@ -75,13 +81,15 @@ class RegisterUserFragment : Fragment(){
                 auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            val currentUser = User(userId = auth?.uid!!, username = username)
+                            if (selectedPhotoUri != null){
+                          //    selectedPhotoUri =  viewModel.uploadPhotoToStorage(selectedPhotoUri!!)
+                            }
+                            val currentUser = User(userId = auth?.uid!!, username = username )
                             userFirestore.collection("users")
                                 .document(Firebase.auth?.uid!!)
                                 .set(currentUser)
                             Toast.makeText(context, "successfully register user $username", Toast.LENGTH_LONG).show()
                         }
-                        Toast.makeText(context, "fi $username", Toast.LENGTH_LONG).show()
 
                     }
             }catch (e:Exception){
@@ -96,19 +104,10 @@ class RegisterUserFragment : Fragment(){
         if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
             selectedPhotoUri = data.data ?: return
             Log.d(TAG, "Photo was selected")
-            // Get and resize profile image
-            val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-//            contentResolver.query(selectedPhotoUri!!, filePathColumn, null, null, null)?.use {
-//                it.moveToFirst()
-//                val columnIndex = it.getColumnIndex(filePathColumn[0])
-//                val picturePath = it.getString(columnIndex)
-//                if (picturePath.contains("DCIM")) {
-//                    binding.profilePicView.load(selectedPhotoUri)
-//                } else {
-//                    binding.profilePicView.load(selectedPhotoUri)
-//                }
-//
-//            }
+
+            binding.profilePicBtn.visibility = View.GONE
+            binding.profilePicView.load(selectedPhotoUri)
+
         }
     }
 

@@ -10,17 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.google.firebase.auth.FirebaseAuth
-import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.FragmentHomeBinding
 import com.t1000.capstone21.databinding.ItemHomeVideoBinding
-import com.t1000.capstone21.models.Comment
 import com.t1000.capstone21.models.Video
-import com.t1000.capstone21.ui.sticker.StickerFragmentArgs
 
 
 private const val TAG = "HomeFragment"
@@ -41,7 +38,7 @@ class HomeFragment : Fragment() {
 
 
         if (FirebaseAuth.getInstance().currentUser == null){
-           
+
         }
     }
 
@@ -79,8 +76,15 @@ class HomeFragment : Fragment() {
     private inner class HomeVideoHolder(val binding:ItemHomeVideoBinding):RecyclerView.ViewHolder(binding.root){
 
         fun bind(video:Video){
-           // binding.textView.text = video.videoFileName
-            binding.usernameTv.text = video.userId
+            val user = viewModel.fetchUserById(video.userId)
+                user.observe(
+                viewLifecycleOwner, Observer{
+                    it.forEach {
+                       binding.usernameTv.text = it.username
+                        binding.imageUser.load(it.profilePictureUrl)
+                    }
+
+                })
             binding.likeTV.text = video.likes.toString()
 
             binding.homeVideoView.setVideoPath(video.videoUrl)
@@ -120,20 +124,28 @@ class HomeFragment : Fragment() {
             }
 
             binding.addLikeBtn.setOnClickListener {
-                viewModel.addLike(video)
-                binding.likeTV.text = video.likes.toString()
+                if (FirebaseAuth.getInstance().currentUser?.uid == null){
+                    val action = HomeFragmentDirections.actionNavigationHomeToNavigationMe()
+                    findNavController().navigate(action)
+                }else {
+                    viewModel.addLike(video)
+                    binding.likeTV.text = video.likes.toString()
+                }
             }
 
             binding.usernameTv.setOnClickListener {
-                val action = HomeFragmentDirections.actionNavigationHomeToProfileFragment(video.userId)
-                Log.e(TAG, "bind: ${video.userId}", )
-                findNavController().navigate(action)
+              toUserProfile(video)
+            }
+
+            binding.imageUser.setOnClickListener {
+                toUserProfile(video)
             }
 
 
         }
 
     }
+
 
     private inner class VideosAdapter(val videos:List<Video>):
         RecyclerView.Adapter<HomeVideoHolder>() {
@@ -157,6 +169,18 @@ class HomeFragment : Fragment() {
         override fun getItemCount(): Int = videos.size
 
 
+    }
+
+    private fun toUserProfile(video:Video){
+        if (FirebaseAuth.getInstance().currentUser?.uid == null){
+            val action = HomeFragmentDirections.actionNavigationHomeToNavigationMe()
+            findNavController().navigate(action)
+        }else {
+            val action =
+                HomeFragmentDirections.actionNavigationHomeToProfileFragment(video.userId)
+            Log.e(TAG, "bind: ${video.userId}",)
+            findNavController().navigate(action)
+        }
     }
 
 

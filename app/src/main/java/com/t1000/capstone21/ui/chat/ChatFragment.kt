@@ -1,5 +1,6 @@
 package com.t1000.capstone21.ui.chat
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -24,10 +25,9 @@ class ChatFragment : Fragment() {
 
     private lateinit var binding :ChatFragmentBinding
 
-    val senderId = FirebaseAuth.getInstance().currentUser?.uid!!
-
     private val args: ChatFragmentArgs by navArgs()
 
+    private lateinit var senderId :String
 
 
 
@@ -35,6 +35,14 @@ class ChatFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         setHasOptionsMenu(true)
+
+        if (FirebaseAuth.getInstance().currentUser?.uid == null){
+            val action = ChatFragmentDirections.actionNavigationIndexToNavigationMe()
+            findNavController().navigate(action)
+         }else{
+             senderId = FirebaseAuth.getInstance().currentUser?.uid!!
+        }
+
 
     }
 
@@ -53,10 +61,10 @@ class ChatFragment : Fragment() {
 
        // pass messages list for recycler to show
 //        viewModel.loadChatMessages(senderId,args.chatReceivedId.toString()).observe(
-//            viewLifecycleOwner, Observer{
+//            viewLifecycleOwner, Observer {
 //
-//            //scroll to last items in recycler (recent messages)
-//            binding.recycler.scrollToPosition(it.size - 1)
+////            //scroll to last items in recycler (recent messages)
+////            binding.recycler.scrollToPosition(mMessagesList.size - 1)
 //
 //        })
 
@@ -73,7 +81,9 @@ class ChatFragment : Fragment() {
             Toast.makeText(context, "Empty String", Toast.LENGTH_LONG).show()
             return
         }
-        val chatMessage = ChatMessage(binding.messageEditText.text.toString(),senderId,args.chatReceivedId.toString(),created_at = Timestamp(Date()))
+        val chatMessage = ChatMessage(text = binding.messageEditText.text.toString(),
+            senderId = senderId,args.chatReceivedId.toString(),
+            created_at = Timestamp(Date()))
         viewModel.sendMessage(chatMessage)
 
         binding.messageEditText.setText("")
@@ -109,8 +119,8 @@ class ChatFragment : Fragment() {
 
     private inner class ChatHolder(val binding: ItemVideoCommentBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(chatMessage: ChatMessage){
-
-
+            binding.commentText.text = chatMessage.text
+            binding.userTv.text
         }
 
     }

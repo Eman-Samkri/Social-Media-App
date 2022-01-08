@@ -3,9 +3,8 @@ package com.t1000.capstone21.ui.profile
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -52,6 +51,7 @@ class ProfileFragment : Fragment() {
     private lateinit var userName:String
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -63,8 +63,9 @@ class ProfileFragment : Fragment() {
 
         FirebaseService.sharedPref = requireActivity().getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
 
+        setHasOptionsMenu(true)
 
-        if (FirebaseAuth.getInstance().currentUser == null){
+        if (FirebaseAuth.getInstance().currentUser?.uid == null){
             findNavController().navigate(R.id.loginUserFragment)
         }else{
             currentUser = Firebase.auth.currentUser!!.uid
@@ -191,7 +192,34 @@ class ProfileFragment : Fragment() {
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.signout,menu)
 
+
+        val singOutItem =menu.findItem(R.id.signoutMenu)
+        singOutItem.actionView
+
+
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return when(item.itemId){
+            R.id.signoutMenu -> {
+                FirebaseAuth.getInstance().signOut()
+                val action = ProfileFragmentDirections.actionProfileFragmentToNavigationMe()
+                findNavController().navigate(action)
+
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+
+
+        }
+    }
 
 
 }

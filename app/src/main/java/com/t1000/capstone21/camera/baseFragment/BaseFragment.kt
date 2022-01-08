@@ -18,9 +18,12 @@ import androidx.camera.view.PreviewView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import androidx.window.WindowManager
+import com.google.firebase.auth.FirebaseAuth
 import com.t1000.capstone21.KEY_EVENT_ACTION
+import com.t1000.capstone21.R
 import com.t1000.capstone21.utils.SwipeGestureDetector
 import java.io.File
 import java.util.concurrent.ExecutorService

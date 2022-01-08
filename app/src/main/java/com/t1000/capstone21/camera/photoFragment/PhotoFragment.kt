@@ -473,7 +473,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
     private fun uploadPhoto() {
         val photo = Photo()
-        savedUri?.let { viewModel.uploadPhotoToStorage(it,photo) }
+      //  savedUri?.let { viewModel.uploadPhotoToStorage(it,photo) }
 
     }
 

@@ -16,9 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.t1000.capstone21.databinding.CommentFragmentBinding
+import com.t1000.capstone21.databinding.AddCommentChatFragmentBinding
 import com.t1000.capstone21.databinding.ItemVideoCommentBinding
 import com.t1000.capstone21.models.Comment
 import com.t1000.capstone21.models.Video
@@ -27,7 +25,7 @@ import com.t1000.capstone21.models.Video
 private const val TAG = "CommentFragment"
 class CommentFragment : BottomSheetDialogFragment() {
 
-    private lateinit var binding :CommentFragmentBinding
+    private lateinit var binding :AddCommentChatFragmentBinding
 
     private val args: CommentFragmentArgs by navArgs()
     private lateinit var auth: FirebaseAuth
@@ -46,7 +44,7 @@ class CommentFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-       binding = CommentFragmentBinding.inflate(layoutInflater)
+       binding = AddCommentChatFragmentBinding.inflate(layoutInflater)
 
         binding.addStickerBtn.setOnClickListener {
             val currentUser:String = args.currentUserId.toString()
@@ -55,7 +53,7 @@ class CommentFragment : BottomSheetDialogFragment() {
             findNavController().navigate(action)
         }
 
-        binding.commentRv.layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
 
         return binding.root
     }
@@ -72,7 +70,7 @@ class CommentFragment : BottomSheetDialogFragment() {
                         it.forEach {
                             video =it
                             val comments =  it.comments
-                            binding.commentRv.adapter = CommentAdapter(comments)
+                            binding.recyclerView.adapter = CommentAdapter(comments)
                             //   CommentAdapter().setData()
                         }
 
@@ -88,8 +86,8 @@ class CommentFragment : BottomSheetDialogFragment() {
 //        }
 
         //send comment on keyboard done click
-        binding.addNewCommentETV.setOnEditorActionListener { _, actionId, _ ->
-            val  comment = binding.addNewCommentETV.text.toString()
+        binding.addTextETV.setOnEditorActionListener { _, actionId, _ ->
+            val  comment = binding.addTextETV.text.toString()
             uploadComment(comment)
             true
         }
