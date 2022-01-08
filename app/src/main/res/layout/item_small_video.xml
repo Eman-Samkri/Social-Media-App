@@ -7,24 +7,29 @@
     app:cardCornerRadius="2sp">
 
 
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/smallVideoVidw"
+        android:layout_width="100sp"
+        android:layout_height="120sp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:srcCompat="@drawable/ic_launcher_background" />
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/small_video"
-            android:layout_width="100sp"
-            android:layout_height="120sp"
-            android:scaleType="centerCrop"
-            tools:srcCompat="@drawable/ic_launcher_background"
-            tools:ignore="MissingConstraints" />
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loading_bar"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="@+id/smallVideoVidw"
+        app:layout_constraintEnd_toEndOf="@+id/smallVideoVidw"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/smallVideoVidw"
+        tools:ignore="MissingConstraints" />
 
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/loading_bar"
-            android:layout_width="40sp"
-            android:layout_height="40sp"
-            android:indeterminate="true"
-            android:layout_gravity="center"
-            tools:ignore="MissingConstraints" />
-
-        <TextView
+    <TextView
             android:id="@+id/small_video_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -411,27 +411,19 @@ class Repo private constructor(context: Context) {
                         .update("messages", FieldValue.arrayUnion(message))
 
                 } else {
-                    //senderId_receiverId node doesn't exist check receiverId_senderId
+                    // check receiverId_senderId
                     Firebase.firestore.collection("RoomMassage").document("${message.receiverId}_${message.senderId}").get()
                         .addOnSuccessListener {
-
                             if (it.exists()) {
                                 Firebase.firestore.collection("RoomMassage").document("${message.receiverId}_${message.senderId}")
                                     .update("messages", FieldValue.arrayUnion(message))
                             } else {
-                                //no previous chat history(senderId_receiverId & receiverId_senderId both don't exist)
-                                //so we create document senderId_receiverId
+                                // receiverId_senderId both don't exist
                                 Firebase.firestore.collection("RoomMassage").document("${message.senderId}_${message.receiverId}")
-                                    .set(mapOf("messages" to mutableListOf<ChatMessage>()),
-                                        SetOptions.merge()
-                                    ).addOnSuccessListener {
-                                        //this node exists send your message
+                                    .set("messages" to mutableListOf<ChatMessage>())
+                                    .addOnSuccessListener {
                                         Firebase.firestore.collection("RoomMassage").document("${message.senderId}_${message.receiverId}")
                                             .update("messages", FieldValue.arrayUnion(message))
-
-                                        //add ids of chat members
-                                        Firebase.firestore.collection("RoomMassage").document("${message.senderId}_${message.receiverId}")
-                                            .update("chat_members", FieldValue.arrayUnion(message.senderId, message.receiverId))
 
                                     }
                             }

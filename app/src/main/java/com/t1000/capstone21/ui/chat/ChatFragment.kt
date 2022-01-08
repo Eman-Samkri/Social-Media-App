@@ -15,6 +15,7 @@ import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.ChatFragmentBinding
 import com.t1000.capstone21.databinding.ItemVideoCommentBinding
 import com.t1000.capstone21.models.ChatMessage
+import com.t1000.capstone21.ui.comment.CommentFragmentDirections
 import java.util.*
 
 private const val TAG = "ChatFragment"
@@ -28,7 +29,6 @@ class ChatFragment : Fragment() {
     private val args: ChatFragmentArgs by navArgs()
 
     private lateinit var senderId :String
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,6 +67,7 @@ class ChatFragment : Fragment() {
 ////            binding.recycler.scrollToPosition(mMessagesList.size - 1)
 //
 //        })
+
 
         //send message on keyboard done click
         binding.messageEditText.setOnEditorActionListener { _, actionId, _ ->

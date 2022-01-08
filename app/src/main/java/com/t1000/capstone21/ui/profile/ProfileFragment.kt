@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -26,6 +27,7 @@ import com.t1000.capstone21.models.Video
 import com.t1000.capstone21.notification.FirebaseService
 import com.t1000.capstone21.notification.PushNotification
 import com.t1000.capstone21.notification.RetrofitInstance
+import com.t1000.capstone21.ui.comment.RvDiffUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -154,8 +156,9 @@ class ProfileFragment : Fragment() {
     private inner class VideoHolder(val binding: ItemSmallVideoBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(video: Video){
-//
-//            binding.smallVideo.setVideoPath(video.videoUrl)
+
+//            binding.smallVideoVidw.pre
+//            setVideoPath(video.videoUrl)
 //
 //            binding.profileVideoView.start()
 

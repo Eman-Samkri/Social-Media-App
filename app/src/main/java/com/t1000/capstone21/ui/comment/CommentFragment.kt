@@ -27,6 +27,8 @@ class CommentFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding :AddCommentChatFragmentBinding
 
+   // private lateinit var newCommentList:List<Comment>
+
     private val args: CommentFragmentArgs by navArgs()
     private lateinit var auth: FirebaseAuth
     private lateinit var video:Video
@@ -141,7 +143,6 @@ class CommentFragment : BottomSheetDialogFragment() {
             )
 
             return CommentHolder(binding)
-
         }
 
         override fun onBindViewHolder(holder: CommentFragment.CommentHolder, position: Int) {
@@ -161,6 +162,7 @@ class CommentFragment : BottomSheetDialogFragment() {
 
     }
 
+
     private fun uploadComment(commentString: String) {
         val comment = Comment()
         comment.commentText = commentString
@@ -168,6 +170,8 @@ class CommentFragment : BottomSheetDialogFragment() {
         comment.videoId = args.currentVideoId.toString()
         comment.commentType = "Text"
         viewModel.saveCommentToFirestore(args.currentVideoId.toString(), comment)
+
+
 
         Log.e(TAG, "uploadComment Text: ${video}",)
 
