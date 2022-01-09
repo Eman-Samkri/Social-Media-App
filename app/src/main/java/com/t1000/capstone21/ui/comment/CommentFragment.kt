@@ -1,5 +1,6 @@
 package com.t1000.capstone21.ui.comment
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -68,6 +69,7 @@ class CommentFragment : BottomSheetDialogFragment() {
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -80,6 +82,8 @@ class CommentFragment : BottomSheetDialogFragment() {
                             video =it
                             val comments =  it.comments
                             binding.recyclerView.adapter = CommentAdapter(comments)
+
+
                             //   CommentAdapter().setData()
                         }
 
@@ -186,8 +190,6 @@ class CommentFragment : BottomSheetDialogFragment() {
         comment.videoId = args.currentVideoId.toString()
         comment.commentType = "Text"
         viewModel.saveCommentToFirestore(args.currentVideoId.toString(), comment)
-
-
 
         Log.e(TAG, "uploadComment Text: ${video}",)
 

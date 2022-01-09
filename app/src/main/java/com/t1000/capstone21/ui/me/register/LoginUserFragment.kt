@@ -15,11 +15,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.PhoneAuthOptions
-import com.google.firebase.auth.PhoneAuthProvider
 import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.FragmentLoginUserBinding
-import java.util.concurrent.TimeUnit
 
 private const val TAG = "LoginUserFragment"
 

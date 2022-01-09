@@ -11,6 +11,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.t1000.capstone21.R
 import com.t1000.capstone21.utils.BottomNavViewUtils
 
 private const val PERMISSIONS_REQUEST_CODE = 10
@@ -26,7 +28,9 @@ class CameraPermissions : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (!hasPermissions(requireContext())) {
+        if (FirebaseAuth.getInstance().currentUser?.uid == null){
+            findNavController().navigate(R.id.navigation_me)
+        }else if (!hasPermissions(requireContext())) {
             // Request camera-related permissions
             requestPermissions(PERMISSIONS_REQUIRED, PERMISSIONS_REQUEST_CODE)
         } else {

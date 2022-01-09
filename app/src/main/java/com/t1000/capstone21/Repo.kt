@@ -3,23 +3,14 @@ package com.t1000.capstone21
 
 import android.content.Context
 import android.net.Uri
-import android.provider.SyncStateContract.Helpers.update
 import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.t1000.capstone21.models.*
 import com.t1000.capstone21.notification.PushNotification
 import com.t1000.capstone21.notification.RetrofitInstance
@@ -28,8 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.io.File
-import java.util.HashMap
-import kotlin.math.log
+
 
 private const val TAG = "Repo"
 class Repo private constructor(context: Context) {
@@ -104,7 +94,7 @@ class Repo private constructor(context: Context) {
 
 
 
-      suspend fun saveCommentToFirestore(videoId:String,comment:Comment){
+       fun saveCommentToFirestore(videoId:String,comment:Comment){
           Firebase.firestore.collection("video")
               .document(videoId)
               .get()

@@ -42,7 +42,7 @@
             android:id="@+id/comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="kkkkkkk"
+            android:text="Comments"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="11sp" />
@@ -77,7 +77,7 @@
                 android:id="@+id/likeTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="kkkkkk"
+                android:text="Like"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textSize="11sp" />
@@ -124,7 +124,7 @@
                 android:id="@+id/forwardText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="kkkkkkk"
+                android:text="Share"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textSize="11sp" />
@@ -134,13 +134,14 @@
 
     </LinearLayout>
 
-
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageUser"
-        android:layout_width="50dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginBottom="28dp"
+        android:layout_width="57dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
