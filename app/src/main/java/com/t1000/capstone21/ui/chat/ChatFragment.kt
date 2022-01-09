@@ -2,12 +2,15 @@ package com.t1000.capstone21.ui.chat
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
@@ -30,6 +33,8 @@ class ChatFragment : Fragment() {
 
     private lateinit var senderId :String
 
+    private lateinit var reciverId :String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +46,9 @@ class ChatFragment : Fragment() {
             findNavController().navigate(action)
          }else{
              senderId = FirebaseAuth.getInstance().currentUser?.uid!!
+
+            reciverId = "eg8ZGcNTlHSirHMboKrV2HCcHkR2"
+
         }
 
 
@@ -53,20 +61,26 @@ class ChatFragment : Fragment() {
     ): View? {
         binding = ChatFragmentBinding.inflate(layoutInflater)
 
+        binding.recycler.layoutManager = LinearLayoutManager(context)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.e(TAG, "onViewCreated1: sendr = $senderId, reciver =$reciverId", )
 
-       // pass messages list for recycler to show
-//        viewModel.loadChatMessages(senderId,args.chatReceivedId.toString()).observe(
-//            viewLifecycleOwner, Observer {
-//
-////            //scroll to last items in recycler (recent messages)
-////            binding.recycler.scrollToPosition(mMessagesList.size - 1)
-//
-//        })
+            //pass messages list for recycler to show
+            viewModel.loadChatMessages(senderId,reciverId).observe(
+                viewLifecycleOwner, androidx.lifecycle.Observer {
+                    Log.e(TAG, "onViewCreated: sendr = $senderId, reciver =$reciverId", )
+                   val  messageList = it as MutableList<ChatMessage>
+                    binding.recycler.adapter = ChatAdapter(messageList)
+
+                    //scroll to last items in recycler (recent messages)
+//                    binding.recycler.scrollToPosition(it.size - 1)
+
+                })
 
 
         //send message on keyboard done click
@@ -82,10 +96,8 @@ class ChatFragment : Fragment() {
             Toast.makeText(context, "Empty String", Toast.LENGTH_LONG).show()
             return
         }
-        val chatMessage = ChatMessage(text = binding.messageEditText.text.toString(),
-            senderId = senderId,args.chatReceivedId.toString(),
-            created_at = Timestamp(Date()))
-        viewModel.sendMessage(chatMessage)
+        val chatMessage = ChatMessage(text = binding.messageEditText.text.toString(), created_at = Timestamp(Date()))
+        viewModel.sendMessage(senderId,args.chatReceivedId.toString(),chatMessage)
 
         binding.messageEditText.setText("")
     }
@@ -121,10 +133,11 @@ class ChatFragment : Fragment() {
     private inner class ChatHolder(val binding: ItemVideoCommentBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(chatMessage: ChatMessage){
             binding.commentText.text = chatMessage.text
-            binding.userTv.text
+            binding.userTv.text = senderId
         }
 
     }
+
 
     private inner class ChatAdapter(val messages:List<ChatMessage>):
         RecyclerView.Adapter<ChatHolder>() {

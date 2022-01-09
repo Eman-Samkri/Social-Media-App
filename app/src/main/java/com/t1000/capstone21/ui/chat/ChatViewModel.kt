@@ -2,22 +2,25 @@ package com.t1000.capstone21.ui.chat
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.t1000.capstone21.Repo
 import com.t1000.capstone21.models.ChatMessage
+import kotlinx.coroutines.launch
 
 class ChatViewModel : ViewModel() {
 
     private val repo = Repo.getInstance()
 
-    fun sendMessage(message: ChatMessage) {
-        repo.sendMessage(message)
+    fun sendMessage(senderId: String,receiverId: String,message: ChatMessage)  {
+        repo.sendMessage(senderId,receiverId,message)
     }
 
-    fun loadChatMessages(senderId: String, receiverId: String): LiveData<List<ChatMessage>> {
-        return repo.loadChatMessages(senderId,receiverId)
+    fun loadChatMessages(senderId: String, receiverId: String): LiveData<List<ChatMessage>>{
+           return repo.loadChatMessages(senderId,receiverId)
+        }
+
 
     }
-
-}
