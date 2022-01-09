@@ -26,8 +26,9 @@ class CommentViewModel : ViewModel() {
     }
 
 
-    fun fetchUserById(userId:String): LiveData<User> = liveData { repo.fetchUserById(userId) }
-
+    fun fetchUserById(userId: String) : LiveData<List<User>> = liveData {
+        emit(listOf(repo.fetchUserById(userId)))
+    }
 
     fun fetchVideosComment(videoId: String) : LiveData<List<Video>> = liveData {
         emit(repo.fetchVideosById(videoId))

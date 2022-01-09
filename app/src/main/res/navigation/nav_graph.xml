@@ -177,7 +177,7 @@
 
 
 
-    <fragment
+    <dialog
         android:id="@+id/commentFragment"
         android:name="com.t1000.capstone21.ui.comment.CommentFragment"
         android:label="comment_fragment"
@@ -195,7 +195,7 @@
         <action
             android:id="@+id/action_commentFragment_to_stickerFragment"
             app:destination="@id/stickerFragment" />
-    </fragment>
+    </dialog>
 
     <dialog
         android:id="@+id/stickerFragment"

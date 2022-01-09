@@ -13,13 +13,16 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
+import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.AddCommentChatFragmentBinding
 import com.t1000.capstone21.databinding.ItemVideoCommentBinding
 import com.t1000.capstone21.models.Comment
 import com.t1000.capstone21.models.Video
+import com.t1000.capstone21.ui.chat.ChatFragmentDirections
 
 
 private const val TAG = "CommentFragment"
@@ -40,6 +43,10 @@ class CommentFragment : BottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
+
+        if (FirebaseAuth.getInstance().currentUser?.uid == null){
+            findNavController().navigate(R.id.navigation_me)
+        }
     }
 
     override fun onCreateView(
@@ -91,6 +98,7 @@ class CommentFragment : BottomSheetDialogFragment() {
         binding.addTextETV.setOnEditorActionListener { _, actionId, _ ->
             val  comment = binding.addTextETV.text.toString()
             uploadComment(comment)
+            binding.addTextETV.setText("")
             true
         }
 
@@ -102,6 +110,16 @@ class CommentFragment : BottomSheetDialogFragment() {
 
     private inner class CommentHolder(val binding:ItemVideoCommentBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(comment:Comment){
+            val user = viewModel.fetchUserById(comment.userId)
+            user.observe(
+                viewLifecycleOwner, Observer{
+                    it.forEach {
+                        binding.userTv.text = it.username
+                        binding.userImg.load(it.profilePictureUrl)
+                    }
+                })
+
+
             if (comment.commentType == "Image"){
                 Glide.with(this@CommentFragment).asGif().load(comment.commentText).into(binding.commentImg)
                 binding.commentText.visibility = View.GONE
@@ -111,8 +129,6 @@ class CommentFragment : BottomSheetDialogFragment() {
                 binding.commentImg.visibility = View.GONE
             }
 
-
-            binding.userTv.text = comment.userId
 
             if (auth.currentUser?.uid != video.userId){
                 binding.deletCommentBtn.visibility = View.GONE
@@ -166,7 +182,7 @@ class CommentFragment : BottomSheetDialogFragment() {
     private fun uploadComment(commentString: String) {
         val comment = Comment()
         comment.commentText = commentString
-        comment.userId = args.currentUserId.toString()
+        comment.userId = FirebaseAuth.getInstance().currentUser?.uid!!
         comment.videoId = args.currentVideoId.toString()
         comment.commentType = "Text"
         viewModel.saveCommentToFirestore(args.currentVideoId.toString(), comment)

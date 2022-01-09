@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/userImg"
         android:layout_width="87dp"
         android:layout_height="63dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -16,23 +16,26 @@
 
     <TextView
         android:id="@+id/userTv"
-        android:layout_width="131dp"
-        android:layout_height="0dp"
+        android:layout_width="261dp"
+        android:layout_height="24dp"
         android:layout_marginStart="4dp"
-        android:layout_marginBottom="16dp"
-        android:text="TextView"
+        android:text="userName"
+        android:textColor="#050505"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/commentText"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toEndOf="@+id/userImg"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/commentText"
-        android:layout_width="251dp"
-        android:layout_height="26dp"
+        android:layout_width="258dp"
+        android:layout_height="39dp"
         android:layout_marginStart="4dp"
-        android:text="TextView"
+        android:text="commentText"
+        android:textColor="#090909"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView2" />
+        app:layout_constraintStart_toEndOf="@+id/userImg" />
 
     <ImageView
         android:id="@+id/commentImg"
@@ -40,16 +43,17 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView2" />
+        app:layout_constraintStart_toEndOf="@+id/userImg" />
 
     <Button
         android:id="@+id/deletCommentBtn"
         android:layout_width="48dp"
-        android:layout_height="56dp"
+        android:layout_height="55dp"
         android:layout_marginEnd="4dp"
-        android:text="delete"
+        app:icon="@drawable/ic_delete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/commentText"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="delete" />
 </androidx.constraintlayout.widget.ConstraintLayout>
