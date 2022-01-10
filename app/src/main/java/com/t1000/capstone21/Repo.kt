@@ -4,21 +4,32 @@ package com.t1000.capstone21
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.liveData
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
+import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.kiwimob.firestore.coroutines.snapshotAsFlow
 import com.t1000.capstone21.models.*
 import com.t1000.capstone21.notification.PushNotification
 import com.t1000.capstone21.notification.RetrofitInstance
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.io.File
+import java.util.*
 
 
 private const val TAG = "Repo"
@@ -39,16 +50,22 @@ class Repo private constructor(context: Context) {
 
 
 
-    suspend fun uploadProfilePhotoToStorage(localPhotoUri: Uri) :String? {
+    suspend fun uploadProfilePhoto(localPhotoUri: Uri)  {
         val storageRef = fireStorage.child ("images/${Firebase.auth.uid}")
         val uploadTask = storageRef.putFile(localPhotoUri).await()
-//todo not working yet
+
        if (uploadTask.task.isSuccessful){
-           val uri = uploadTask.storage.downloadUrl.await()
-           return uri.toString()
-           //savePhotoUrlToFirestore(uri)
+         val uri =  uploadTask.storage.downloadUrl.await()
+
+           Firebase.firestore.collection("users")
+               .document(Firebase.auth.currentUser?.uid!!)
+               .update("profilePictureUrl",uri.toString() )
        }
-        return null
+    }
+         fun savePhotoUrlToFirestore(uri:Uri){
+        Firebase.firestore.collection("users")
+            .document(Firebase.auth.currentUser?.uid!!)
+            .update("profilePictureUrl", uri)
 
     }
 
@@ -78,12 +95,7 @@ class Repo private constructor(context: Context) {
     }
 
 
-//    private fun savePhotoUrlToFirestore(uri:Uri){
-//        Firebase.firestore.collection("users")
-//            .document(Firebase.auth.currentUser?.uid!!)
-//            .update("profilePictureUrl", uri)
-//
-//    }
+
 
     fun addLike(video:Video){
         Firebase.firestore.collection("video")
@@ -358,31 +370,51 @@ class Repo private constructor(context: Context) {
 
 //--------------------------------------------------------
 
-    private val messagesList: MutableList<ChatMessage> = mutableListOf()
-    private val messagesMutableLiveData = MutableLiveData<List<ChatMessage>>()
 
-    fun loadChatMessages(senderId: String, receiverId: String): MutableLiveData<List<ChatMessage>> {
+  suspend  fun loadChatMessages(senderId: String, receiverId: String): LiveData<List<ChatMessage>> {
 
-        if (messagesMutableLiveData.value != null) return messagesMutableLiveData
+      return liveData {
+           Firebase.firestore.collection("RoomMassage").document("L9B8qESSIwQ9gcBjIujGPH1s2Vx2_eg8ZGcNTlHSirHMboKrV2HCcHkR2")
+              .snapshotAsFlow()
+              .collect {
 
-        Firebase.firestore.collection("RoomMassage")
-            .addSnapshotListener(EventListener { querySnapShot, firebaseFirestoreException ->
-            if (firebaseFirestoreException == null) {
-                messagesList.clear()//clear message list so won't get duplicated with each new message
-                querySnapShot?.documents?.forEach {
-                    if (it.id == "${senderId}_${receiverId}"
-                        || it.id == "${receiverId}_${senderId}") {
-                        it.get("messages")
-                        }
-                        if (!messagesList.isNullOrEmpty())
-                            messagesMutableLiveData.value = messagesList
-                    }
+                 val x = it.data?.getValue("messages") as List<*>
 
-                }
-            }
-        )
+                  val chats = mutableListOf<ChatMessage>()
+                  x.forEach { u ->
+                    val data = u as Map<*, *>
+                    val chatMessage = ChatMessage(data["text"].toString(),data["type"].toString(),created_at = data["created_at"] as Timestamp )
+                    chats += chatMessage
 
-        return messagesMutableLiveData
+                  }
+                  Log.d(TAG, "loadChatMessages: ${chats}")
+                emit(chats)
+              }
+      }
+
+
+//     return liveData {
+//           Firebase.firestore.collection("RoomMassage").document("L9B8qESSIwQ9gcBjIujGPH1s2Vx2_eg8ZGcNTlHSirHMboKrV2HCcHkR2")
+//              .snapshotAsFlow()
+//              .collect {
+//
+//                 val x = it.data?.getValue("messages") as List<*>
+//
+//                  val chats = mutableListOf<ChatMessage>()
+//                  x.forEach { u ->
+//                    val data = u as Map<*, *>
+//                    val chatMessage = ChatMessage(data["text"].toString(),data["type"].toString(),created_at = data["created_at"] as Timestamp )
+//                    chats += chatMessage
+//
+//                  }
+//                  Log.d(TAG, "loadChatMessages: ${chats}")
+//                emit(chats)
+//              }
+//      }
+
+
+
+
     }
 
 

@@ -6,4 +6,5 @@ import java.util.*
 data class ChatMessage (val text: String = "",
                         var type: String = "",
                         val time : Date = Date(),
-                        val created_at: Timestamp?)
+                        val created_at: Timestamp?
+                        )

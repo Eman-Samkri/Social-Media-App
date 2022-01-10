@@ -80,7 +80,7 @@ class HomeFragment : Fragment() {
             binding.homeVideoView.setVideoPath(video.videoUrl)
 
             binding.homeVideoView.setOnPreparedListener {
-                binding.progressBar.visibility = View.GONE
+            //    binding.progressBar.visibility = View.GONE
                 it.start()
 
                 val videoRatio =

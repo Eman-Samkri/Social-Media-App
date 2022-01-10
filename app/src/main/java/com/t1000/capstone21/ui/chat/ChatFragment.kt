@@ -7,6 +7,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,7 +20,9 @@ import com.t1000.capstone21.databinding.ChatFragmentBinding
 import com.t1000.capstone21.databinding.ItemVideoCommentBinding
 import com.t1000.capstone21.models.ChatMessage
 import com.t1000.capstone21.ui.comment.CommentFragmentDirections
+import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.coroutines.suspendCoroutine
 
 private const val TAG = "ChatFragment"
 class ChatFragment : Fragment() {
@@ -45,9 +48,9 @@ class ChatFragment : Fragment() {
             val action = ChatFragmentDirections.actionNavigationIndexToNavigationMe()
             findNavController().navigate(action)
          }else{
-             senderId = FirebaseAuth.getInstance().currentUser?.uid!!
+             senderId = "L9B8qESSIwQ9gcBjIujGPH1s2Vx2"
 
-            reciverId = "eg8ZGcNTlHSirHMboKrV2HCcHkR2"
+            reciverId = FirebaseAuth.getInstance().currentUser?.uid!!
 
         }
 
@@ -70,17 +73,14 @@ class ChatFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         Log.e(TAG, "onViewCreated1: sendr = $senderId, reciver =$reciverId", )
 
-            //pass messages list for recycler to show
-            viewModel.loadChatMessages(senderId,reciverId).observe(
-                viewLifecycleOwner, androidx.lifecycle.Observer {
-                    Log.e(TAG, "onViewCreated: sendr = $senderId, reciver =$reciverId", )
-                   val  messageList = it as MutableList<ChatMessage>
-                    binding.recycler.adapter = ChatAdapter(messageList)
+        lifecycleScope.launch {
+            viewModel.loadChatMessages(senderId,reciverId).observe( viewLifecycleOwner
+            ) {
+                Log.e(TAG, "onViewCreated: sendr = $senderId, reciver =$reciverId",)
+                binding.recycler.adapter = ChatAdapter(it)
+            }
+        }
 
-                    //scroll to last items in recycler (recent messages)
-//                    binding.recycler.scrollToPosition(it.size - 1)
-
-                })
 
 
         //send message on keyboard done click

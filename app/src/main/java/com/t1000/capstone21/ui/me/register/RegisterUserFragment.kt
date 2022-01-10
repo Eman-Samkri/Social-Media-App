@@ -31,6 +31,7 @@ class RegisterUserFragment : Fragment(){
     private val userFirestore = Firebase.firestore
     private var selectedPhotoUri: Uri? = null
 
+
     private val viewModel by lazy { ViewModelProvider(this).get(MeViewModel::class.java) }
 
 
@@ -77,13 +78,9 @@ class RegisterUserFragment : Fragment(){
 
         if (email.isNotEmpty() && password.isNotEmpty() && username.isNotEmpty()) {
             try {
-
                 auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            if (selectedPhotoUri != null){
-                          //    selectedPhotoUri =  viewModel.uploadPhotoToStorage(selectedPhotoUri!!)
-                            }
                             val currentUser = User(userId = auth?.uid!!, username = username )
                             userFirestore.collection("users")
                                 .document(Firebase.auth?.uid!!)
@@ -107,6 +104,12 @@ class RegisterUserFragment : Fragment(){
 
             binding.profilePicBtn.visibility = View.GONE
             binding.profilePicView.load(selectedPhotoUri)
+
+            if (selectedPhotoUri != null){
+                selectedPhotoUri?.let { viewModel.uploadProfilePhoto(selectedPhotoUri!!) }
+                // viewModel.savePhotoUrlToFirestore(profile)
+                //    selectedPhotoUri =  viewModel.uploadPhotoToStorage(selectedPhotoUri!!)
+            }
 
         }
     }

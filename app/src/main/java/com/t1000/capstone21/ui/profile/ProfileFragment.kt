@@ -82,6 +82,10 @@ class ProfileFragment : Fragment() {
 
         binding.smallVideo.layoutManager = GridLayoutManager(context,3)
 
+        binding.editProfileBtn.setOnClickListener {
+            findNavController().navigate(R.id.profileEditFragment)
+        }
+
         return binding.root
     }
 

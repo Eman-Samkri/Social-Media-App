@@ -242,7 +242,11 @@
         android:name="com.t1000.capstone21.camera.preview.PreviewFragment"
         android:label="preview_fragment"
         tools:layout="@layout/preview_fragment" />
-
+    <fragment
+        android:id="@+id/profileEditFragment"
+        android:name="com.t1000.capstone21.ui.profile.ProfileEditFragment"
+        android:label="profile_edit_fragment"
+        tools:layout="@layout/profile_edit_fragment" />
 
 
 </navigation>
