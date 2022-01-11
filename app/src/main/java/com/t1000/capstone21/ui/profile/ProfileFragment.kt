@@ -126,6 +126,10 @@ class ProfileFragment : Fragment() {
         viewModel.fetchVideosUser(userOwnProfileId).observe(
             viewLifecycleOwner, Observer{
                 binding.smallVideo.adapter = VideosAdapter(it)
+                if (userOwnProfileId != currentUser){
+                    viewModel.sendNotificationToUser(userOwnProfileId, userName,"some one visit your profile")
+                }
+
 
             })
 

@@ -54,7 +54,7 @@ class Repo private constructor(context: Context) {
 
            Firebase.firestore.collection("users")
                .document(Firebase.auth.currentUser?.uid!!)
-               .update("profilePictureUrl",uri.toString() )
+               .update("profilePictureUrl",uri.toString())
        }
     }
          fun savePhotoUrlToFirestore(uri:Uri){

@@ -1,12 +1,10 @@
-package com.t1000.capstone21.ui.findFrind
+package com.t1000.capstone21.ui.searchUser
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -14,7 +12,6 @@ import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.ItemUserFollowBinding
 import com.t1000.capstone21.databinding.SearchUserFragmentBinding
 import com.t1000.capstone21.models.User
-import com.t1000.capstone21.ui.chat.ChatViewModel
 
 private const val TAG = "SearchUserFragment"
 
@@ -22,10 +19,8 @@ class SearchUserFragment : Fragment() {
 
 private lateinit var binding :SearchUserFragmentBinding
 
-    private lateinit var adapter: SearchUserAdapter
 
 
-    private val viewModel by lazy { ViewModelProvider(this).get(SearchUserViewModel::class.java) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

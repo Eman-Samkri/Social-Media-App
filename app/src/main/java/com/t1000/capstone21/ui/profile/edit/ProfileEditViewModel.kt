@@ -1,4 +1,4 @@
-package com.t1000.capstone21.ui.profile
+package com.t1000.capstone21.ui.profile.edit
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
