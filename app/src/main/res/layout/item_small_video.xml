@@ -7,37 +7,24 @@
     app:cardCornerRadius="2sp">
 
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/smallVideoVidw"
-        android:layout_width="100sp"
-        android:layout_height="120sp"
-        android:scaleType="centerCrop"
+    <VideoView
+        android:id="@+id/smallVideoView"
+        android:layout_width="116dp"
+        android:layout_height="161dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:srcCompat="@drawable/ic_launcher_background" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/loading_bar"
         android:layout_width="40sp"
         android:layout_height="40sp"
         android:layout_gravity="center"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="56dp"
         android:indeterminate="true"
-        app:layout_constraintBottom_toBottomOf="@+id/smallVideoVidw"
-        app:layout_constraintEnd_toEndOf="@+id/smallVideoVidw"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/smallVideoVidw"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <TextView
-            android:id="@+id/small_video_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:layout_marginEnd="1dp"
-            android:layout_marginBottom="1sp"
-            android:textColor="@android:color/white"
-            tools:text="0:18"
-            tools:ignore="MissingConstraints" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -160,16 +160,9 @@ class ProfileFragment : Fragment() {
     private inner class VideoHolder(val binding: ItemSmallVideoBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(video: Video){
-
-//            binding.smallVideoVidw.pre
-//            setVideoPath(video.videoUrl)
-//
-//            binding.profileVideoView.start()
-
-
-
-
-
+            binding.loadingBar.visibility = View.GONE
+            binding.smallVideoView.setVideoPath(video.videoUrl)
+            binding.smallVideoView.seekTo(3)
 
         }
 

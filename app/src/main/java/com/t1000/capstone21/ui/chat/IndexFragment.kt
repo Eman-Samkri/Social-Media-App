@@ -46,7 +46,6 @@ class IndexFragment:Fragment() {
 
         return when(item.itemId){
             R.id.newChatAction -> {
-               // val action = ChatFragmentDirections.actionNavigationIndexToContactFragment(currentUserId,true)
                 findNavController().navigate(R.id.contactFragment)
                 true
             }

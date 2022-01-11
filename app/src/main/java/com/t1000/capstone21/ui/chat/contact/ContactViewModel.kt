@@ -1,4 +1,4 @@
-package com.t1000.capstone21.ui.chat
+package com.t1000.capstone21.ui.chat.contact
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

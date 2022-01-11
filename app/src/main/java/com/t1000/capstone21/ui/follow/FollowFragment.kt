@@ -87,7 +87,7 @@ class FollowFragment : Fragment() {
 
         override fun onClick(v: View?) {
             if (v == itemView){
-                   val action = FollowFragmentDirections.actionFollowFragmentToProfileFragment(userFollowId)
+                val action = FollowFragmentDirections.actionFollowFragmentToProfileFragment(userFollowId)
                 findNavController().navigate(action)
             }
         }

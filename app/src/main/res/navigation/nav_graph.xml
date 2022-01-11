@@ -141,7 +141,7 @@
 
     <fragment
         android:id="@+id/contactFragment"
-        android:name="com.t1000.capstone21.ui.chat.ContactFragment"
+        android:name="com.t1000.capstone21.ui.chat.contact.ContactFragment"
         android:label="ContactFragment">
 
         <action

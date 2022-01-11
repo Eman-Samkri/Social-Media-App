@@ -1,4 +1,4 @@
-package com.t1000.capstone21.ui.chat
+package com.t1000.capstone21.ui.chat.contact
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -9,16 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.firebase.auth.FirebaseAuth
 import com.t1000.capstone21.databinding.ContactFragmentBinding
-import com.t1000.capstone21.databinding.FollowFragmentBinding
 import com.t1000.capstone21.databinding.ItemUserFollowBinding
 import com.t1000.capstone21.models.User
-import com.t1000.capstone21.ui.follow.FollowFragmentArgs
 
 private const val TAG = "ContactFragment"
 
@@ -84,7 +81,10 @@ class ContactFragment : Fragment() {
 
         override fun onClick(v: View?) {
             if (v == itemView){
-                val action = ContactFragmentDirections.actionContactFragmentToNavigationIndex(chatReceivedId)
+                val action =
+                    ContactFragmentDirections.actionContactFragmentToNavigationIndex(
+                        chatReceivedId
+                    )
                 findNavController().navigate(action)
             }
         }
