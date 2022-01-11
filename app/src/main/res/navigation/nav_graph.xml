@@ -123,16 +123,41 @@
         android:name="com.t1000.capstone21.ui.chat.ChatFragment"
         android:label="chat_fragment"
         tools:layout="@layout/chat_fragment" >
+
+        <action
+            android:id="@+id/action_navigation_index_to_navigation_me"
+            app:destination="@id/navigation_me" />
+        <action
+            android:id="@+id/action_navigation_index_to_contactFragment"
+            app:destination="@id/contactFragment">
+        </action>
+
         <argument
             android:name="chatReceivedId"
             app:argType="string"
             app:nullable="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/contactFragment"
+        android:name="com.t1000.capstone21.ui.chat.ContactFragment"
+        android:label="ContactFragment">
+
         <action
-            android:id="@+id/action_navigation_index_to_followFragment"
-            app:destination="@id/followFragment" />
-        <action
-            android:id="@+id/action_navigation_index_to_navigation_me"
-            app:destination="@id/navigation_me" />
+            android:id="@+id/action_contactFragment_to_navigation_index"
+            app:destination="@id/navigation_index" >
+        </action>
+
+        <argument
+            android:name="senderId"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="isFollowing"
+            app:argType="boolean" />
+
     </fragment>
 
     <fragment
@@ -234,6 +259,9 @@
         <action
             android:id="@+id/action_followFragment_to_navigation_index"
             app:destination="@id/navigation_index" />
+        <action
+            android:id="@+id/action_followFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
 
     </fragment>
 
@@ -247,6 +275,10 @@
         android:name="com.t1000.capstone21.ui.profile.ProfileEditFragment"
         android:label="profile_edit_fragment"
         tools:layout="@layout/profile_edit_fragment" />
+    <fragment
+        android:id="@+id/indexFragment"
+        android:name="com.t1000.capstone21.ui.chat.IndexFragment"
+        android:label="IndexFragment" />
 
 
 </navigation>

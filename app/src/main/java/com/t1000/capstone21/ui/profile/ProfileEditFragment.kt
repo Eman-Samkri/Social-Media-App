@@ -47,7 +47,9 @@ class ProfileEditFragment : Fragment() {
         }
 
         binding.uplod.setOnClickListener {
-            selectedPhotoUri?.let { it1 -> viewModel.uploadProfilePhoto(it1) }
+            selectedPhotoUri?.let {
+
+                viewModel.uploadProfilePhoto(it) }
         }
     }
 

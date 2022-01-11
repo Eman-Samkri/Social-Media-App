@@ -18,7 +18,7 @@
         android:title="Post" />
 
     <item
-        android:id="@+id/navigation_index"
+        android:id="@+id/indexFragment"
         android:icon="@drawable/ic_person_outline_black"
         android:title="index" />
 

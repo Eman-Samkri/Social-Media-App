@@ -5,8 +5,6 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
@@ -22,14 +20,11 @@ import com.t1000.capstone21.notification.PushNotification
 import com.t1000.capstone21.notification.RetrofitInstance
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.io.File
-import java.util.*
 
 
 private const val TAG = "Repo"
@@ -246,36 +241,29 @@ class Repo private constructor(context: Context) {
     }
 
 
-
-     suspend fun fetchRandomVideos() : List<Video> {
-         val videos = fireStore.collection("video")
-               .get()
-            .await()
-             .toObjects(Video::class.java)
-
-         return videos
-
-    }
-
-    suspend fun fetchVideosById(videoId:String) : List<Video> {
-        val video = fireStore.collection("video")
-            .whereEqualTo("videoId",videoId)
+    suspend fun fetchRandomVideos(): List<Video> {
+        return fireStore.collection("video")
             .get()
            .await()
             .toObjects(Video::class.java)
-        return video
+
     }
 
-
-
-
-    suspend fun fetchVideosUser(userId:String) : List<Video> {
-        val video = fireStore.collection("video")
-            .whereEqualTo("userId",userId)
+    suspend fun fetchVideosById(videoId: String): List<Video> {
+        return fireStore.collection("video")
+            .whereEqualTo("videoId", videoId)
             .get()
             .await()
             .toObjects(Video::class.java)
-        return video
+    }
+
+
+    suspend fun fetchVideosUser(userId: String): List<Video> {
+        return fireStore.collection("video")
+            .whereEqualTo("userId", userId)
+            .get()
+            .await()
+            .toObjects(Video::class.java)
     }
 //    suspend fun fetchVideosCommentById(videoId:String):List<Video> {
 ////        val video = fireStore.collection("video")
@@ -373,17 +361,41 @@ class Repo private constructor(context: Context) {
 
   suspend  fun loadChatMessages(senderId: String, receiverId: String): LiveData<List<ChatMessage>> {
 
-      return liveData {
-           Firebase.firestore.collection("RoomMassage").document("L9B8qESSIwQ9gcBjIujGPH1s2Vx2_eg8ZGcNTlHSirHMboKrV2HCcHkR2")
+//      var chats = mutableListOf<ChatMessage>()
+//      return liveData {
+//             Firebase.firestore.collection("RoomMassage")
+//                 .document("L9B8qESSIwQ9gcBjIujGPH1s2Vx2_eg8ZGcNTlHSirHMboKrV2HCcHkR2")
+//              .snapshotAsFlow()
+//              .collect {
+//                  chats = it.toObjects(ChatMessage::class.java)
+//
+//                  Log.d(TAG, "loadChatMessages: ${chats}")
+//              }
+//
+//          chats.forEach {
+//             ChatMessage(
+//                  it.text,
+//                  it.type,
+//                  created_at = it.created_at )
+//
+//          }
+//          emit(chats)
+//      }
+
+
+     return liveData {
+           Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
               .snapshotAsFlow()
               .collect {
-
                  val x = it.data?.getValue("messages") as List<*>
-
                   val chats = mutableListOf<ChatMessage>()
                   x.forEach { u ->
                     val data = u as Map<*, *>
-                    val chatMessage = ChatMessage(data["text"].toString(),data["type"].toString(),created_at = data["created_at"] as Timestamp )
+                    val chatMessage = ChatMessage(senderId = data["L9B8qESSIwQ9gcBjIujGPH1s2Vx2"].toString(),
+                        receiverId= data ["eg8ZGcNTlHSirHMboKrV2HCcHkR2"].toString(),
+                        text = data["text"].toString(),
+                        type = data["type"].toString(),
+                        created_at = data["created_at"] as Timestamp)
                     chats += chatMessage
 
                   }
@@ -393,26 +405,6 @@ class Repo private constructor(context: Context) {
       }
 
 
-//     return liveData {
-//           Firebase.firestore.collection("RoomMassage").document("L9B8qESSIwQ9gcBjIujGPH1s2Vx2_eg8ZGcNTlHSirHMboKrV2HCcHkR2")
-//              .snapshotAsFlow()
-//              .collect {
-//
-//                 val x = it.data?.getValue("messages") as List<*>
-//
-//                  val chats = mutableListOf<ChatMessage>()
-//                  x.forEach { u ->
-//                    val data = u as Map<*, *>
-//                    val chatMessage = ChatMessage(data["text"].toString(),data["type"].toString(),created_at = data["created_at"] as Timestamp )
-//                    chats += chatMessage
-//
-//                  }
-//                  Log.d(TAG, "loadChatMessages: ${chats}")
-//                emit(chats)
-//              }
-//      }
-
-
 
 
     }
@@ -420,9 +412,6 @@ class Repo private constructor(context: Context) {
 
 
     fun sendMessage(senderId: String, receiverId: String,message: ChatMessage) {
-        //todo add last message date field to chat members document so we can sort home chats with
-
-        //one node for the same chat
         Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}").get()
             .addOnSuccessListener {
                 if (it.exists()) {
@@ -440,15 +429,13 @@ class Repo private constructor(context: Context) {
                             } else {
                                 // receiverId_senderId both don't exist
                                 Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
-                                    .set("messages" to mutableListOf<ChatMessage>())
-                                    .addOnSuccessListener {
+                                    .set(mapOf("messages" to mutableListOf<ChatMessage>()), SetOptions.merge())
+                                    .addOnCompleteListener {
+                                        Log.e(TAG, "sendMessage: $1", )
+                                        //first massage
                                         Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
                                             .update("messages", FieldValue.arrayUnion(message))
 
-                                        //add ids of chat members
-                                        Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}").update("chat_members",
-                                                FieldValue.arrayUnion(senderId, receiverId)
-                                            )
                                     }
                             }
 

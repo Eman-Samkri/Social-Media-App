@@ -1,4 +1,4 @@
-package com.t1000.capstone21.ui.follow
+package com.t1000.capstone21.ui.chat
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -13,27 +13,33 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.google.firebase.auth.FirebaseAuth
+import com.t1000.capstone21.databinding.ContactFragmentBinding
 import com.t1000.capstone21.databinding.FollowFragmentBinding
 import com.t1000.capstone21.databinding.ItemUserFollowBinding
 import com.t1000.capstone21.models.User
+import com.t1000.capstone21.ui.follow.FollowFragmentArgs
 
-private const val TAG = "FollowFragment"
+private const val TAG = "ContactFragment"
 
-class FollowFragment : Fragment() {
+class ContactFragment : Fragment() {
 
-    private val viewModel by lazy { ViewModelProvider(this).get(FollowViewModel::class.java) }
+    //private val args: ContactFragmentArgs by navArgs()
 
-    private lateinit var binding : FollowFragmentBinding
+    val senderId = FirebaseAuth.getInstance().currentUser?.uid!!
 
-    private val args:FollowFragmentArgs by navArgs()
+    private val viewModel by lazy { ViewModelProvider(this).get(ContactViewModel::class.java) }
+
+    private lateinit var binding : ContactFragmentBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FollowFragmentBinding.inflate(layoutInflater)
+        binding = ContactFragmentBinding.inflate(layoutInflater)
 
-        binding.followRvv.layoutManager = LinearLayoutManager(context)
+        binding.contacatRv.layoutManager = LinearLayoutManager(context)
 
         return binding.root
     }
@@ -41,29 +47,20 @@ class FollowFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.fetchFollow(args.currentUserId.toString()).observe(
+        viewModel.fetchFollow(senderId).observe(
             viewLifecycleOwner, Observer{
                 val followers = mutableListOf<User>()
                 // must check come from followers or following
-                if (args.isFollowing){
+
                     it.following.forEach { usersFollow ->
                         viewModel.fetchFollow(usersFollow).observe(
                             viewLifecycleOwner, Observer {follower->
                                 followers += follower
-                                binding.followRvv.adapter = FollowAdapter(followers.distinct())
+                                binding.contacatRv.adapter = FollowAdapter(followers.distinct())
                             }
                         )
                     }
-                }else{
-                    it.followers.forEach { usersFollow ->
-                        viewModel.fetchFollow(usersFollow).observe(
-                            viewLifecycleOwner, Observer {follower->
-                                followers += follower
-                                binding.followRvv.adapter = FollowAdapter(followers.distinct())
-                            }
-                        )
-                    }
-                }
+
             })
 
     }
@@ -71,14 +68,14 @@ class FollowFragment : Fragment() {
 
     private inner class FollowHolder(val binding: ItemUserFollowBinding):RecyclerView.ViewHolder(binding.root), View.OnClickListener{
 
-        private lateinit var userFollowId: String
+        private lateinit var chatReceivedId: String
 
         init {
             itemView.setOnClickListener(this)
         }
 
         fun bind(user: User){
-            userFollowId =user.userId
+            chatReceivedId =user.userId
             binding.imageView.load(user.profilePictureUrl)
             binding.usernamTv.text = user.username
             Log.e(TAG, "bind: ${user.username}", )
@@ -87,7 +84,7 @@ class FollowFragment : Fragment() {
 
         override fun onClick(v: View?) {
             if (v == itemView){
-                   val action = FollowFragmentDirections.actionFollowFragmentToProfileFragment(userFollowId)
+                val action = ContactFragmentDirections.actionContactFragmentToNavigationIndex(chatReceivedId)
                 findNavController().navigate(action)
             }
         }

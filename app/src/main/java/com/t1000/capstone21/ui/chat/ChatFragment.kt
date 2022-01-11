@@ -71,7 +71,6 @@ class ChatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.e(TAG, "onViewCreated1: sendr = $senderId, reciver =$reciverId", )
 
         lifecycleScope.launch {
             viewModel.loadChatMessages(senderId,reciverId).observe( viewLifecycleOwner
@@ -96,38 +95,14 @@ class ChatFragment : Fragment() {
             Toast.makeText(context, "Empty String", Toast.LENGTH_LONG).show()
             return
         }
-        val chatMessage = ChatMessage(text = binding.messageEditText.text.toString(), created_at = Timestamp(Date()))
+        val chatMessage = ChatMessage(senderId = senderId,receiverId = reciverId,
+            text = binding.messageEditText.text.toString(), created_at = Timestamp(Date()))
         viewModel.sendMessage(senderId,args.chatReceivedId.toString(),chatMessage)
 
         binding.messageEditText.setText("")
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.new_chat,menu)
 
-
-        val chatItem =menu.findItem(R.id.newChatAction)
-        val chatView = chatItem.actionView
-
-
-
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        return when(item.itemId){
-            R.id.newChatAction -> {
-                 val action = ChatFragmentDirections.actionNavigationIndexToFollowFragment(senderId,true)
-           findNavController().navigate(action)
-                true
-            }
-
-            else -> super.onOptionsItemSelected(item)
-
-
-        }
-    }
 
 
     private inner class ChatHolder(val binding: ItemVideoCommentBinding): RecyclerView.ViewHolder(binding.root){

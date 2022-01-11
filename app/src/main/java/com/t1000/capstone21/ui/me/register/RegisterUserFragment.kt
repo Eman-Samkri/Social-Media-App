@@ -81,9 +81,9 @@ class RegisterUserFragment : Fragment(){
                 auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            val currentUser = User(userId = auth?.uid!!, username = username )
+                            val currentUser = User(userId = auth.uid!!, username = username )
                             userFirestore.collection("users")
-                                .document(Firebase.auth?.uid!!)
+                                .document(Firebase.auth.uid!!)
                                 .set(currentUser)
                             Toast.makeText(context, "successfully register user $username", Toast.LENGTH_LONG).show()
                         }
