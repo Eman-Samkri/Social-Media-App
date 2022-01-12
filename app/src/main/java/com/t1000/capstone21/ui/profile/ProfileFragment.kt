@@ -1,36 +1,31 @@
 package com.t1000.capstone21.ui.profile
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.SearchView
+import androidx.core.app.ActivityCompat.recreate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.ItemSmallVideoBinding
 import com.t1000.capstone21.databinding.ProfileFragmentBinding
-import com.t1000.capstone21.models.NotificationData
 import com.t1000.capstone21.models.Video
 import com.t1000.capstone21.notification.FirebaseService
-import com.t1000.capstone21.notification.PushNotification
-import com.t1000.capstone21.notification.RetrofitInstance
-import com.t1000.capstone21.ui.comment.RvDiffUtil
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import java.util.*
 
 const val TOPIC = "/topics/myTopic2"
 private const val TAG = "ProfileFragment"
@@ -52,10 +47,14 @@ class ProfileFragment : Fragment() {
 
     private lateinit var userName:String
 
+    private lateinit var videoId :String
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        loadLocate(requireActivity()) // call LoadLocate
 
         FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
             FirebaseService.token = it.token
@@ -161,13 +160,25 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private inner class VideoHolder(val binding: ItemSmallVideoBinding): RecyclerView.ViewHolder(binding.root){
+    private inner class VideoHolder(val binding: ItemSmallVideoBinding): RecyclerView.ViewHolder(binding.root),View.OnClickListener{
 
         fun bind(video: Video){
             binding.loadingBar.visibility = View.GONE
             binding.smallVideoView.setVideoPath(video.videoUrl)
             binding.smallVideoView.seekTo(3)
+            videoId = video.videoId
 
+        }
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            if (v == itemView){
+                val action = ProfileFragmentDirections.actionProfileFragmentToVidePostFragment(videoId)
+                findNavController().navigate(action)
+            }
         }
 
     }
@@ -205,7 +216,6 @@ class ProfileFragment : Fragment() {
         singOutItem.actionView
 
 
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -215,13 +225,68 @@ class ProfileFragment : Fragment() {
                 FirebaseAuth.getInstance().signOut()
                 val action = ProfileFragmentDirections.actionProfileFragmentToNavigationMe()
                 findNavController().navigate(action)
+                true
+            }
 
+            R.id.langMenu-> {
+                showChangeLang()
                 true
             }
 
             else -> super.onOptionsItemSelected(item)
 
 
+        }
+    }
+
+
+    private fun showChangeLang() {
+
+        val listItems = arrayOf("عربي","English")
+
+        val mBuilder = AlertDialog.Builder(context)
+        mBuilder.setTitle("Choose Language")
+        mBuilder.setSingleChoiceItems(listItems, -1) { dialog, which ->
+            if (which == 0) {
+                setLocate("ar",requireActivity())
+                recreate(requireActivity())
+            } else if (which == 1) {
+                setLocate("en",requireActivity())
+                recreate(requireActivity())
+            }
+
+            dialog.dismiss()
+        }
+        val mDialog = mBuilder.create()
+
+        mDialog.show()
+
+    }
+
+
+
+    companion object{
+
+        fun setLocate(Lang: String,activity: Activity) {
+
+            val locale = Locale(Lang)
+            Locale.setDefault(locale)
+
+            val config = Configuration()
+            config.locale = locale
+            activity.resources.updateConfiguration(config, activity.resources.displayMetrics)
+
+            val editor = activity.getSharedPreferences("Settings", Context.MODE_PRIVATE).edit()
+            editor.putString("Current_Lang", Lang)
+            editor.apply()
+        }
+
+        fun loadLocate(activity: Activity) {
+            val sharedPreferences = activity.getSharedPreferences("Settings", Activity.MODE_PRIVATE)
+            val language = sharedPreferences.getString("Current_Lang", "")
+            if (language != null) {
+                setLocate(language,activity)
+            }
         }
     }
 

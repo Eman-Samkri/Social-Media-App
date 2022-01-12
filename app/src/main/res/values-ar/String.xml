@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name = "app_name"> Capstone2.1 </string>
+    <string name = "capture_button_alt"> لقطة </string>
+    <string name = "switch_camera_button_alt"> تبديل الكاميرا </string>
+    <string name = "gallery_button_alt"> المعرض </string>
+    <string name = "back_button_alt"> للخلف </string>
+    <string name = "share_button_alt"> مشاركة </string>
+    <string name = "share_hint"> مشاركة باستخدام </string>
+    <string name = "capture_mode_camera"> الكاميرا </string>
+    <string name = "capture_mode_hdr"> HDR </string>
+    <string name = "capture_mode_night"> ليل </string>
+    <string name = "delete_button_alt"> حذف </string>
+    <string name = "delete_dialog"> هل تريد حذف الصورة الحالية؟ </string>
+    <string name = "delete_title"> تأكيد </string>
+    <string name = "hello_blank_fragment"> مرحبا قطعة فارغة </string>
+    <string name = "add_text"> أضف نصًا </string>
+    <string name = "comments"> التعليقات </string>
+    <string name = "like"> أعجبني </string>
+    <string name = "share"> مشاركة </string>
+    <string name = "username"> اسم المستخدم </string>
+
+
+</resources>

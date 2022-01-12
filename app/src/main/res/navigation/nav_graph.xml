@@ -197,6 +197,9 @@
         <action
             android:id="@+id/action_profileFragment_to_navigation_me"
             app:destination="@id/navigation_me" />
+        <action
+            android:id="@+id/action_profileFragment_to_videPostFragment"
+            app:destination="@id/videPostFragment" />
 
     </fragment>
 
@@ -279,6 +282,15 @@
         android:id="@+id/indexFragment"
         android:name="com.t1000.capstone21.ui.chat.IndexFragment"
         android:label="IndexFragment" />
+    <fragment
+        android:id="@+id/videPostFragment"
+        android:name="com.t1000.capstone21.ui.profile.VidePostFragment"
+        android:label="VidePostFragment" >
+        <argument
+            android:name="videoId"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 
 
 </navigation>

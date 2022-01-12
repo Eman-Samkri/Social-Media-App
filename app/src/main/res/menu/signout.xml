@@ -4,4 +4,8 @@
     <item
         android:id="@+id/signoutMenu"
         android:title="Sign Out" />
+
+    <item
+        android:id="@+id/langMenu"
+        android:title="Change Langush" />
 </menu>
