@@ -20,7 +20,6 @@ import com.t1000.capstone21.notification.PushNotification
 import com.t1000.capstone21.notification.RetrofitInstance
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -238,6 +237,14 @@ class Repo private constructor(context: Context) {
             .await()
             .toObjects(User::class.java)
         return user[0]
+    }
+
+    suspend fun fetchAllUser(): List<User> {
+        return fireStore
+            .collection("users")
+            .get()
+            .await()
+            .toObjects(User::class.java)
     }
 
 

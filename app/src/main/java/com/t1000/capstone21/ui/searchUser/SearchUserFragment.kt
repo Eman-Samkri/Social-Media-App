@@ -2,9 +2,11 @@ package com.t1000.capstone21.ui.searchUser
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -12,6 +14,7 @@ import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.ItemUserFollowBinding
 import com.t1000.capstone21.databinding.SearchUserFragmentBinding
 import com.t1000.capstone21.models.User
+import java.util.*
 
 private const val TAG = "SearchUserFragment"
 
@@ -20,8 +23,12 @@ class SearchUserFragment : Fragment() {
 private lateinit var binding :SearchUserFragmentBinding
 
 
+    private val viewModel by lazy { ViewModelProvider(this).get(SearchUserViewModel::class.java) }
 
+    private lateinit var searchQueryList: MutableList<User>
 
+    private  var allUserList: MutableList<User> = mutableListOf()
+    
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +50,12 @@ private lateinit var binding :SearchUserFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.fetchAllUser().observe(
+            viewLifecycleOwner, Observer {
+                    allUserList +=  it
+            }
+        )
 
 //        viewModel.fetchFollow().observe(
 //            viewLifecycleOwner, Observer {
@@ -73,20 +86,30 @@ private lateinit var binding :SearchUserFragmentBinding
         searchView.apply {
 
             setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-                override fun onQueryTextSubmit(query: String?): Boolean {
+                override fun onQueryTextSubmit(charSequence: String?): Boolean {
 
                     return true
                 }
 
-                override fun onQueryTextChange(newText: String?): Boolean {
+                override fun onQueryTextChange(charSequence: String): Boolean {
+                    searchQueryList = mutableListOf()
+
+                    if (charSequence.isEmpty()){
+                        searchQueryList = mutableListOf()
+                    }else{
+                        for (user in allUserList) {
+                            if (user?.username?.toLowerCase(Locale.ENGLISH)?.contains(
+                                    charSequence.toLowerCase(Locale.ENGLISH))!!) {
+                                searchQueryList.add(user)
+                            }
+                        }
+                    }
+                    binding.findUser.adapter = SearchUserAdapter(searchQueryList)
 
                     return true
                 }
             })
 
-            setOnSearchClickListener {
-               // searchView.setQuery(viewModel.searchTerm,false)
-            }
         }
 
     }
@@ -95,7 +118,7 @@ private lateinit var binding :SearchUserFragmentBinding
 
         return when(item.itemId){
             R.id.searchAction -> {
-//                viewModel.sendQueryFetchPhotos("")
+
                 true
             }
 
@@ -137,4 +160,5 @@ private lateinit var binding :SearchUserFragmentBinding
 
 
     }
+
 }
