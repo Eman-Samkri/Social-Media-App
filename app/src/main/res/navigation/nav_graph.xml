@@ -115,7 +115,14 @@
         android:id="@+id/navigation_findFrind"
         android:name="com.t1000.capstone21.ui.searchUser.SearchUserFragment"
         android:label="search_user_fragment"
-        tools:layout="@layout/search_user_fragment" />
+        tools:layout="@layout/search_user_fragment" >
+        <action
+            android:id="@+id/action_navigation_findFrind_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <argument
+            android:name="userId"
+            app:argType="string" />
+    </fragment>
 
 
     <fragment

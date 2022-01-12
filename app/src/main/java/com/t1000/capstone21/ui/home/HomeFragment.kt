@@ -166,8 +166,7 @@ class HomeFragment : Fragment() {
             val action = HomeFragmentDirections.actionNavigationHomeToNavigationMe()
             findNavController().navigate(action)
         }else {
-            val action =
-                HomeFragmentDirections.actionNavigationHomeToProfileFragment(video.userId)
+            val action = HomeFragmentDirections.actionNavigationHomeToProfileFragment(video.userId)
             Log.e(TAG, "bind: ${video.userId}",)
             findNavController().navigate(action)
         }

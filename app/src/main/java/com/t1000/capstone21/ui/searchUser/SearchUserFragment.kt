@@ -7,6 +7,7 @@ import android.view.*
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -14,6 +15,8 @@ import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.ItemUserFollowBinding
 import com.t1000.capstone21.databinding.SearchUserFragmentBinding
 import com.t1000.capstone21.models.User
+import com.t1000.capstone21.ui.home.HomeFragmentDirections
+import com.t1000.capstone21.ui.sticker.StickerFragmentDirections
 import java.util.*
 
 private const val TAG = "SearchUserFragment"
@@ -28,7 +31,8 @@ private lateinit var binding :SearchUserFragmentBinding
     private lateinit var searchQueryList: MutableList<User>
 
     private  var allUserList: MutableList<User> = mutableListOf()
-    
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,8 +87,8 @@ private lateinit var binding :SearchUserFragmentBinding
                         searchQueryList = mutableListOf()
                     }else{
                         for (user in allUserList) {
-                            if (user?.username?.toLowerCase(Locale.ENGLISH)?.contains(
-                                    charSequence.toLowerCase(Locale.ENGLISH))!!) {
+                            if (user.username.toLowerCase(Locale.ENGLISH).contains(
+                                    charSequence.toLowerCase(Locale.ENGLISH))) {
                                 searchQueryList.add(user)
                             }
                         }
@@ -103,27 +107,40 @@ private lateinit var binding :SearchUserFragmentBinding
 
         return when(item.itemId){
             R.id.searchAction -> {
-
                 true
             }
-
             else -> super.onOptionsItemSelected(item)
-
-
         }
     }
 
-    private inner class SearchUserHolder(val binding: ItemUserFollowBinding): RecyclerView.ViewHolder(binding.root){
+    private inner class SearchUserHolder(val binding: ItemUserFollowBinding):
+        RecyclerView.ViewHolder(binding.root),View.OnClickListener{
+
+
+        private lateinit var currentUser: String
+
+        init {
+            itemView.setOnClickListener(this)
+        }
 
         fun bind(user: User){
+            currentUser = user.userId
             binding.imageView.load(user.profilePictureUrl)
             binding.usernamTv.text = user.username
+            Log.e(TAG, "bind: ${user.username}", )
+        }
+
+        override fun onClick(v: View?) {
+            if (v == itemView){
+                val action = SearchUserFragmentDirections.actionNavigationFindFrindToProfileFragment(currentUser)
+                findNavController().navigate(action)
+            }
         }
 
     }
 
     private inner class SearchUserAdapter(val usersFind:List<User>):
-        RecyclerView.Adapter<SearchUserHolder>() {
+        RecyclerView.Adapter<SearchUserHolder>(){
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchUserHolder {
             val binding = ItemUserFollowBinding.inflate(
