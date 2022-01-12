@@ -57,21 +57,6 @@ private lateinit var binding :SearchUserFragmentBinding
             }
         )
 
-//        viewModel.fetchFollow().observe(
-//            viewLifecycleOwner, Observer {
-//                val followers = mutableListOf<User>()
-//                // must check come from followers or following
-//
-//                it.following.forEach { usersFollow ->
-//                    viewModel.fetchFollow(usersFollow).observe(
-//                        viewLifecycleOwner, Observer { follower ->
-//                            followers += follower
-//                            binding.findUser.adapter = adapter
-//                        }
-//                    )
-//                }
-//            }
-//                )
 
     }
 
