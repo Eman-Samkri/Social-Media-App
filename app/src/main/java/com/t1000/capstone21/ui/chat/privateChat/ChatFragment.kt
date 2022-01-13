@@ -44,11 +44,10 @@ class ChatFragment : Fragment() {
             val action = ChatFragmentDirections.actionNavigationIndexToNavigationMe()
             findNavController().navigate(action)
          }else{
-             senderId = "L9B8qESSIwQ9gcBjIujGPH1s2Vx2"
-
-            receiverId = "eg8ZGcNTlHSirHMboKrV2HCcHkR2"
-
-            Log.e(TAG, "onCreate: $senderId ,$receiverId", )
+             senderId = FirebaseAuth.getInstance().currentUser?.uid!!
+            if (args.chatReceivedId != null){
+                receiverId = args.chatReceivedId.toString()
+            }
 
         }
 
@@ -69,9 +68,8 @@ class ChatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         lifecycleScope.launch {
-            viewModel.loadChatMessages(senderId,receiverId).observe( viewLifecycleOwner
+            viewModel.loadChatMessages(senderId,args.chatReceivedId.toString()).observe( viewLifecycleOwner
             ) {
                 Log.e(TAG, "onViewCreated: sender = $senderId, receiver =$receiverId",)
                 binding.recycler.adapter = ChatAdapter(it)
@@ -94,7 +92,7 @@ class ChatFragment : Fragment() {
         }
         val chatMessage = ChatMessage(senderId = senderId,receiverId = receiverId,
             text = binding.messageEditText.text.toString(), created_at = Timestamp(Date()))
-        viewModel.sendMessage(senderId,receiverId.toString(),chatMessage)
+        viewModel.sendMessage(chatMessage)
 
         binding.messageEditText.setText("")
     }

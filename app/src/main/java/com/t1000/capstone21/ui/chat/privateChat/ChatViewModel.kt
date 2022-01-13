@@ -16,8 +16,8 @@ class ChatViewModel : ViewModel() {
 
     private val repo = Repo.getInstance()
 
-    fun sendMessage(senderId: String, receiverId: String, message: ChatMessage) {
-        repo.sendMessage(senderId, receiverId, message)
+    fun sendMessage(message: ChatMessage) {
+        repo.sendMessage(message)
     }
 
     suspend fun loadChatMessages(senderId: String, receiverId: String): LiveData<List<ChatMessage>> {

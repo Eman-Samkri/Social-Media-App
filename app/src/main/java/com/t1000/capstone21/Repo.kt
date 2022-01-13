@@ -397,29 +397,29 @@ class Repo private constructor(context: Context) {
 
 
 
-    fun sendMessage(senderId: String, receiverId: String,message: ChatMessage) {
-        Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}").get()
+    fun sendMessage(message: ChatMessage) {
+        Firebase.firestore.collection("RoomMassage").document("${message.senderId}_${message.receiverId}").get()
             .addOnSuccessListener {
                 if (it.exists()) {
                     //this node exists send your message
-                    Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
+                    Firebase.firestore.collection("RoomMassage").document("${message.senderId}_${message.receiverId}")
                         .update("messages", FieldValue.arrayUnion(message))
 
                 } else {
                     // check receiverId_senderId
-                    Firebase.firestore.collection("RoomMassage").document("${receiverId}_${senderId}").get()
+                    Firebase.firestore.collection("RoomMassage").document("${message.senderId}_${message.receiverId}").get()
                         .addOnSuccessListener {
                             if (it.exists()) {
-                                Firebase.firestore.collection("RoomMassage").document("${receiverId}_${senderId}")
+                                Firebase.firestore.collection("RoomMassage").document("${message.senderId}_${message.receiverId}")
                                     .update("messages", FieldValue.arrayUnion(message))
                             } else {
                                 // receiverId_senderId both don't exist
-                                Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
+                                Firebase.firestore.collection("RoomMassage").document("${message.senderId}_${message.receiverId}")
                                     .set(mapOf("messages" to mutableListOf<ChatMessage>()), SetOptions.merge())
                                     .addOnCompleteListener {
                                         Log.e(TAG, "sendMessage: $1", )
                                         //first massage
-                                        Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
+                                        Firebase.firestore.collection("RoomMassage").document("${message.senderId}_${message.receiverId}")
                                             .update("messages", FieldValue.arrayUnion(message))
 
                                     }

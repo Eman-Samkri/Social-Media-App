@@ -72,7 +72,7 @@ class ContactFragment : Fragment() {
         }
 
         fun bind(user: User){
-            chatReceivedId =user.userId
+            chatReceivedId = user.userId
             binding.imageView.load(user.profilePictureUrl)
             binding.usernamTv.text = user.username
             Log.e(TAG, "bind: ${user.username}", )
