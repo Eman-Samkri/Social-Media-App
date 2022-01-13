@@ -69,13 +69,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-            finishAfterTransition()
-        } else {
-            super.onBackPressed()
-        }
-    }
+
 
 
     private fun hideSystemUI() {

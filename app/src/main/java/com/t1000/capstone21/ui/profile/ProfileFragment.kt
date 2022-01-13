@@ -59,7 +59,7 @@ class ProfileFragment : Fragment() {
         FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
             FirebaseService.token = it.token
         }
-
+        FirebaseService.sharedPref = context?.getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
         FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
 
         setHasOptionsMenu(true)
@@ -175,7 +175,7 @@ class ProfileFragment : Fragment() {
 
         override fun onClick(v: View?) {
             if (v == itemView){
-                val action = ProfileFragmentDirections.actionProfileFragmentToVidePostFragment(videoId)
+                val action = ProfileFragmentDirections.actionProfileFragmentToVidePostFragment(userOwnProfileId,videoId)
                 findNavController().navigate(action)
             }
         }
@@ -221,7 +221,6 @@ class ProfileFragment : Fragment() {
 
         return when(item.itemId){
             R.id.signoutMenu -> {
-                viewModel.removeUserToken()
                 FirebaseAuth.getInstance().signOut()
                 val action = ProfileFragmentDirections.actionProfileFragmentToNavigationMe()
                 findNavController().navigate(action)

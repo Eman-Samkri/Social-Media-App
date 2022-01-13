@@ -23,6 +23,10 @@ class ProfileViewModel : ViewModel() {
         emit(repo.fetchVideosUser(userId))
     }
 
+    fun fetchVideosPost(videoId: String) : LiveData<List<Video>> = liveData {
+        emit(listOf(repo.fetchVideoPost(videoId)))
+    }
+
     fun addFollowing(userId :String){
         viewModelScope.launch {
             repo.addFollowing(userId)

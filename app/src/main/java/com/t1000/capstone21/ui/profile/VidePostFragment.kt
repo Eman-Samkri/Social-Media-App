@@ -21,6 +21,7 @@ class VidePostFragment:Fragment() {
     private val viewModel by lazy { ViewModelProvider(this).get(ProfileViewModel::class.java) }
 
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,12 +41,29 @@ class VidePostFragment:Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //Todo: not pass the viewModel
-        viewModel.fetchVideosUser(args.videoId.toString()).observe(
+        viewModel.fetchVideosUser(args.userId.toString()).observe(
             viewLifecycleOwner, Observer {
-               it.forEach {
-                   binding.homeVideoView.setVideoPath(it.videoUrl)
-                   Log.e(TAG, "onViewCreated: ${it.videoId}", )
-                   binding.homeVideoView.start()
+               it.forEach { video ->
+                   binding.homeVideoView.setVideoPath(video.videoUrl)
+
+                   binding.homeVideoView.setOnPreparedListener {
+                       //binding.progressBar.visibility = View.GONE
+                       it.start()
+
+                       val videoRatio = it.videoWidth / it.videoHeight.toFloat()
+                       val screenRatio = binding.homeVideoView.width / binding.homeVideoView.height.toFloat()
+                       val scale = videoRatio / screenRatio
+
+                       if (scale >= 1f) {
+                           binding.homeVideoView.scaleX = scale
+                       } else {
+                           binding.homeVideoView.scaleY = 1f / scale
+                       }
+                   }
+
+                   binding.homeVideoView.setOnCompletionListener {
+                       it.start()
+                   }
                }
             })
 

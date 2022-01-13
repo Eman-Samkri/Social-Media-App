@@ -266,6 +266,16 @@ class Repo private constructor(context: Context) {
             .await()
             .toObjects(Video::class.java)
     }
+
+    suspend fun fetchVideoPost(videoId: String): Video {
+        val video= fireStore.collection("video")
+            .whereEqualTo("videoId",videoId)
+            .get()
+            .await()
+            .toObjects(Video::class.java)
+       return video[0]
+
+    }
 //    suspend fun fetchVideosCommentById(videoId:String):List<Video> {
 ////        val video = fireStore.collection("video")
 ////            .whereEqualTo("videoId",videoId)

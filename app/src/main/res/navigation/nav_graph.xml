@@ -294,7 +294,10 @@
         android:name="com.t1000.capstone21.ui.profile.VidePostFragment"
         android:label="VidePostFragment" >
         <argument
-            android:name="videoId"
+            android:name="userId"
+            app:argType="string"
+            app:nullable="true" />
+        <argument android:name="videoId"
             app:argType="string"
             app:nullable="true" />
     </fragment>
