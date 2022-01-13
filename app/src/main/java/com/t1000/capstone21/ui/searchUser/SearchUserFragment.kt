@@ -17,6 +17,7 @@ import com.t1000.capstone21.databinding.SearchUserFragmentBinding
 import com.t1000.capstone21.models.User
 import com.t1000.capstone21.ui.home.HomeFragmentDirections
 import com.t1000.capstone21.ui.sticker.StickerFragmentDirections
+import com.t1000.capstone21.utils.hideKeyboard
 import java.util.*
 
 private const val TAG = "SearchUserFragment"
@@ -132,6 +133,7 @@ private lateinit var binding :SearchUserFragmentBinding
 
         override fun onClick(v: View?) {
             if (v == itemView){
+                hideKeyboard()
                 val action = SearchUserFragmentDirections.actionNavigationFindFrindToProfileFragment(currentUser)
                 findNavController().navigate(action)
             }
@@ -162,5 +164,10 @@ private lateinit var binding :SearchUserFragmentBinding
 
 
     }
+
+    fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
+    }
+
 
 }

@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.FragmentLoginUserBinding
+import com.t1000.capstone21.utils.hideKeyboard
 
 private const val TAG = "LoginUserFragment"
 
@@ -107,6 +108,7 @@ class LoginUserFragment : Fragment() {
                 if (!it.isSuccessful) return@addOnCompleteListener
                 if (it.isSuccessful){
                     Log.d(TAG, "Successfully logged in: ${it.result!!.user?.uid}")
+                    hideKeyboard()
                     val action = LoginUserFragmentDirections.actionLoginUserFragmentToProfileFragment(null)
                     findNavController().navigate(action)
                 }
@@ -162,6 +164,10 @@ class LoginUserFragment : Fragment() {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                 }
             }
+    }
+
+    private fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
     }
 
 }
