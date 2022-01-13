@@ -43,29 +43,34 @@ class FollowFragment : Fragment() {
 
         viewModel.fetchFollow(args.currentUserId.toString()).observe(
             viewLifecycleOwner, Observer{
-                val followers = mutableListOf<User>()
                 // must check come from followers or following
-                if (args.isFollowing){
-                    it.following.forEach { usersFollow ->
-                        viewModel.fetchFollow(usersFollow).observe(
-                            viewLifecycleOwner, Observer {follower->
-                                followers += follower
-                                binding.followRvv.adapter = FollowAdapter(followers.distinct())
-                            }
-                        )
+                when(args.isFollowing) {
+                    //TODO: not working
+                    1.0F -> {
+                        val followers = mutableListOf<User>()
+                        it.followers.forEach { usersFollow ->
+                            viewModel.fetchFollow(usersFollow).observe(
+                                viewLifecycleOwner, Observer { follower ->
+                                    followers += follower
+                                    binding.followRvv.adapter = FollowAdapter(followers.distinct())
+                                }
+                            )
+                        }
                     }
-                }else{
-                    it.followers.forEach { usersFollow ->
-                        viewModel.fetchFollow(usersFollow).observe(
-                            viewLifecycleOwner, Observer {follower->
-                                followers += follower
-                                binding.followRvv.adapter = FollowAdapter(followers.distinct())
-                            }
-                        )
-                    }
-                }
-            })
 
+                    2.0F -> {
+                        val following = mutableListOf<User>()
+                        it.following.forEach { usersFollow ->
+                            viewModel.fetchFollow(usersFollow).observe(
+                                viewLifecycleOwner, Observer { follower ->
+                                    following += follower
+                                    binding.followRvv.adapter = FollowAdapter(following.distinct())
+                                }
+                            )
+                        }
+                    }
+            }
+    })
     }
 
 

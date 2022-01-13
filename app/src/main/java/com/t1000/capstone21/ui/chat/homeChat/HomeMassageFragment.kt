@@ -54,8 +54,6 @@ class HomeMassageFragment:Fragment() {
             }
 
             else -> super.onOptionsItemSelected(item)
-
-
         }
     }
     override fun onCreateView(

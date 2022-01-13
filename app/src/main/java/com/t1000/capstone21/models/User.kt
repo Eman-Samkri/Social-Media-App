@@ -10,7 +10,7 @@ data class User(
     val username: String = "",
     var profilePictureUrl: String? = "",
     var followers: List<String> = listOf(),
-    var following: List<String> = listOf(),
+    var following: List<String> = listOf()
 ) {
 
 }

@@ -45,7 +45,7 @@ class ProfileFragment : Fragment() {
 
     private lateinit var currentUser:String
 
-    private lateinit var userName:String
+    private var userName:String =""
 
     private lateinit var videoId :String
 
@@ -69,6 +69,7 @@ class ProfileFragment : Fragment() {
         }else{
             currentUser = Firebase.auth.currentUser!!.uid
         }
+
     }
 
     override fun onCreateView(
@@ -148,12 +149,12 @@ class ProfileFragment : Fragment() {
         }
 
         binding.followersCountNumber.setOnClickListener {
-            val action = ProfileFragmentDirections.actionProfileFragmentToFollowFragment(args.currentUserId,false)
+            val action = ProfileFragmentDirections.actionProfileFragmentToFollowFragment(args.currentUserId, 1.0F)
             findNavController().navigate(action)
         }
 
         binding.followingCountNumber.setOnClickListener {
-            val action = ProfileFragmentDirections.actionProfileFragmentToFollowFragment(args.currentUserId,true)
+            val action = ProfileFragmentDirections.actionProfileFragmentToFollowFragment(args.currentUserId,2.0F)
             findNavController().navigate(action)
         }
     }
