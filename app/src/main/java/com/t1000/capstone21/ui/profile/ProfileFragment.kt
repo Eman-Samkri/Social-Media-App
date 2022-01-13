@@ -62,8 +62,6 @@ class ProfileFragment : Fragment() {
 
         FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
 
-        FirebaseService.sharedPref = requireActivity().getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
-
         setHasOptionsMenu(true)
 
         if (FirebaseAuth.getInstance().currentUser?.uid == null){
@@ -222,6 +220,7 @@ class ProfileFragment : Fragment() {
 
         return when(item.itemId){
             R.id.signoutMenu -> {
+                viewModel.removeUserToken()
                 FirebaseAuth.getInstance().signOut()
                 val action = ProfileFragmentDirections.actionProfileFragmentToNavigationMe()
                 findNavController().navigate(action)

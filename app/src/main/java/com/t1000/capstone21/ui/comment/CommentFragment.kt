@@ -178,12 +178,6 @@ class CommentFragment : BottomSheetDialogFragment() {
 
         override fun getItemCount(): Int = comments.size
 
-        fun setData(newCommentList:List<Comment>){
-            val diffUtil = RvDiffUtil(comments,newCommentList)
-            val diffResult = DiffUtil.calculateDiff(diffUtil)
-
-            diffResult.dispatchUpdatesTo(this)
-        }
 
 
     }

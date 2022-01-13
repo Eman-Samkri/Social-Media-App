@@ -28,6 +28,13 @@ class VidePostFragment:Fragment() {
     ): View? {
         binding = ItemHomeVideoBinding.inflate(layoutInflater)
 
+        binding.commentL.visibility = View.GONE
+        binding.shard.visibility =View.GONE
+        binding.like.visibility =View.GONE
+        binding.deleteVideo.visibility = View.VISIBLE
+        binding.delete.visibility = View.VISIBLE
+        binding.deletL.visibility = View.VISIBLE
+
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,6 +50,9 @@ class VidePostFragment:Fragment() {
             })
 
 
+        binding.deleteVideo.setOnClickListener {
+            viewModel.deleteVideo(args.videoId.toString())
+        }
 
     }
 }

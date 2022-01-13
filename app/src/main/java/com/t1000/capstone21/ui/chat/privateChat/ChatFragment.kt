@@ -1,4 +1,4 @@
-package com.t1000.capstone21.ui.chat
+package com.t1000.capstone21.ui.chat.privateChat
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -18,11 +18,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.ChatFragmentBinding
 import com.t1000.capstone21.databinding.ItemVideoCommentBinding
+
 import com.t1000.capstone21.models.ChatMessage
-import com.t1000.capstone21.ui.comment.CommentFragmentDirections
 import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.coroutines.suspendCoroutine
 
 private const val TAG = "ChatFragment"
 class ChatFragment : Fragment() {
@@ -30,7 +29,7 @@ class ChatFragment : Fragment() {
     private val viewModel by lazy { ViewModelProvider(this).get(ChatViewModel::class.java) }
 
 
-    private lateinit var binding :ChatFragmentBinding
+    private lateinit var binding : ChatFragmentBinding
 
     private val args: ChatFragmentArgs by navArgs()
 
@@ -50,7 +49,9 @@ class ChatFragment : Fragment() {
          }else{
              senderId = "L9B8qESSIwQ9gcBjIujGPH1s2Vx2"
 
-            reciverId = FirebaseAuth.getInstance().currentUser?.uid!!
+            reciverId = "eg8ZGcNTlHSirHMboKrV2HCcHkR2"
+
+            Log.e(TAG, "onCreate: $senderId ,$reciverId", )
 
         }
 
@@ -71,15 +72,13 @@ class ChatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         lifecycleScope.launch {
             viewModel.loadChatMessages(senderId,reciverId).observe( viewLifecycleOwner
             ) {
-                Log.e(TAG, "onViewCreated: sendr = $senderId, reciver =$reciverId",)
+                Log.e(TAG, "onViewCreated: sender = $senderId, receiver =$reciverId",)
                 binding.recycler.adapter = ChatAdapter(it)
             }
         }
-
 
 
         //send message on keyboard done click

@@ -127,7 +127,7 @@
 
     <fragment
         android:id="@+id/navigation_index"
-        android:name="com.t1000.capstone21.ui.chat.ChatFragment"
+        android:name="com.t1000.capstone21.ui.chat.privateChat.ChatFragment"
         android:label="chat_fragment"
         tools:layout="@layout/chat_fragment" >
 
@@ -287,7 +287,7 @@
         tools:layout="@layout/profile_edit_fragment" />
     <fragment
         android:id="@+id/indexFragment"
-        android:name="com.t1000.capstone21.ui.chat.IndexFragment"
+        android:name="com.t1000.capstone21.ui.chat.homeChat.HomeMassageFragment"
         android:label="IndexFragment" />
     <fragment
         android:id="@+id/videPostFragment"

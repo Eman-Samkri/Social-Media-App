@@ -1,4 +1,4 @@
-package com.t1000.capstone21.ui.chat
+package com.t1000.capstone21.ui.chat.privateChat
 
 import android.util.Log
 import androidx.lifecycle.LiveData

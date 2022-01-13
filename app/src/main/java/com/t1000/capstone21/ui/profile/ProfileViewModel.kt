@@ -35,9 +35,19 @@ class ProfileViewModel : ViewModel() {
         }
     }
 
+    fun removeUserToken() {
+        repo.removeUserToken()
+    }
+
     fun unFollow(userId :String){
         viewModelScope.launch {
             repo.deleteUserFollow(userId)
+        }
+    }
+
+    fun deleteVideo(videoId:String){
+        viewModelScope.launch {
+            repo.deleteVideo(videoId)
         }
     }
 

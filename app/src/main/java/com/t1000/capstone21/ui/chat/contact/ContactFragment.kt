@@ -81,10 +81,7 @@ class ContactFragment : Fragment() {
 
         override fun onClick(v: View?) {
             if (v == itemView){
-                val action =
-                    ContactFragmentDirections.actionContactFragmentToNavigationIndex(
-                        chatReceivedId
-                    )
+                val action = ContactFragmentDirections.actionContactFragmentToNavigationIndex(chatReceivedId)
                 findNavController().navigate(action)
             }
         }

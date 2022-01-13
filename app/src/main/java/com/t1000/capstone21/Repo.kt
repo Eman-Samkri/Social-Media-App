@@ -19,6 +19,7 @@ import com.t1000.capstone21.notification.PushNotification
 import com.t1000.capstone21.notification.RetrofitInstance
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -120,26 +121,24 @@ class Repo private constructor(context: Context) {
               }
 
       }
-//TODO :Using add snapshot listener to update
+
    suspend fun fetchVideosCommentById(videoId:String) :LiveData<List<Comment>>{
 
     return liveData {
         Firebase.firestore.collection("video").document(videoId)
             .snapshotAsFlow()
             .collect {
-                val x = it.data?.getValue("comments") as List<*>
-                var comments = mutableListOf<Comment>()
-                x.forEach { u ->
-                    val data = u as Map<*, *>
+                val messagesFromFirestore = it.data?.getValue("comments") as List<*>
+                val comments = mutableListOf<Comment>()
+                messagesFromFirestore.forEach {
+                    val data = it as Map<*, *>
                     val comment = Comment(userId = data["userId"].toString(),
                         videoId = data ["videoId"].toString(),
                         commentText = data["commentText"].toString(),
                         commentLikes = data["commentLikes"] as Long,
                         commentType = data["commentType"].toString())
                     comments.add(comment)
-
                 }
-                Log.d(TAG, "loadChatMessages: ${comments}")
                 emit(comments)
             }
     }
@@ -173,6 +172,12 @@ class Repo private constructor(context: Context) {
         } catch(e: Exception) {
             Log.e(TAG, "jhhhhhhhhhhh",e)
         }
+    }
+
+     fun removeUserToken() {
+       Firebase.firestore.collection("users").document(Firebase.auth.currentUser?.uid!!)
+       .update("token", null)
+
     }
 
     suspend fun addFollowing(userId :String){
@@ -357,53 +362,66 @@ class Repo private constructor(context: Context) {
 
   suspend  fun loadChatMessages(senderId: String, receiverId: String): LiveData<List<ChatMessage>> {
 
-//      var chats = mutableListOf<ChatMessage>()
-//      return liveData {
-//             Firebase.firestore.collection("RoomMassage")
-//                 .document("L9B8qESSIwQ9gcBjIujGPH1s2Vx2_eg8ZGcNTlHSirHMboKrV2HCcHkR2")
-//              .snapshotAsFlow()
-//              .collect {
-//                  chats = it.toObjects(ChatMessage::class.java)
-//
-//                  Log.d(TAG, "loadChatMessages: ${chats}")
-//              }
-//
-//          chats.forEach {
-//             ChatMessage(
-//                  it.text,
-//                  it.type,
-//                  created_at = it.created_at )
-//
-//          }
-//          emit(chats)
-//      }
-
-
-     return liveData {
-           Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
+      return liveData {
+          val chats = mutableListOf<ChatMessage>()
+          Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
               .snapshotAsFlow()
               .collect {
-                 val x = it.data?.getValue("messages") as List<*>
-                  val chats = mutableListOf<ChatMessage>()
-                  x.forEach { u ->
-                    val data = u as Map<*, *>
-                    val chatMessage = ChatMessage(senderId = data["L9B8qESSIwQ9gcBjIujGPH1s2Vx2"].toString(),
-                        receiverId= data ["eg8ZGcNTlHSirHMboKrV2HCcHkR2"].toString(),
-                        text = data["text"].toString(),
-                        type = data["type"].toString(),
-                        created_at = data["created_at"] as Timestamp)
-                    chats += chatMessage
+                  if (it.id == "${senderId}_${receiverId}" || it.id == "${receiverId}_${senderId}") {
+                      Log.d(TAG, "loadChatMessages: $senderId,$receiverId")
+                      val messagesFromFirestore = it.data?.getValue("messages") as List<*>
+
+                      Log.d(TAG, "loadChatMessages: $messagesFromFirestore")
+
+                      messagesFromFirestore.forEach { u ->
+                          val data = u as Map<*, *>
+                          val chatMessage = ChatMessage(
+                              senderId = data["senderId"].toString(),
+                              receiverId = data["receiverId"].toString(),
+                              text = data["text"].toString(),
+                              type = data["type"].toString(),
+                              created_at = data["created_at"] as Timestamp
+                          )
+                          chats += chatMessage
+
+                      }
 
                   }
-                  Log.d(TAG, "loadChatMessages: ${chats}")
-                emit(chats)
+              }
+          emit(chats)
+
+//     return liveData {
+//           Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
+//              .snapshotAsFlow()
+//              .collect {
+//                  if (it.id == "${senderId}_${receiverId}" || it.id == "${receiverId}_${senderId}") {
+//                      Log.d(TAG, "loadChatMessages: $senderId,$receiverId")
+//                   //   val messagesFromFirestore = it.get("messages") as List<*>
+//                      it.toObject(ChatMessage::class.java)
+//
+//                      val messagesFromFirestore = it.data?.getValue("messages") as List<*>
+//                      val chats = mutableListOf<ChatMessage>()
+//                      Log.d(TAG, "loadChatMessages: $messagesFromFirestore")
+//
+//                      messagesFromFirestore.forEach { u ->
+//                          val data = u as Map<*, *>
+//                          val chatMessage = ChatMessage(
+//                              senderId = data["senderId"].toString(),
+//                              receiverId = data["receiverId"].toString(),
+//                              text = data["text"].toString(),
+//                              type = data["type"].toString(),
+//                              created_at = data["created_at"] as Timestamp
+//                          )
+//                          chats += chatMessage
+//
+//                      }
+//                      Log.d(TAG, "loadChatMessages: ${chats}")
+//                      emit(chats)
+//                  }
+//              }
               }
       }
-
-
-
-
-    }
+    
 
 
 
