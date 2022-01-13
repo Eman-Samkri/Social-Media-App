@@ -1,6 +1,5 @@
 package com.t1000.capstone21.ui.chat.privateChat
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -10,12 +9,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
-import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.ChatFragmentBinding
 import com.t1000.capstone21.databinding.ItemVideoCommentBinding
 
@@ -35,7 +32,7 @@ class ChatFragment : Fragment() {
 
     private lateinit var senderId :String
 
-    private lateinit var reciverId :String
+    private lateinit var receiverId :String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,9 +46,9 @@ class ChatFragment : Fragment() {
          }else{
              senderId = "L9B8qESSIwQ9gcBjIujGPH1s2Vx2"
 
-            reciverId = "eg8ZGcNTlHSirHMboKrV2HCcHkR2"
+            receiverId = "eg8ZGcNTlHSirHMboKrV2HCcHkR2"
 
-            Log.e(TAG, "onCreate: $senderId ,$reciverId", )
+            Log.e(TAG, "onCreate: $senderId ,$receiverId", )
 
         }
 
@@ -72,10 +69,11 @@ class ChatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         lifecycleScope.launch {
-            viewModel.loadChatMessages(senderId,reciverId).observe( viewLifecycleOwner
+            viewModel.loadChatMessages(senderId,receiverId).observe( viewLifecycleOwner
             ) {
-                Log.e(TAG, "onViewCreated: sender = $senderId, receiver =$reciverId",)
+                Log.e(TAG, "onViewCreated: sender = $senderId, receiver =$receiverId",)
                 binding.recycler.adapter = ChatAdapter(it)
             }
         }
@@ -94,9 +92,9 @@ class ChatFragment : Fragment() {
             Toast.makeText(context, "Empty String", Toast.LENGTH_LONG).show()
             return
         }
-        val chatMessage = ChatMessage(senderId = senderId,receiverId = reciverId,
+        val chatMessage = ChatMessage(senderId = senderId,receiverId = receiverId,
             text = binding.messageEditText.text.toString(), created_at = Timestamp(Date()))
-        viewModel.sendMessage(senderId,args.chatReceivedId.toString(),chatMessage)
+        viewModel.sendMessage(senderId,receiverId.toString(),chatMessage)
 
         binding.messageEditText.setText("")
     }

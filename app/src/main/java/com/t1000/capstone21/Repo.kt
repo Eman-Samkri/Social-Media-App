@@ -367,8 +367,10 @@ class Repo private constructor(context: Context) {
           Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
               .snapshotAsFlow()
               .collect {
+                  Log.d(TAG, "loadChatMessages: $senderId,$receiverId ,${it["messages"]}")
+
                   if (it.id == "${senderId}_${receiverId}" || it.id == "${receiverId}_${senderId}") {
-                      Log.d(TAG, "loadChatMessages: $senderId,$receiverId")
+                      Log.d(TAG, "loadChatMessages: $senderId,$receiverId ,${it["messages"]}")
                       val messagesFromFirestore = it.data?.getValue("messages") as List<*>
 
                       Log.d(TAG, "loadChatMessages: $messagesFromFirestore")
@@ -383,43 +385,13 @@ class Repo private constructor(context: Context) {
                               created_at = data["created_at"] as Timestamp
                           )
                           chats += chatMessage
-
+                          emit(chats)
                       }
 
                   }
               }
-          emit(chats)
+      }
 
-//     return liveData {
-//           Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
-//              .snapshotAsFlow()
-//              .collect {
-//                  if (it.id == "${senderId}_${receiverId}" || it.id == "${receiverId}_${senderId}") {
-//                      Log.d(TAG, "loadChatMessages: $senderId,$receiverId")
-//                   //   val messagesFromFirestore = it.get("messages") as List<*>
-//                      it.toObject(ChatMessage::class.java)
-//
-//                      val messagesFromFirestore = it.data?.getValue("messages") as List<*>
-//                      val chats = mutableListOf<ChatMessage>()
-//                      Log.d(TAG, "loadChatMessages: $messagesFromFirestore")
-//
-//                      messagesFromFirestore.forEach { u ->
-//                          val data = u as Map<*, *>
-//                          val chatMessage = ChatMessage(
-//                              senderId = data["senderId"].toString(),
-//                              receiverId = data["receiverId"].toString(),
-//                              text = data["text"].toString(),
-//                              type = data["type"].toString(),
-//                              created_at = data["created_at"] as Timestamp
-//                          )
-//                          chats += chatMessage
-//
-//                      }
-//                      Log.d(TAG, "loadChatMessages: ${chats}")
-//                      emit(chats)
-//                  }
-//              }
-              }
       }
     
 
