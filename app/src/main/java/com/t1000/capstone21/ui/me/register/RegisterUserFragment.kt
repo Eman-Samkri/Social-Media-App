@@ -107,8 +107,8 @@ class RegisterUserFragment : Fragment(){
 
             if (selectedPhotoUri != null){
                 selectedPhotoUri?.let { viewModel.uploadProfilePhoto(selectedPhotoUri!!) }
-                // viewModel.savePhotoUrlToFirestore(profile)
-                //    selectedPhotoUri =  viewModel.uploadPhotoToStorage(selectedPhotoUri!!)
+                 //viewModel.savePhotoUrlToFirestore(profile)
+                //selectedPhotoUri =  viewModel.uploadPhotoToStorage(selectedPhotoUri!!)
             }
 
         }

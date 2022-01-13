@@ -5,24 +5,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.ImageLoader
-import coil.decode.ImageDecoderDecoder
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.t1000.capstone21.databinding.ItemStickerBinding
 import com.t1000.capstone21.databinding.StickerFragmentBinding
 import com.t1000.capstone21.giphy.model.Data
-import com.t1000.capstone21.giphy.model.Sticker
 import com.t1000.capstone21.models.Comment
-import com.t1000.capstone21.ui.comment.CommentFragmentArgs
-import com.t1000.capstone21.ui.me.register.LoginUserFragmentDirections
 
 
 private const val TAG = "StickerFragment"

@@ -23,7 +23,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.t1000.capstone21.KEY_EVENT_EXTRA
 import com.t1000.capstone21.R
@@ -286,7 +285,7 @@ override val binding: FragmentVideoBinding by lazy {
         Handler(Looper.getMainLooper()).post{
             if (isRecording){
                 recordSecondFlashy ++
-                binding.countdown.text = "".formatSeconds(recordSecondFlashy)
+                binding.countdown.text = formatSeconds(recordSecondFlashy)
             }
         }
 
@@ -294,7 +293,7 @@ override val binding: FragmentVideoBinding by lazy {
 
     private fun restTimer(){
         recordSecondFlashy = 0
-        binding.countdown.text = "".formatSeconds(recordSecondFlashy)
+        binding.countdown.text = formatSeconds(recordSecondFlashy)
         binding.countdown.visibility= View.GONE
         stopTimer()
     }

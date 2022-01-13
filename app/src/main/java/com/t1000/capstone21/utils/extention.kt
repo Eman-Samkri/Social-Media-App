@@ -5,7 +5,7 @@ import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 
-fun String.formatSeconds(seconds:Int):String?{
+fun formatSeconds(seconds: Int):String?{
     return (getTowDecimalsValue(seconds/3600)+":" +
             getTowDecimalsValue(seconds/60)+":" +
             getTowDecimalsValue(seconds%60))

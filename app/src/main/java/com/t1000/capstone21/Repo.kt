@@ -10,7 +10,6 @@ import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
-import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -122,38 +121,28 @@ class Repo private constructor(context: Context) {
 
       }
 //TODO :Using add snapshot listener to update
-    fun fetchVideosCommentById(videoId:String, comment:Comment) {
-         fireStore.collection("video")
-            .whereEqualTo("videoId",videoId)
-            .addSnapshotListener (EventListener { querySnapShot, firebaseFirestoreException ->
-                if (firebaseFirestoreException == null) {
-                    querySnapShot?.documents?.forEach {
-                        val videoData = it.toObject(Video::class.java)
-                    videoData?.comments?.forEach {
+   suspend fun fetchVideosCommentById(videoId:String) :LiveData<List<Comment>>{
 
-                    }
-                    }
+    return liveData {
+        Firebase.firestore.collection("video").document(videoId)
+            .snapshotAsFlow()
+            .collect {
+                val x = it.data?.getValue("comments") as List<*>
+                var comments = mutableListOf<Comment>()
+                x.forEach { u ->
+                    val data = u as Map<*, *>
+                    val comment = Comment(userId = data["userId"].toString(),
+                        videoId = data ["videoId"].toString(),
+                        commentText = data["commentText"].toString(),
+                        commentLikes = data["commentLikes"] as Long,
+                        commentType = data["commentType"].toString())
+                    comments.add(comment)
+
                 }
-            })
-
-
-//    { querySnapshot, error ->
-//                if (error != null) {
-//                    Log.e("FIRESTORE", "CommentListener error.", error)
-//                    return@addSnapshotListener
-//                }
-//                val items = mutableListOf<Comment>()
-//                querySnapshot!!.documents.forEach {
-//                    val videoData = it.toObject(Video::class.java)
-//                    videoData?.comments?.forEach {
-//                        items += it
-//                    }
-//                    items.add(comment)
-//
-//                    return@forEach
-//                }
-//            }
-
+                Log.d(TAG, "loadChatMessages: ${comments}")
+                emit(comments)
+            }
+    }
 
     }
 

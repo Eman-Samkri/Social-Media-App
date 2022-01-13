@@ -7,8 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
@@ -23,7 +23,7 @@ import com.t1000.capstone21.databinding.AddCommentChatFragmentBinding
 import com.t1000.capstone21.databinding.ItemVideoCommentBinding
 import com.t1000.capstone21.models.Comment
 import com.t1000.capstone21.models.Video
-import com.t1000.capstone21.ui.chat.ChatFragmentDirections
+import kotlinx.coroutines.launch
 
 
 private const val TAG = "CommentFragment"
@@ -35,7 +35,7 @@ class CommentFragment : BottomSheetDialogFragment() {
 
     private val args: CommentFragmentArgs by navArgs()
     private lateinit var auth: FirebaseAuth
-    private lateinit var video:Video
+   // private lateinit var video:Video
 
 
     private val viewModel by lazy { ViewModelProvider(this).get(CommentViewModel::class.java) }
@@ -73,30 +73,36 @@ class CommentFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        args.currentVideoId?.let {
-            viewModel.fetchVideosComment(it).observe(
-                viewLifecycleOwner, Observer{
-                    it?.let{
-                        Log.e(TAG, "onViewCreated: list $it ")
-                        it.forEach {
-                            video =it
-                            val comments =  it.comments
-                            binding.recyclerView.adapter = CommentAdapter(comments)
-
-
-                            //   CommentAdapter().setData()
-                        }
-
-                    }
-
-                })
+        lifecycleScope.launch {
+            viewModel.fetchVideosComment(args.currentVideoId.toString()).observe( viewLifecycleOwner
+            ) {
+                binding.recyclerView.adapter = CommentAdapter(it)
+            }
         }
 
 
-//        binding.addCommentBtn.setOnClickListener {
-//           val  comment = binding.addNewCommentETV.text.toString()
-//            uploadComment(comment)
+
+//        args.currentVideoId?.let {
+//            viewModel.fetchVideosComment(it).observe(
+//                viewLifecycleOwner, Observer{
+//                    it?.let{
+//                        Log.e(TAG, "onViewCreated: list $it ")
+//                        it.forEach {
+//                            video =it
+//                            val comments =  it.comments
+//                            binding.recyclerView.adapter = CommentAdapter(comments)
+//
+//
+//                            //   CommentAdapter().setData()
+//                        }
+//
+//                    }
+//
+//                })
 //        }
+
+
+
 
         //send comment on keyboard done click
         binding.addTextETV.setOnEditorActionListener { _, actionId, _ ->
@@ -134,9 +140,9 @@ class CommentFragment : BottomSheetDialogFragment() {
             }
 
 
-            if (auth.currentUser?.uid != video.userId){
+            if (auth.currentUser?.uid != args.currentUserId){
                 binding.deletCommentBtn.visibility = View.GONE
-                Log.e(TAG, "bind: cureeent user ${auth.currentUser?.uid}--- ${args.currentVideoId}", )
+                Log.e(TAG, "bind: current user ${auth.currentUser?.uid}--- ${args.currentVideoId}", )
             }
             binding.deletCommentBtn.setOnClickListener {
                 args.currentVideoId?.let { viewModel.deleteVideoComment(it,adapterPosition) }
@@ -191,7 +197,6 @@ class CommentFragment : BottomSheetDialogFragment() {
         comment.commentType = "Text"
         viewModel.saveCommentToFirestore(args.currentVideoId.toString(), comment)
 
-        Log.e(TAG, "uploadComment Text: ${video}",)
 
     }
 }

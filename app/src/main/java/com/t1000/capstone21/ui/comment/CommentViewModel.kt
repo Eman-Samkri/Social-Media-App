@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.t1000.capstone21.Repo
+import com.t1000.capstone21.models.ChatMessage
 import com.t1000.capstone21.models.Comment
 import com.t1000.capstone21.models.User
 import com.t1000.capstone21.models.Video
@@ -30,19 +31,16 @@ class CommentViewModel : ViewModel() {
         emit(listOf(repo.fetchUserById(userId)))
     }
 
-    fun fetchVideosComment(videoId: String) : LiveData<List<Video>> = liveData {
-        emit(repo.fetchVideosById(videoId))
+//    fun fetchVideosComment(videoId: String) : LiveData<List<Video>> = liveData {
+//        emit(repo.fetchVideosById(videoId))
+//    }
+
+    suspend fun fetchVideosComment(videoId: String): LiveData<List<Comment>> {
+        return  repo.fetchVideosCommentById(videoId)
+
     }
 
-//    fun fetchVideosCommentById(videoId: String, comment: Comment)  {
-//       repo.fetchVideosCommentById(videoId,comment, List<Comment>())
-//    }
 
-//    fun fetchVideosCommentById(videoId: String) {
-//        GlobalScope.launch(Dispatchers.IO) {
-//            repo.fetchVideosCommentById(videoId)
-//        }
-//    }
 
 
 
