@@ -99,6 +99,7 @@ class ProfileFragment : Fragment() {
         if (FirebaseAuth.getInstance().currentUser?.uid!! == args.currentUserId
             || args.currentUserId == null){
             binding.follwingBtn.visibility = View.GONE
+            binding.editProfileBtn.visibility =View.VISIBLE
         }
 
         viewModel.fetchUserById(userOwnProfileId).observe(

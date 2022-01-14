@@ -135,10 +135,12 @@
             android:background="@drawable/button_background_style"
             android:text="Edit profile"
             android:textAllCaps="false"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.071"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_constraint_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/profile_constraint_layout"
+            tools:visibility="invisible" />
 
         <Button
             android:id="@+id/follwingBtn"
