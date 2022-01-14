@@ -142,8 +142,8 @@ class CommentFragment : BottomSheetDialogFragment() {
             }
 
 
-            if (auth.currentUser?.uid != args.currentUserId){
-                binding.deletCommentBtn.visibility = View.GONE
+            if (comment.userId.equals(auth.currentUser?.uid) ){
+                binding.deletCommentBtn.visibility = View.VISIBLE
                 Log.e(TAG, "bind: current user ${auth.currentUser?.uid}--- ${args.currentVideoId}", )
             }
             binding.deletCommentBtn.setOnClickListener {
