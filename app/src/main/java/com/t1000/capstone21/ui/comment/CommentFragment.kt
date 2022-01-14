@@ -77,6 +77,8 @@ class CommentFragment : BottomSheetDialogFragment() {
             viewModel.fetchVideosComment(args.currentVideoId.toString()).observe( viewLifecycleOwner
             ) {
                 binding.recyclerView.adapter = CommentAdapter(it)
+                binding.recyclerView.scrollToPosition(CommentAdapter(it).itemCount -1)
+
             }
         }
 

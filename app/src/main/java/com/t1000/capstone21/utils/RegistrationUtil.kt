@@ -1,6 +1,7 @@
 package com.t1000.capstone21.utils
 
 object RegistrationUtil {
+
     fun validateRegistrationInput(
         username: String,
         password: String
