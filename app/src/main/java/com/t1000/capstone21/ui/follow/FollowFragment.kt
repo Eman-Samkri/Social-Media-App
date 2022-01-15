@@ -43,6 +43,10 @@ class FollowFragment : Fragment() {
 
         viewModel.fetchFollow(args.currentUserId.toString()).observe(
             viewLifecycleOwner, Observer{
+                binding.shammer.stopShimmer()
+                binding.shammer.visibility = View.GONE
+                binding.followRvv.visibility =View.VISIBLE
+
                 // must check come from followers or following
                 when(args.isFollowing) {
                     //TODO: not working

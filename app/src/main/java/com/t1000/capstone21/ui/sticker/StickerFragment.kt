@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.ItemStickerBinding
 import com.t1000.capstone21.databinding.StickerFragmentBinding
 import com.t1000.capstone21.giphy.model.Data
@@ -73,8 +74,8 @@ class StickerFragment : BottomSheetDialogFragment() {
 
         fun bind(sticker: Data){
             data = sticker
-
             Glide.with(this@StickerFragment).asGif().load(sticker.images.downsized_still.url).into(binding.imageView3)
+
                 binding.stickerProgressBar.visibility = View.GONE
         }
 

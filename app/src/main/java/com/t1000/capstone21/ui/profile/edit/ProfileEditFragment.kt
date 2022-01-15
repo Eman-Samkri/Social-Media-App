@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import coil.load
+import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.ProfileEditFragmentBinding
 
 private const val TAG = "ProfileEditFragment"
@@ -41,9 +43,11 @@ class ProfileEditFragment : Fragment() {
         }
 
         binding.uplod.setOnClickListener {
-            selectedPhotoUri?.let {
+//            selectedPhotoUri?.let {
+//                viewModel.uploadProfilePhoto(it) }
+//        }
 
-                viewModel.uploadProfilePhoto(it) }
+            findNavController().navigate(R.id.musicFragment)
         }
     }
 

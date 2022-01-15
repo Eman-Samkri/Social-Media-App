@@ -69,39 +69,20 @@ class CommentFragment : BottomSheetDialogFragment() {
     }
 
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         lifecycleScope.launch {
             viewModel.fetchVideosComment(args.currentVideoId.toString()).observe( viewLifecycleOwner
             ) {
+                binding.recyclerView.visibility = View.VISIBLE
+                binding.shammer.visibility =View.GONE
                 binding.recyclerView.adapter = CommentAdapter(it)
                 binding.recyclerView.scrollToPosition(CommentAdapter(it).itemCount -1)
 
             }
         }
 
-
-
-//        args.currentVideoId?.let {
-//            viewModel.fetchVideosComment(it).observe(
-//                viewLifecycleOwner, Observer{
-//                    it?.let{
-//                        Log.e(TAG, "onViewCreated: list $it ")
-//                        it.forEach {
-//                            video =it
-//                            val comments =  it.comments
-//                            binding.recyclerView.adapter = CommentAdapter(comments)
-//
-//
-//                            //   CommentAdapter().setData()
-//                        }
-//
-//                    }
-//
-//                })
-//        }
 
 
 

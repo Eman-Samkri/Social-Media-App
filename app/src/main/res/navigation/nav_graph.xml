@@ -301,6 +301,11 @@
             app:argType="string"
             app:nullable="true" />
     </fragment>
+    <fragment
+        android:id="@+id/musicFragment"
+        android:name="com.t1000.capstone21.camera.musicFragment.MusicFragment"
+        android:label="music_fragment"
+        tools:layout="@layout/music_fragment" />
 
 
 </navigation>
