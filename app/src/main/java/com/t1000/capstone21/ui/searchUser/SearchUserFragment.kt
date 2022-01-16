@@ -11,6 +11,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.ItemUserFollowBinding
 import com.t1000.capstone21.databinding.SearchUserFragmentBinding
@@ -39,6 +42,10 @@ private lateinit var binding :SearchUserFragmentBinding
         super.onCreate(savedInstanceState)
 
         setHasOptionsMenu(true)
+
+        if (FirebaseAuth.getInstance().currentUser?.uid == null){
+            findNavController().navigate(R.id.loginUserFragment)
+        }
 
     }
 

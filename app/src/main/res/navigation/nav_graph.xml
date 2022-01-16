@@ -105,7 +105,9 @@
         tools:layout="@layout/fragment_me" >
         <action
             android:id="@+id/action_navigation_me_to_loginUserFragment"
-            app:destination="@id/loginUserFragment" />
+            app:destination="@id/loginUserFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
         <action
             android:id="@+id/action_navigation_me_to_profileFragment"
             app:destination="@id/profileFragment" />
@@ -230,6 +232,9 @@
         <action
             android:id="@+id/action_commentFragment_to_stickerFragment"
             app:destination="@id/stickerFragment" />
+        <action
+            android:id="@+id/action_commentFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </dialog>
 
     <dialog

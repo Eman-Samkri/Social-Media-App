@@ -17,6 +17,7 @@ import com.t1000.capstone21.databinding.ChatFragmentBinding
 import com.t1000.capstone21.databinding.ItemVideoCommentBinding
 
 import com.t1000.capstone21.models.ChatMessage
+import com.t1000.capstone21.models.User
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -100,11 +101,12 @@ class ChatFragment : Fragment() {
 
 
 
-    private inner class ChatHolder(val binding: ItemVideoCommentBinding): RecyclerView.ViewHolder(binding.root){
+     inner class ChatHolder(): RecyclerView.ViewHolder(binding.root){
         fun bind(chatMessage: ChatMessage){
-            binding.commentText.text = chatMessage.text
-            binding.userTv.text = senderId
+//            binding.commentText.text = chatMessage.text
+//            binding.userTv.text = senderId
         }
+
 
     }
 
@@ -122,7 +124,7 @@ class ChatFragment : Fragment() {
                 false
             )
 
-            return ChatHolder(binding)
+            return ChatHolder()
 
         }
 
@@ -134,6 +136,11 @@ class ChatFragment : Fragment() {
         override fun getItemCount(): Int = messages.size
 
 
+
+
+
+
     }
+
 
 }

@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.*
 import com.t1000.capstone21.models.ChatParticipant
@@ -29,8 +31,7 @@ class HomeMassageFragment:Fragment() {
 
 
         if (FirebaseAuth.getInstance().currentUser?.uid == null){
-            val action = ChatFragmentDirections.actionNavigationIndexToNavigationMe()
-            findNavController().navigate(action)
+            findNavController().navigate(R.id.loginUserFragment)
         }else{
             currentUserId = FirebaseAuth.getInstance().currentUser?.uid!!
 
@@ -117,7 +118,6 @@ class HomeMassageFragment:Fragment() {
         }
 
         override fun getItemCount(): Int = chatParticipant.size
-
 
     }
 }

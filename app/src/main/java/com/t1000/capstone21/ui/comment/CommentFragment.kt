@@ -21,8 +21,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.AddCommentChatFragmentBinding
 import com.t1000.capstone21.databinding.ItemVideoCommentBinding
+import com.t1000.capstone21.giphy.model.Onclick
 import com.t1000.capstone21.models.Comment
 import com.t1000.capstone21.models.Video
+import com.t1000.capstone21.ui.chat.contact.ContactFragmentDirections
 import kotlinx.coroutines.launch
 
 
@@ -31,11 +33,9 @@ class CommentFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding :AddCommentChatFragmentBinding
 
-   // private lateinit var newCommentList:List<Comment>
 
     private val args: CommentFragmentArgs by navArgs()
     private lateinit var auth: FirebaseAuth
-   // private lateinit var video:Video
 
 
     private val viewModel by lazy { ViewModelProvider(this).get(CommentViewModel::class.java) }
@@ -75,10 +75,9 @@ class CommentFragment : BottomSheetDialogFragment() {
         lifecycleScope.launch {
             viewModel.fetchVideosComment(args.currentVideoId.toString()).observe( viewLifecycleOwner
             ) {
-                binding.recyclerView.visibility = View.VISIBLE
-                binding.shammer.visibility =View.GONE
                 binding.recyclerView.adapter = CommentAdapter(it)
-                binding.recyclerView.scrollToPosition(CommentAdapter(it).itemCount -1)
+                binding.recyclerView.scrollToPosition(it.size-1)
+                binding.recyclerView.visibility = View.VISIBLE
 
             }
         }
@@ -101,14 +100,25 @@ class CommentFragment : BottomSheetDialogFragment() {
 
 
 
-    private inner class CommentHolder(val binding:ItemVideoCommentBinding):RecyclerView.ViewHolder(binding.root){
+    private inner class CommentHolder(val binding:ItemVideoCommentBinding):RecyclerView.ViewHolder(binding.root)
+        , View.OnClickListener {
+
+        private lateinit var userId: String
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
         fun bind(comment:Comment){
+            userId = comment.userId
             val user = viewModel.fetchUserById(comment.userId)
             user.observe(
                 viewLifecycleOwner, Observer{
                     it.forEach {
+                        binding.shammer.visibility = View.GONE
                         binding.userTv.text = it.username
                         binding.userImg.load(it.profilePictureUrl)
+
                     }
                 })
 
@@ -133,13 +143,19 @@ class CommentFragment : BottomSheetDialogFragment() {
 
             }
 
+        }
 
+        override fun onClick(v: View?) {
+            if (v ==  itemView){
+                val action = CommentFragmentDirections.actionCommentFragmentToProfileFragment(userId)
+                findNavController().navigate(action)
+            }
         }
 
     }
 
     private inner class CommentAdapter(val comments:List<Comment>):
-        RecyclerView.Adapter<CommentHolder>() {
+        RecyclerView.Adapter<CommentHolder>(){
 
         override fun onCreateViewHolder(
             parent: ViewGroup,
@@ -160,7 +176,6 @@ class CommentFragment : BottomSheetDialogFragment() {
         }
 
         override fun getItemCount(): Int = comments.size
-
 
 
     }

@@ -69,7 +69,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left)
+    }
 
 
     private fun hideSystemUI() {
