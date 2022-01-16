@@ -55,6 +55,8 @@ class StickerFragment : BottomSheetDialogFragment() {
 
         viewModel.dataLiveData.observe(
             viewLifecycleOwner, Observer {
+                binding.shammer.visibility = View.GONE
+                binding.stickerRv.visibility =View.VISIBLE
                 binding.stickerRv.adapter = StickersAdapter(it)
                 Log.e(TAG, "onViewCreated: $it")
             }
@@ -76,7 +78,7 @@ class StickerFragment : BottomSheetDialogFragment() {
             data = sticker
             Glide.with(this@StickerFragment).asGif().load(sticker.images.downsized_still.url).into(binding.imageView3)
 
-                binding.stickerProgressBar.visibility = View.GONE
+               // binding.stickerProgressBar.visibility = View.GONE
         }
 
 

@@ -149,5 +149,9 @@ dependencies {
     testImplementation "com.google.truth:truth:1.0.1"
     androidTestImplementation "com.google.truth:truth:1.0.1"
 
+    //lottie animation
+    implementation 'com.airbnb.android:lottie:3.3.0'
+
+
 
 }

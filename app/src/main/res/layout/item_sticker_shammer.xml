@@ -8,8 +8,9 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="164dp"
-        android:layout_height="187dp"
+        android:layout_width="141dp"
+        android:layout_height="211dp"
+        android:background="@color/shimmerColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />

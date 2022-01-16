@@ -54,9 +54,8 @@ class RegisterUserFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
 
         binding.registerLoginBtn.setOnClickListener{
+            binding.lodingbar.visibility = View.VISIBLE
             registerUser()
-            val action = RegisterUserFragmentDirections.actionRegisterUserFragmentToNavigationHome()
-            findNavController().navigate(action)
         }
 
         binding.profilePicBtn.setOnClickListener {
@@ -75,9 +74,7 @@ class RegisterUserFragment : Fragment(){
         val password = binding.registerPassword.text.toString()
         val username = binding.registerUserName.text.toString()
 
-
         if (email.isNotEmpty() && password.isNotEmpty() && username.isNotEmpty()) {
-            try {
                 auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
@@ -85,14 +82,16 @@ class RegisterUserFragment : Fragment(){
                             userFirestore.collection("users")
                                 .document(Firebase.auth.uid!!)
                                 .set(currentUser)
-                            Toast.makeText(context, "successfully register user $username", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context,"successfully register user $username", Toast.LENGTH_LONG).show()
+                            val action = RegisterUserFragmentDirections.actionRegisterUserFragmentToNavigationHome()
+                            findNavController().navigate(action)
+                        }else{
+                            Toast.makeText(context, "something wrong $username", Toast.LENGTH_LONG).show()
                         }
 
-                    }
-            }catch (e:Exception){
-                Toast.makeText(context,"filed register$e",Toast.LENGTH_LONG).show()
 
-            }
+                    }
+
 
             }
         }

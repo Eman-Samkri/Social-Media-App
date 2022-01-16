@@ -24,21 +24,19 @@ open class LastFMRepo {
 
 
 
-    fun getMusic(): LiveData<List<Track>> {
-        return liveData(Dispatchers.IO) {
-            val response = lastFMApi.getMusic()
-            if (response.isSuccessful){
-                Log.e(TAG, "getMusic: first $response", )
-                response.body()?.tracks?.track?.let {
-                    Log.e(TAG, "getMusic: $it", )
-                    emit(it)
-                }
+     fun getMusic(): LiveData<List<Track>>{
+         return liveData(Dispatchers.IO) {
+             val response = lastFMApi.getMusic()
+             if (response.isSuccessful) {
+                 Log.e(TAG, "getMusic: first $response",)
+                 response.body()?.tracks?.track?.let {
+                     emit(it)
+                 }
 
-            }else{
-                Log.e(TAG , "the error is ${response.errorBody()}")
-            }
-        }
-
+             } else {
+                 Log.e(TAG, "the error is ${response.errorBody()}")
+             }
+         }
     }
 
 

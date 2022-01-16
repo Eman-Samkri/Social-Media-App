@@ -12,11 +12,13 @@
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_camera_front.xml" value="0.1" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_camera_rear.xml" value="0.1" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_delete.xml" value="0.1" />
+        <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_email_black_24dp.xml" value="0.1285" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_flash_auto.xml" value="0.1" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_flash_off.xml" value="0.1" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_flash_on.xml" value="0.153" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_home_black_24dp.xml" value="0.1" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_lock.xml" value="0.1285" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_more_vert.xml" value="0.136" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_outer_circle.xml" value="0.1" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_person_outline_black.xml" value="0.1" />
@@ -35,8 +37,10 @@
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_video_shutter_normal.xml" value="0.153" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/shape_bg_incoming_bubble.xml" value="0.111" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/shape_bg_outgoing_bubble.xml" value="0.111" />
+        <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable/ic_facebook.xml" value="0.1285" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable/rounded_button.xml" value="0.1" />
+        <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable/rounded_edittext.xml" value="0.1285" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable/rounded_edittext_register_login.xml" value="0.114" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable/rounded_select_photo_button.xml" value="0.1" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable/transparent_rect.xml" value="0.1115" />
@@ -53,18 +57,20 @@
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/fragment_gallery.xml" value="0.1" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/fragment_login_user.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/fragment_me.xml" value="0.1" />
+        <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/fragment_me.xml" value="0.25" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/fragment_photo.xml" value="0.1743659420289855" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/fragment_post.xml" value="0.1796875" />
-        <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/fragment_register_user.xml" value="0.13333333333333333" />
+        <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/fragment_register_user.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/fragment_video.xml" value="0.1" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/home_massage_fragment.xml" value="0.1796875" />
+        <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/ic_facebook.xml" value="0.1796875" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/item_chat_reciver.xml" value="0.11367753623188406" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/item_chat_sender.xml" value="0.6666666666666666" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/item_home_video.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/item_music.xml" value="0.11367753623188406" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/item_small_video.xml" value="0.22" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/item_sticker.xml" value="0.1" />
+        <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/item_sticker_shammer.xml" value="0.11367753623188406" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/item_user_follow.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/item_user_follow_shammer.xml" value="0.11367753623188406" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/item_video_comment.xml" value="0.25" />
