@@ -80,9 +80,9 @@ class LoginUserFragment : Fragment() {
 
         }
 
-        binding.loginButtonGoogle.setOnClickListener {
-            signInWithGoogle()
-        }
+//        binding.loginButtonGoogle.setOnClickListener {
+//            signInWithGoogle()
+//        }
 
         binding.toRegisterTv.setOnClickListener {
             val action = LoginUserFragmentDirections.actionLoginUserFragmentToRegisterUserFragment()

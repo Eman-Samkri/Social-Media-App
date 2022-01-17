@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="2dp"
-    android:layout_marginBottom="2dp">
+    android:layout_marginBottom="2dp"
+    android:paddingBottom="15dp">
 
     <TextView
         android:id="@+id/usernamTv"
-        android:layout_width="252dp"
-        android:layout_height="27dp"
-        android:layout_marginBottom="20dp"
+        android:layout_width="248dp"
+        android:layout_height="22dp"
+        android:layout_marginBottom="28dp"
+        android:background="@color/shimmerColor"
         android:maxWidth="240dp"
         android:paddingStart="16dp"
         android:paddingTop="8dp"
@@ -19,17 +21,18 @@
         android:paddingBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.62"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        android:background="@color/shimmerColor"/>
+        app:layout_constraintHorizontal_bias="0.388"
+        app:layout_constraintStart_toEndOf="@+id/imageView" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageView"
-        android:layout_width="80dp"
-        android:layout_height="71dp"
-        app:civ_border_color="#FF000000"
-        app:civ_border_width="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="81dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/rounded_select_photo_button"
+        android:backgroundTint="@color/shimmerColor"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/shimmerColor"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 </androidx.constraintlayout.widget.ConstraintLayout>
