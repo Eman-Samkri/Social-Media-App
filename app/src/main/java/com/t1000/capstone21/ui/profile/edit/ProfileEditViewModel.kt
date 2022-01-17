@@ -4,7 +4,9 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.t1000.capstone21.Repo
+import com.t1000.capstone21.models.Photo
 import kotlinx.coroutines.launch
+import java.io.File
 
 class ProfileEditViewModel : ViewModel() {
 
@@ -15,5 +17,9 @@ class ProfileEditViewModel : ViewModel() {
             repo.uploadProfilePhoto(localPhotoUri)
         }
 
+    }
+
+    fun getPhotoFile(photo: Photo): File {
+        return repo.getPhotoFile(photo)
     }
 }

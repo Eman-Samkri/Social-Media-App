@@ -29,7 +29,6 @@ class RegisterUserFragment : Fragment(){
     private lateinit var binding: FragmentRegisterUserBinding
     private lateinit var auth: FirebaseAuth
     private val userFirestore = Firebase.firestore
-    private var selectedPhotoUri: Uri? = null
 
 
     private val viewModel by lazy { ViewModelProvider(this).get(MeViewModel::class.java) }
@@ -54,15 +53,9 @@ class RegisterUserFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
 
         binding.registerLoginBtn.setOnClickListener{
-            binding.lodingbar.visibility = View.VISIBLE
             registerUser()
         }
 
-        binding.profilePicBtn.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, 0)
-        }
 
     }
 
@@ -75,6 +68,7 @@ class RegisterUserFragment : Fragment(){
         val username = binding.registerUserName.text.toString()
 
         if (email.isNotEmpty() && password.isNotEmpty() && username.isNotEmpty()) {
+            binding.loadingBar.visibility = View.VISIBLE
                 auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
@@ -96,22 +90,7 @@ class RegisterUserFragment : Fragment(){
             }
         }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
-            selectedPhotoUri = data.data ?: return
-            Log.d(TAG, "Photo was selected")
 
-            binding.profilePicBtn.visibility = View.GONE
-            binding.profilePicView.load(selectedPhotoUri)
-
-            if (selectedPhotoUri != null){
-                selectedPhotoUri?.let { viewModel.uploadProfilePhoto(selectedPhotoUri!!) }
-                 //viewModel.savePhotoUrlToFirestore(profile)
-                //selectedPhotoUri =  viewModel.uploadPhotoToStorage(selectedPhotoUri!!)
-            }
-
-        }
-    }
 
     }
 

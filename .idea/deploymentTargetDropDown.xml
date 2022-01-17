@@ -7,12 +7,12 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\mano4\.android\avd\Pixel_4_API_27.avd" />
+            <value value="C:\Users\mano4\.android\avd\Pixel_4_API_27_2_1.avd" />
           </Key>
         </deviceKey>
       </Target>
     </targetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2022-01-15T12:05:23.769457200Z" />
+    <timeTargetWasSelectedWithDropDown value="2022-01-17T10:31:23.829419800Z" />
     <targetsSelectedWithDialog>
       <Target>
         <type value="QUICK_BOOT_TARGET" />
@@ -28,7 +28,7 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\mano4\.android\avd\Pixel_4_API_27_2.avd" />
+            <value value="C:\Users\mano4\.android\avd\Pixel_4_API_27_2_1.avd" />
           </Key>
         </deviceKey>
       </Target>

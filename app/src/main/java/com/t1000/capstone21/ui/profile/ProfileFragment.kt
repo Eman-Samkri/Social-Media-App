@@ -47,7 +47,7 @@ class ProfileFragment : Fragment() {
 
     private var userName:String =""
 
-    private lateinit var videoId :String
+
 
 
 
@@ -161,6 +161,8 @@ class ProfileFragment : Fragment() {
     }
 
     private inner class VideoHolder(val binding: ItemSmallVideoBinding): RecyclerView.ViewHolder(binding.root),View.OnClickListener{
+
+        private lateinit var videoId :String
 
         fun bind(video: Video){
             binding.loadingBar.visibility = View.GONE

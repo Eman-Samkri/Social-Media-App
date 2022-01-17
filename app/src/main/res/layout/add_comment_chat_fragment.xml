@@ -45,7 +45,7 @@
         app:layout_constraintBottom_toTopOf="@+id/addTextETV"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
     </androidx.recyclerview.widget.RecyclerView>
 

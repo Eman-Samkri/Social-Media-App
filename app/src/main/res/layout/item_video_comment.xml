@@ -5,17 +5,16 @@
     android:id="@+id/itemView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FFF"
     android:paddingBottom="15dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/userImg"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        app:civ_border_color="#FF000000"
-        app:civ_border_width="1dp"
         android:layout_marginStart="14dp"
         android:layout_marginTop="8dp"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="1dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
@@ -26,11 +25,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        tools:text="@string/user_name"
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/userImg"
-        app:layout_constraintTop_toTopOf="@id/userImg" />
+        app:layout_constraintTop_toTopOf="@id/userImg"
+        tools:text="@string/user_name" />
 
 
     <TextView
@@ -38,9 +37,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        tools:text="@string/comments"
+        app:layout_constraintStart_toStartOf="@id/userTv"
         app:layout_constraintTop_toBottomOf="@id/userTv"
-        app:layout_constraintStart_toStartOf="@id/userTv" />
+        tools:text="@string/comments" />
 
     <ImageView
         android:id="@+id/commentImg"
@@ -58,9 +57,9 @@
         android:visibility="invisible"
         app:icon="@drawable/ic_delete"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="delete"
-        tools:visibility="invisible"
-        tools:ignore="MissingConstraints" />
+        tools:visibility="invisible" />
 
 
     <com.facebook.shimmer.ShimmerFrameLayout
@@ -78,14 +77,23 @@
             android:orientation="vertical">
 
             <include layout="@layout/item_video_comment_shammer" />
+
             <include layout="@layout/item_video_comment_shammer" />
+
             <include layout="@layout/item_video_comment_shammer" />
+
             <include layout="@layout/item_video_comment_shammer" />
+
             <include layout="@layout/item_video_comment_shammer" />
+
             <include layout="@layout/item_video_comment_shammer" />
+
             <include layout="@layout/item_video_comment_shammer" />
+
             <include layout="@layout/item_video_comment_shammer" />
+
             <include layout="@layout/item_video_comment_shammer" />
+
             <include layout="@layout/item_video_comment_shammer" />
 
         </LinearLayout>

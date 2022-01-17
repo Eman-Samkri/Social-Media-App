@@ -8,37 +8,22 @@
     tools:context=".ui.me.register.LoginUserFragment">
 
 
-<!--    <EditText-->
-<!--        android:id="@+id/email_edittext_login"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:layout_marginEnd="32dp"-->
-<!--        android:layout_marginStart="32dp"-->
-<!--        android:layout_marginTop="30dp"-->
-<!--        android:background="@drawable/rounded_edittext"-->
-<!--        android:ems="10"-->
-<!--        android:hint="Email"-->
-<!--        android:inputType="textEmailAddress"-->
-<!--        android:paddingLeft="16dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/kotlinImageView"/>-->
-
-<!--    <EditText-->
-<!--        android:id="@+id/password_edittext_login"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:background="@drawable/rounded_edittext"-->
-<!--        android:ems="10"-->
-<!--        android:hint="Password"-->
-<!--        android:inputType="textPassword"-->
-<!--        android:paddingLeft="16dp"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/email_edittext_login"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/email_edittext_login"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/email_edittext_login"/>-->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loading"
+        android:layout_width="107dp"
+        android:layout_height="97dp"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.925"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading"
+        tools:ignore="MissingConstraints" />
 
     <LinearLayout
         android:id="@+id/linear"
@@ -102,12 +87,13 @@
 
     </LinearLayout>
 
+
     <Button
         android:id="@+id/login_button_login"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="68dp"
         android:background="@drawable/rounded_button"
         android:text="@string/login"
         android:textColor="@android:color/white"
@@ -116,19 +102,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linear" />
-
-<!--    <Button-->
-<!--        android:id="@+id/login_button_google"-->
-<!--        style="?android:attr/borderlessButtonStyle"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:layout_marginTop="84dp"-->
-<!--        android:background="@drawable/rounded_button"-->
-<!--        android:text="Googel"-->
-<!--        android:textColor="@android:color/white"-->
-<!--        android:textStyle="bold"-->
-<!--        android:visibility="invisible"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/toRegisterTv" />-->
 
     <TextView
         android:id="@+id/toRegisterTv"

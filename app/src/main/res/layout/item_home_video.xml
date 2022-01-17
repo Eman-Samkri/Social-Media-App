@@ -130,17 +130,6 @@
                 android:visibility="gone"
                 tools:visibility="gone" />
 
-            <TextView
-                android:id="@+id/deleteVideo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/share"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"
-                android:textSize="11sp"
-                android:visibility="gone"
-                tools:visibility="gone" />
-
         </LinearLayout>
 
 

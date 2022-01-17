@@ -100,8 +100,10 @@ class LoginUserFragment : Fragment() {
             return
         }
 
-//        back_to_register_textview.visibility = View.GONE
-//        loading_view.visibility = View.VISIBLE
+
+        hideKeyboard()
+        binding.loading.visibility = View.VISIBLE
+        binding.toRegisterTv.visibility = View.GONE
 
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
@@ -117,8 +119,7 @@ class LoginUserFragment : Fragment() {
             }
             .addOnFailureListener {
                 Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
-//                back_to_register_textview.visibility = View.VISIBLE
-//                loading_view.visibility = View.GONE
+                binding.loading.visibility = View.GONE
             }
 
 

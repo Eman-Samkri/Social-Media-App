@@ -19,7 +19,7 @@
 
     <item
         android:id="@+id/indexFragment"
-        android:icon="@drawable/ic_person_outline_black"
+        android:icon="@drawable/ic_email_black_24dp"
         android:title="index" />
 
     <item

@@ -115,7 +115,7 @@
 
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lodingbar"
+        android:id="@+id/loading_bar"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
@@ -129,7 +129,8 @@
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         tools:ignore="MissingConstraints"
-        tools:visibility="invisible" />
+        tools:visibility="invisible"
+        app:lottie_rawRes="@raw/loading"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/register_loginBtn"

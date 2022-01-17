@@ -2,6 +2,7 @@ package com.t1000.capstone21.ui.profile.edit
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -13,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import coil.load
 import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.ProfileEditFragmentBinding
+import com.t1000.capstone21.utils.getScaledBitmap
 
 private const val TAG = "ProfileEditFragment"
 class ProfileEditFragment : Fragment() {
@@ -43,13 +45,16 @@ class ProfileEditFragment : Fragment() {
         }
 
         binding.uplod.setOnClickListener {
-//            selectedPhotoUri?.let {
-//                viewModel.uploadProfilePhoto(it) }
-//        }
+            selectedPhotoUri?.let {
+                viewModel.uploadProfilePhoto(it) }
 
-            findNavController().navigate(R.id.musicFragment)
         }
+
+          //  findNavController().navigate(R.id.musicFragment)
+
     }
+
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
