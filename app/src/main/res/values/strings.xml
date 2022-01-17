@@ -30,5 +30,7 @@
     <string name="continue_with_google">Continue with Google</string>
     <string name="profile">Profile</string>
     <string name="sign_up_for_an_account">Sign up for an account</string>
+    <string name="login">Login</string>
+    <string name="not_registration">Not registration</string>
 
 </resources>

@@ -92,8 +92,8 @@ class LoginUserFragment : Fragment() {
     }
 
     private fun loginUser(){
-        val email = binding.emailEdittextLogin.text.toString()
-        val password = binding.passwordEdittextLogin.text.toString()
+        val email = binding.loginEmail.text.toString()
+        val password = binding.loginPassword.text.toString()
 
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()

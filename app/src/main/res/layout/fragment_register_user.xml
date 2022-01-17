@@ -62,7 +62,7 @@
                 android:id="@+id/register_userName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_email_black_24dp"
+                android:drawableStart="@drawable/ic_person_black_24dp"
                 android:drawablePadding="8dp"
                 android:hint="@string/enter_user_name"
                 android:inputType="textEmailAddress"
