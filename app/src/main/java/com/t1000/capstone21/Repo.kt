@@ -249,14 +249,6 @@ class Repo private constructor(context: Context) {
 
     }
 
-    suspend fun fetchVideosById(videoId: String): List<Video> {
-        return fireStore.collection("video")
-            .whereEqualTo("videoId", videoId)
-            .get()
-            .await()
-            .toObjects(Video::class.java)
-    }
-
 
     suspend fun fetchVideosUser(userId: String): List<Video> {
         return fireStore.collection("video")
@@ -275,25 +267,7 @@ class Repo private constructor(context: Context) {
        return video[0]
 
     }
-//    suspend fun fetchVideosCommentById(videoId:String):List<Video> {
-////        val video = fireStore.collection("video")
-////            .whereEqualTo("videoId",videoId)
-//        val video =
-//            FirebaseFirestore
-//                .getInstance()
-//                .collection("video")
-//                .get()
-//                .await()
-//                .toObjects(Video::class.java)
-//
-//        for (document in video) {
-//
-////            Log.d("MainActivity ${document.comments}  ")
-//        }
-//
-//        return video
-//
-//    }
+
 
     suspend fun deleteVideoComment(videoId:String, index: Int){
         val video = Firebase.firestore.collection("video")

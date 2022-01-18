@@ -24,41 +24,13 @@ private const val TAG = "LoginUserFragment"
 
 class LoginUserFragment : Fragment() {
 
-    private val RC_SIGN_IN: Int =1
     private lateinit var binding: FragmentLoginUserBinding
-    private lateinit var auth: FirebaseAuth
-    private lateinit var googleSignInClient: GoogleSignInClient
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-        googleCreateRequest()
 
-        phoneCreateRequest()
 
-    }
 
-    private fun googleCreateRequest() {
-        auth = FirebaseAuth.getInstance()
-        // Configure Google Sign In
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.add_text))
-            .requestEmail()
-            .build()
-
-        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
-    }
-
-    private fun phoneCreateRequest() {
-//        val options = PhoneAuthOptions.newBuilder(auth)
-//            .setPhoneNumber(phoneNumber)       // Phone number to verify
-//            .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
-//            .setActivity(requireActivity())                 // Activity (for callback binding)
-//            .setCallbacks(callbacks)          // OnVerificationStateChangedCallbacks
-//            .build()
-//        PhoneAuthProvider.verifyPhoneNumber(options)
-    }
 
 
     override fun onCreateView(
@@ -80,9 +52,6 @@ class LoginUserFragment : Fragment() {
 
         }
 
-//        binding.loginButtonGoogle.setOnClickListener {
-//            signInWithGoogle()
-//        }
 
         binding.toRegisterTv.setOnClickListener {
             val action = LoginUserFragmentDirections.actionLoginUserFragmentToRegisterUserFragment()
@@ -123,48 +92,6 @@ class LoginUserFragment : Fragment() {
             }
 
 
-    }
-
-    private fun signInWithGoogle() {
-        val signInIntent = googleSignInClient.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                val account = task.getResult(ApiException::class.java)!!
-                Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
-                firebaseAuthWithGoogle(account.idToken!!)
-                Toast.makeText(context, "successfully register user $", Toast.LENGTH_LONG).show()
-
-            } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e)
-            }
-        }
-    }
-
-    private fun firebaseAuthWithGoogle(idToken: String) {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(requireActivity()) { task ->
-                if (!task.isSuccessful) return@addOnCompleteListener
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithCredential:success")
-                    val action = LoginUserFragmentDirections.actionLoginUserFragmentToProfileFragment(null)
-                    findNavController().navigate(action)
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-                }
-            }
     }
 
     private fun Fragment.hideKeyboard() {

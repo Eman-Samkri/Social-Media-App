@@ -1,5 +1,6 @@
 package com.t1000.capstone21.ui.home
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.firebase.auth.FirebaseAuth
+import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.FragmentHomeBinding
 import com.t1000.capstone21.databinding.ItemHomeVideoBinding
 import com.t1000.capstone21.models.Video
@@ -65,6 +67,7 @@ class HomeFragment : Fragment() {
 
     private inner class HomeVideoHolder(val binding:ItemHomeVideoBinding):RecyclerView.ViewHolder(binding.root){
 
+        @SuppressLint("ResourceAsColor")
         fun bind(video:Video){
             val user = viewModel.fetchUserById(video.userId)
                 user.observe(
@@ -76,6 +79,7 @@ class HomeFragment : Fragment() {
 
                 })
             binding.likeTV.text = video.likes.toString()
+            binding.comment.text = video.comments.count().toString()
 
             binding.homeVideoView.setVideoPath(video.videoUrl)
 
@@ -119,6 +123,9 @@ class HomeFragment : Fragment() {
                     findNavController().navigate(action)
                 }else {
                     viewModel.addLike(video)
+//                    binding.like.visibility = View.GONE
+//                    binding.likeAnima.visibility = View.VISIBLE
+                    binding.addLikeBtn.setImageResource(R.drawable.ic_liked)
                     binding.likeTV.text = video.likes.toString()
                 }
             }

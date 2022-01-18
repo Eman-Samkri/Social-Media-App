@@ -1,4 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="use_email">Use email</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name = "capture_button_alt"> لقطة </string>
+    <string name = "switch_camera_button_alt"> تبديل الكاميرا </string>
+    <string name = "gallery_button_alt"> المعرض </string>
+    <string name = "back_button_alt"> للخلف </string>
+    <string name = "share_button_alt"> مشاركة </string>
+    <string name = "share_hint"> مشاركة باستخدام </string>
+    <string name = "capture_mode_camera"> الكاميرا </string>
+    <string name = "capture_mode_hdr"> HDR </string>
+    <string name = "delete_button_alt"> حذف </string>
+    <string name = "delete_dialog"> هل تريد حذف الصورة الحالية؟ </string>
+    <string name = "delete_title"> تأكيد </string>
+    <string name = "hello_blank_fragment"> مرحبا قطعة فارغة </string>
+    <string name = "add_text"> أضف نصًا </string>
+    <string name = "comments"> التعليقات </string>
+    <string name = "like"> أعجبني </string>
+    <string name = "share"> مشاركة </string>
+    <string name = "username"> اسم المستخدم </string>
+    <string name = "user_name"> اسم المستخدم </string>
+    <string name = "email"> البريد الإلكتروني </string>
+    <string name = "password"> كلمة المرور </string>
+    <string name = "singup"> SingUp </string>
+    <string name = "enter_your_email"> أدخل بريدك الإلكتروني </string>
+    <string name = "enter_password"> أدخل كلمة المرور </string>
+    <string name = "enter_user_name"> أدخل اسم المستخدم </string>
+    <string name = "use_email"> استخدم البريد الإلكتروني </string>
+    <string name = "continue_with_facebook"> تابع مع Facebook </string>
+    <string name = "continue_with_google"> متابعة مع Google </string>
+    <string name = "profile"> الملف الشخصي </string>
+    <string name = "sign_up_for_an_account"> سجل للحصول على حساب </string>
+    <string name = "login"> تسجيل الدخول </string>
+    <string name = "not_registration"> عدم التسجيل </string>
+    <string name = "home"> الصفحة الرئيسية </string>
+    <string name = "select"> حدد صورة </string>
+    <string name = "likes"> الإعجابات </string>
+    <string name = "edit_profile"> تحرير ملف التعريف </string>
+    <string name = "following"> متابعة </string>
+    <string name="followers">Followers</string>
+    <string name = "unfollow"> إلغاء المتابعة </string>
+    <string name="me">Me</string>
+    <string name="post">Post</string>
+    <string name="search">Search</string>
+    <string name="new_chat">New Chat</string>
+    <string name="find_friends">Find Friends</string>
+    <string name="change_language">Change Language</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="home2">Home</string>
+    <string name="findFriend">Search For User</string>
+    <string name="chat">Private Chat</string>
+    <string name="MyFriend">My Friend</string>
+    <string name="profile2">Profile</string>
+    <string name="comment">Comments</string>
+    <string name="profileEd">Profile Edit</string>
+    <string name="vidPost">Video Post</string>
+    <string name="permm">Permissions</string>
+    <string name="photo">Take Photo</string>
+    <string name="video">Capture Video</string>
+    <string name="index">Index</string>
+    <string name="unfollow1">UnFollow</string>
+
+
 </resources>

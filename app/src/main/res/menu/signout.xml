@@ -3,8 +3,8 @@
 
     <item
         android:id="@+id/langMenu"
-        android:title="Change Langush" />
+        android:title="@string/change_language" />
     <item
         android:id="@+id/signoutMenu"
-        android:title="Sign Out" />
+        android:title="@string/sign_out" />
 </menu>

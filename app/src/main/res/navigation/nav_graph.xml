@@ -9,7 +9,7 @@
     <fragment
         android:id="@+id/permissions_fragment"
         android:name="com.t1000.capstone21.utils.CameraPermissions"
-        android:label="PermissionsFragment" >
+        android:label="@string/permm" >
 
         <action
             android:id="@+id/action_permissions_to_camera"
@@ -22,7 +22,7 @@
     <fragment
         android:id="@+id/photo_fragment"
         android:name="com.t1000.capstone21.camera.photoFragment.PhotoFragment"
-        android:label="PhotoFragment" >
+        android:label="@string/photo" >
 
 
         <action
@@ -47,7 +47,7 @@
     <fragment
         android:id="@+id/video_fragment"
         android:name="com.t1000.capstone21.camera.videoFragment.VideoFragment"
-        android:label="VideoFragment" >
+        android:label="@string/video" >
 
         <action
             android:id="@+id/action_video_to_permissions"
@@ -73,7 +73,7 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.t1000.capstone21.ui.home.HomeFragment"
-        android:label=""
+        android:label="@string/home2"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_navigation_home_to_commentFragment"
@@ -92,7 +92,7 @@
     <fragment
         android:id="@+id/navigation_post"
         android:name="com.t1000.capstone21.ui.post.PostFragment"
-        android:label=""
+        android:label="@string/post"
         tools:layout="@layout/fragment_post" >
         <action
             android:id="@+id/action_navigation_post_to_permissions_fragment"
@@ -101,7 +101,7 @@
     <fragment
         android:id="@+id/navigation_me"
         android:name="com.t1000.capstone21.ui.me.MeFragment"
-        android:label=""
+        android:label="@string/me"
         tools:layout="@layout/fragment_me" >
         <action
             android:id="@+id/action_navigation_me_to_loginUserFragment"
@@ -116,7 +116,7 @@
     <fragment
         android:id="@+id/navigation_findFrind"
         android:name="com.t1000.capstone21.ui.searchUser.SearchUserFragment"
-        android:label="search_user_fragment"
+        android:label="@string/findFriend"
         tools:layout="@layout/search_user_fragment" >
         <action
             android:id="@+id/action_navigation_findFrind_to_profileFragment"
@@ -130,7 +130,7 @@
     <fragment
         android:id="@+id/navigation_index"
         android:name="com.t1000.capstone21.ui.chat.privateChat.ChatFragment"
-        android:label="chat_fragment"
+        android:label="@string/chat"
         tools:layout="@layout/chat_fragment" >
 
         <action
@@ -151,7 +151,7 @@
     <fragment
         android:id="@+id/contactFragment"
         android:name="com.t1000.capstone21.ui.chat.contact.ContactFragment"
-        android:label="ContactFragment">
+        android:label="@string/MyFriend">
 
         <action
             android:id="@+id/action_contactFragment_to_navigation_index"
@@ -172,7 +172,7 @@
     <fragment
         android:id="@+id/loginUserFragment"
         android:name="com.t1000.capstone21.ui.me.register.LoginUserFragment"
-        android:label="fragment_login_user"
+        android:label="@string/login"
         tools:layout="@layout/fragment_login_user" >
         <action
             android:id="@+id/action_loginUserFragment_to_registerUserFragment"
@@ -185,7 +185,7 @@
     <fragment
         android:id="@+id/registerUserFragment"
         android:name="com.t1000.capstone21.ui.me.register.RegisterUserFragment"
-        android:label="fragment_register_user"
+        android:label="Register"
         tools:layout="@layout/fragment_register_user" >
         <action
             android:id="@+id/action_registerUserFragment_to_navigation_home"
@@ -194,7 +194,7 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.t1000.capstone21.ui.profile.ProfileFragment"
-        android:label="profile_fragment"
+        android:label="@string/profile2"
         tools:layout="@layout/profile_fragment" >
     <argument
         android:name="currentUserId"
@@ -217,7 +217,7 @@
     <dialog
         android:id="@+id/commentFragment"
         android:name="com.t1000.capstone21.ui.comment.CommentFragment"
-        android:label="comment_fragment"
+        android:label="@string/comment"
         tools:layout="@layout/add_comment_chat_fragment" >
         <argument
             android:name="currentVideoId"
@@ -240,7 +240,7 @@
     <dialog
         android:id="@+id/stickerFragment"
         android:name="com.t1000.capstone21.ui.sticker.StickerFragment"
-        android:label="sticker_fragment"
+        android:label="Sticker"
         tools:layout="@layout/sticker_fragment" >
         <argument
             android:name="currentVideoId"
@@ -260,7 +260,7 @@
     <fragment
         android:id="@+id/followFragment"
         android:name="com.t1000.capstone21.ui.follow.FollowFragment"
-        android:label="follow_fragment"
+        android:label="Follow"
         tools:layout="@layout/follow_fragment" >
 
     <argument
@@ -288,16 +288,16 @@
     <fragment
         android:id="@+id/profileEditFragment"
         android:name="com.t1000.capstone21.ui.profile.edit.ProfileEditFragment"
-        android:label="profile_edit_fragment"
+        android:label="@string/profileEd"
         tools:layout="@layout/profile_edit_fragment" />
     <fragment
         android:id="@+id/indexFragment"
         android:name="com.t1000.capstone21.ui.chat.homeChat.HomeMassageFragment"
-        android:label="IndexFragment" />
+        android:label="@string/index" />
     <fragment
         android:id="@+id/videPostFragment"
         android:name="com.t1000.capstone21.ui.profile.VidePostFragment"
-        android:label="VidePostFragment" >
+        android:label="@string/vidPost" >
         <argument
             android:name="userId"
             app:argType="string"
@@ -312,7 +312,7 @@
     <fragment
         android:id="@+id/musicFragment"
         android:name="com.t1000.capstone21.camera.musicFragment.MusicFragment"
-        android:label="music_fragment"
+        android:label="Music "
         tools:layout="@layout/music_fragment" />
 
 

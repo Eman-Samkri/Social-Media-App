@@ -13,4 +13,6 @@
     <color name="icFocused">#DDFFFFFF</color>
     <color name="icPressed">#AAFFFFFF</color>
     <color name="shimmerColor">#C2C2C2</color>
+    <color name="redColor">#FF0303</color>
+
 </resources>

@@ -49,17 +49,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/userImg" />
 
-    <Button
+    <ImageView
         android:id="@+id/deletCommentBtn"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="20dp"
         android:visibility="invisible"
-        app:icon="@drawable/ic_delete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="delete"
-        tools:visibility="invisible" />
+        app:srcCompat="@drawable/ic_delete"
+        tools:text="delete" />
 
 
     <com.facebook.shimmer.ShimmerFrameLayout

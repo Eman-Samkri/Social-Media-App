@@ -50,7 +50,7 @@
             app:iconTint="@android:color/white" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/log_in_google_btn"
+            android:id="@+id/googleBtn"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"

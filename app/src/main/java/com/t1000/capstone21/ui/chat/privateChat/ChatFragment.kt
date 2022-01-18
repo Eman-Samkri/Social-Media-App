@@ -70,7 +70,7 @@ class ChatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
-            viewModel.loadChatMessages(senderId,args.chatReceivedId.toString()).observe( viewLifecycleOwner
+            viewModel.loadChatMessages(senderId,receiverId).observe( viewLifecycleOwner
             ) {
                 Log.e(TAG, "onViewCreated: sender = $senderId, receiver =$receiverId",)
                 binding.recycler.adapter = ChatAdapter(it)

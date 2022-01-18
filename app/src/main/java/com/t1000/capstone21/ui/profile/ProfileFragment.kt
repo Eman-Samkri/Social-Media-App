@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.iid.FirebaseInstanceId
@@ -98,7 +99,7 @@ class ProfileFragment : Fragment() {
         //own profile
         if (FirebaseAuth.getInstance().currentUser?.uid!! == args.currentUserId
             || args.currentUserId == null){
-            binding.follwingBtn.visibility = View.GONE
+            binding.followingBtn.visibility = View.GONE
             binding.editProfileBtn.visibility =View.VISIBLE
         }
 
@@ -107,13 +108,14 @@ class ProfileFragment : Fragment() {
                 it?.let {
                     it.forEach { user->
                         if (user.followers.contains(currentUser)){
-                            binding.follwingBtn.visibility = View.GONE
+                            binding.followingBtn.visibility = View.GONE
                             binding.unFollowBtn.visibility = View.VISIBLE
                         }
 
                         binding.followersCountNumber.text = user.followers.distinct().count().toString()
                         binding.followingCountNumber.text = user.following.distinct().count().toString()
                         binding.userNameTv.text = user.username
+                        binding.userPhoto.load(user.profilePictureUrl)
                         userName = user.username
 
                     }
@@ -133,17 +135,17 @@ class ProfileFragment : Fragment() {
             })
 
 
-        binding.follwingBtn.setOnClickListener {
+        binding.followingBtn.setOnClickListener {
             viewModel.addFollowing(userOwnProfileId)
             viewModel.sendNotificationToUser(userOwnProfileId, userName,"some one following")
-            binding.follwingBtn.visibility = View.GONE
+            binding.followingBtn.visibility = View.GONE
             binding.unFollowBtn.visibility = View.VISIBLE
 
         }
 
         binding.unFollowBtn.setOnClickListener {
             viewModel.unFollow(userOwnProfileId)
-            binding.follwingBtn.visibility = View.VISIBLE
+            binding.followingBtn.visibility = View.VISIBLE
             binding.unFollowBtn.visibility = View.GONE
             viewModel.sendNotificationToUser(userOwnProfileId, userName,"unfollow to you")
 

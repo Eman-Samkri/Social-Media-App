@@ -39,8 +39,8 @@
 
         <LinearLayout
             android:id="@+id/commentL"
-            android:layout_width="50dp"
-            android:layout_height="61dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -54,7 +54,7 @@
                 android:id="@+id/comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/comments"
+                tools:text="@string/comments"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textSize="11sp" />
@@ -64,7 +64,7 @@
         <LinearLayout
             android:id="@+id/shard"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:gravity="center"
             android:orientation="vertical">
@@ -98,7 +98,7 @@
                 android:id="@+id/addLikeBtn"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:src="@drawable/like" />
+                android:src="@drawable/ic_like" />
 
             <TextView
                 android:id="@+id/likeTV"
@@ -130,6 +130,17 @@
                 android:visibility="gone"
                 tools:visibility="gone" />
 
+            <TextView
+                android:id="@+id/deleteVideo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/share"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="11sp"
+                android:visibility="gone"
+                tools:visibility="gone" />
+
         </LinearLayout>
 
 
@@ -156,6 +167,8 @@
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+
 
 
 
