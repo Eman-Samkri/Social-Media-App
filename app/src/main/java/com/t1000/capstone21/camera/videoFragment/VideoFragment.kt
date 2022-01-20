@@ -23,15 +23,17 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.t1000.capstone21.KEY_EVENT_EXTRA
 import com.t1000.capstone21.R
-import com.t1000.capstone21.models.Video
 import com.t1000.capstone21.camera.baseFragment.BaseFragment
 import com.t1000.capstone21.camera.baseFragment.CameraViewModel
 import com.t1000.capstone21.databinding.FragmentVideoBinding
+import com.t1000.capstone21.models.Video
 import com.t1000.capstone21.utils.formatSeconds
 import com.t1000.capstone21.utils.simulateClick
+import org.chromium.base.ThreadUtils.runOnUiThread
 import java.util.*
 
 private const val TAG = "VideoFragment"
@@ -47,6 +49,8 @@ override val binding: FragmentVideoBinding by lazy {
     private var isRecording = false
     private var timer:Timer?=null
     private var recordSecondFlashy = 0
+
+    private lateinit var uri: Uri
 
     private val viewModel by lazy { ViewModelProvider(this).get(CameraViewModel::class.java) }
 
@@ -220,20 +224,14 @@ override val binding: FragmentVideoBinding by lazy {
                         uploadVideo()
                         Log.d(TAG, "onVideoSaved: ${viewModel.savedUri}")
 
+                        runOnUiThread(Runnable {
+                            val action = VideoFragmentDirections.actionVideoFragmentToPreviewFragment(uri.toString())
+                            findNavController().navigate(action)
+                        })
 
 
-                        // We can only change the foreground Drawable using API level 23+ API
-//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                            // Update the gallery thumbnail with latest picture taken
-//                       //     savedUri?.let { setGalleryThumbnail(binding.photoViewButton , it) }
-//                        }
-
-                        // Implicit broadcasts will be ignored for devices running API level >= 24
-                        // so if you only target API level 24+ you can remove this statement
                         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                            requireActivity().sendBroadcast(
-                                Intent(android.hardware.Camera.ACTION_NEW_PICTURE, viewModel.savedUri)
-                            )
+                            requireActivity().sendBroadcast(Intent(android.hardware.Camera.ACTION_NEW_PICTURE, viewModel.savedUri))
                         }
 
                     }
@@ -253,9 +251,6 @@ override val binding: FragmentVideoBinding by lazy {
             localVideoCapture.stopRecording()
 
             Log.d(TAG, "Video capture succeeded: in stop recording ${viewModel.savedUri}")
-//            val action = VideoFragmentDirections.actionVideoFragmentToPreviewFragment(viewModel.savedUri.toString())
-//            findNavController().navigate(action)
-
         }
         isRecording = !isRecording
 
@@ -332,21 +327,10 @@ override val binding: FragmentVideoBinding by lazy {
 
 
     private fun uploadVideo() {
-        val video = Video()
-//        if (FirebaseAuth.getInstance().currentUser == null){
-//            Toast.makeText(context,"Pleas login ",Toast.LENGTH_LONG).show()
-//            findNavController().navigate(R.id.navigation_me)
-//        }else{
-            video.userId = FirebaseAuth.getInstance().currentUser?.uid!!
 
             viewModel.savedUri?.let {
-                viewModel.uploadVideo(it,video)
-                Log.e(TAG, "uploadVideo: in fun ${viewModel.savedUri}savedUri", )
-        //    }
-//
-//                val action = VideoFragmentDirections.actionVideoFragmentToPreviewFragment(viewModel.savedUri.toString())
-//                findNavController().navigate(action)
-
+                Log.e(TAG, "uploadVideo: in fun ${viewModel.savedUri}savedUri")
+                uri = it
         }
 
     }

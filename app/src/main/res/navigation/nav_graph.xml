@@ -40,7 +40,7 @@
             android:id="@+id/action_photo_fragment_to_previewFragment"
             app:destination="@id/previewFragment" >
 
-           </action>
+        </action>
 
     </fragment>
 
@@ -60,13 +60,10 @@
             app:destination="@id/photo_fragment"
             app:popUpTo="@id/video_fragment"
             app:popUpToInclusive="true"/>
+
         <action
             android:id="@+id/action_video_fragment_to_previewFragment"
-            app:destination="@id/previewFragment" >
-            <argument
-                android:name="savedUri"
-                app:argType="string" />
-        </action>
+            app:destination="@id/previewFragment"/>
 
     </fragment>
 
@@ -286,8 +283,13 @@
     <fragment
         android:id="@+id/previewFragment"
         android:name="com.t1000.capstone21.camera.preview.PreviewFragment"
-        android:label="preview_fragment"
-        tools:layout="@layout/preview_fragment" />
+        android:label="Video Preview"
+        tools:layout="@layout/preview_fragment">
+        <argument
+            android:name="savedUri"
+            app:argType="string" />
+    </fragment>
+
     <fragment
         android:id="@+id/profileEditFragment"
         android:name="com.t1000.capstone21.ui.profile.edit.ProfileEditFragment"
@@ -309,7 +311,8 @@
             android:name="userId"
             app:argType="string"
             app:nullable="true" />
-        <argument android:name="videoId"
+        <argument
+            android:name="videoId"
             app:argType="string"
             app:nullable="true" />
         <action

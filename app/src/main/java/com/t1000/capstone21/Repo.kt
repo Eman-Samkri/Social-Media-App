@@ -79,13 +79,9 @@ class Repo private constructor(context: Context) {
     private fun addVideoToVideoCollection(video: Video,uri:Uri){
         video.videoUrl = uri.toString()
 
-       val uplodToFirestore= Firebase.firestore.collection("video")
+      Firebase.firestore.collection("video")
             .document(video.videoId)
             .set(video)
-
-        if (uplodToFirestore.isSuccessful){
-
-        }
 
     }
 
