@@ -15,5 +15,6 @@ object RegistrationUtil {
         }
 
         return true
+
     }
 }

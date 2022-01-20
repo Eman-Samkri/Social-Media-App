@@ -26,6 +26,7 @@ import com.t1000.capstone21.databinding.ItemSmallVideoBinding
 import com.t1000.capstone21.databinding.ProfileFragmentBinding
 import com.t1000.capstone21.models.Video
 import com.t1000.capstone21.notification.FirebaseService
+import com.t1000.capstone21.utils.ConnectionManager
 import java.util.*
 
 const val TOPIC = "/topics/myTopic2"
@@ -90,6 +91,11 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        when(ConnectionManager.isOnline(requireContext())){
+            true -> binding.internet.visibility = View.GONE
+            false -> binding.internet.visibility = View.VISIBLE
+        }
         //the own profile or just show your profile
         userOwnProfileId = if (args.currentUserId != null){
             args.currentUserId.toString()

@@ -22,6 +22,7 @@ import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.FragmentHomeBinding
 import com.t1000.capstone21.databinding.ItemHomeVideoBinding
 import com.t1000.capstone21.models.Video
+import com.t1000.capstone21.utils.ConnectionManager
 
 
 private const val TAG = "HomeFragment"
@@ -36,9 +37,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding:FragmentHomeBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +44,12 @@ class HomeFragment : Fragment() {
     ): View {
 
         binding = FragmentHomeBinding.inflate(layoutInflater)
+
+        when(ConnectionManager.isOnline(requireContext())){
+            true -> binding.internet.visibility = View.GONE
+            false -> binding.internet.visibility = View.VISIBLE
+        }
+
         binding.myRv.layoutManager = LinearLayoutManager(context)
         val pagerSnapHelper = PagerSnapHelper()
         pagerSnapHelper.attachToRecyclerView(binding.myRv)

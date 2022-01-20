@@ -15,6 +15,7 @@ import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.*
 import com.t1000.capstone21.models.ChatParticipant
 import com.t1000.capstone21.ui.chat.privateChat.ChatFragmentDirections
+import com.t1000.capstone21.utils.ConnectionManager
 
 class HomeMassageFragment:Fragment() {
 
@@ -62,6 +63,11 @@ class HomeMassageFragment:Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = HomeMassageFragmentBinding.inflate(layoutInflater)
+
+        when(ConnectionManager.isOnline(requireContext())){
+            true -> binding.internet.visibility = View.GONE
+            false -> binding.internet.visibility = View.VISIBLE
+        }
 
         binding.homeMassageRv.layoutManager = LinearLayoutManager(context)
 

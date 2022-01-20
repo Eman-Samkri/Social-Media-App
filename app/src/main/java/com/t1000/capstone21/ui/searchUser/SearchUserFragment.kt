@@ -20,6 +20,7 @@ import com.t1000.capstone21.databinding.SearchUserFragmentBinding
 import com.t1000.capstone21.models.User
 import com.t1000.capstone21.ui.home.HomeFragmentDirections
 import com.t1000.capstone21.ui.sticker.StickerFragmentDirections
+import com.t1000.capstone21.utils.ConnectionManager
 import com.t1000.capstone21.utils.hideKeyboard
 import java.util.*
 
@@ -62,6 +63,11 @@ private lateinit var binding :SearchUserFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        when(ConnectionManager.isOnline(requireContext())){
+            true -> binding.internet.visibility = View.GONE
+            false -> binding.internet.visibility = View.VISIBLE
+        }
 
         viewModel.fetchAllUser().observe(
             viewLifecycleOwner, Observer {

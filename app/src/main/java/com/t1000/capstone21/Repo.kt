@@ -371,8 +371,6 @@ class Repo private constructor(context: Context) {
           Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
               .snapshotAsFlow()
               .collect {
-                  Log.d(TAG, "loadChatMessages: $senderId,$receiverId ,${it["messages"]}")
-
                   if (it.id != "${senderId}_${receiverId}" || it.id != "${receiverId}_${senderId}") {
                       emit(chats)
                   }else if (it.id == "${senderId}_${receiverId}" || it.id == "${receiverId}_${senderId}") {

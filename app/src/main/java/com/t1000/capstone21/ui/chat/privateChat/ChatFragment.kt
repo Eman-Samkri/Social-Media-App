@@ -20,6 +20,7 @@ import com.t1000.capstone21.databinding.ItemVideoCommentBinding
 
 import com.t1000.capstone21.models.ChatMessage
 import com.t1000.capstone21.models.User
+import com.t1000.capstone21.utils.ConnectionManager
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -63,6 +64,11 @@ class ChatFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = ChatFragmentBinding.inflate(layoutInflater)
+
+        when(ConnectionManager.isOnline(requireContext())){
+            true -> binding.internet.visibility = View.GONE
+            false -> binding.internet.visibility = View.VISIBLE
+        }
 
         binding.recycler.layoutManager = LinearLayoutManager(context)
 
