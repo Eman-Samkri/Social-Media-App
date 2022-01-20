@@ -27,7 +27,6 @@
         android:layout_marginTop="108dp"
         android:contextClickable="true"
         app:cornerRadius="17sp"
-        app:layout_constraintBottom_toTopOf="@+id/register_userName"
         app:layout_constraintHorizontal_bias="0.553"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -50,4 +49,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

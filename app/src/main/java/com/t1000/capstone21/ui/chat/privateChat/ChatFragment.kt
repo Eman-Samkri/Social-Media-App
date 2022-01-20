@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.t1000.capstone21.databinding.ChatFragmentBinding
+import com.t1000.capstone21.databinding.ItemChatReciverBinding
+import com.t1000.capstone21.databinding.ItemChatSenderBinding
 import com.t1000.capstone21.databinding.ItemVideoCommentBinding
 
 import com.t1000.capstone21.models.ChatMessage
@@ -91,8 +93,10 @@ class ChatFragment : Fragment() {
             Toast.makeText(context, "Empty String", Toast.LENGTH_LONG).show()
             return
         }
-        val chatMessage = ChatMessage(senderId = senderId,receiverId = receiverId,
-            text = binding.messageEditText.text.toString(), created_at = Timestamp(Date()))
+        val chatMessage = ChatMessage(senderId = senderId,
+                                      receiverId = receiverId,
+                                      text = binding.messageEditText.text.toString(),
+                                      created_at = Timestamp(Date()))
         viewModel.sendMessage(chatMessage)
 
         binding.messageEditText.setText("")
@@ -101,11 +105,16 @@ class ChatFragment : Fragment() {
 
 
 
-     inner class ChatHolder(): RecyclerView.ViewHolder(binding.root){
+    private inner class ChatHolder(val bindingRec:ItemChatReciverBinding,val bindingSend:ItemChatSenderBinding):RecyclerView.ViewHolder(binding.root) {
         fun bind(chatMessage: ChatMessage){
-//            binding.commentText.text = chatMessage.text
-//            binding.userTv.text = senderId
+            if (FirebaseAuth.getInstance().currentUser?.uid == chatMessage.senderId){
+                bindingSend.dateTextView.text = chatMessage.text
+            }else if (FirebaseAuth.getInstance().currentUser?.uid == chatMessage.receiverId){
+                bindingRec.dateTextView.text = chatMessage.text
+            }
+
         }
+
 
 
     }
@@ -118,13 +127,19 @@ class ChatFragment : Fragment() {
             parent: ViewGroup,
             viewType: Int
         ):ChatHolder {
-            val binding = ItemVideoCommentBinding.inflate(
+            val bindingSend = ItemChatSenderBinding.inflate(
                 layoutInflater,
                 parent,
                 false
             )
 
-            return ChatHolder()
+            val bindingRec = ItemChatReciverBinding.inflate(
+                layoutInflater,
+                parent,
+                false
+            )
+
+            return ChatHolder(bindingRec,bindingSend)
 
         }
 

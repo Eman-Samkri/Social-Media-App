@@ -19,6 +19,7 @@
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_home_black_24dp.xml" value="0.1" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_lock.xml" value="0.1285" />
+        <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_message_black_24dp.xml" value="0.1285" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_more_vert.xml" value="0.136" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_outer_circle.xml" value="0.1" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/drawable-v24/ic_person_black_24dp.xml" value="0.1285" />
@@ -66,7 +67,7 @@
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/fragment_post.xml" value="0.1796875" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/fragment_register_user.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/fragment_video.xml" value="0.1" />
-        <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/home_massage_fragment.xml" value="0.1796875" />
+        <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/home_massage_fragment.xml" value="0.1" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/ic_facebook.xml" value="0.1796875" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/item_chat_reciver.xml" value="0.11367753623188406" />
         <entry key="..\:/Users/mano4/Capstone21/app/src/main/res/layout/item_chat_sender.xml" value="0.6666666666666666" />

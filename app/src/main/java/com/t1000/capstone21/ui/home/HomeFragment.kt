@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.FragmentHomeBinding
 import com.t1000.capstone21.databinding.ItemHomeVideoBinding
@@ -30,10 +32,13 @@ class HomeFragment : Fragment() {
 
     private val viewModel by lazy { ViewModelProvider(this).get(HomeViewModel::class.java) }
 
+   // private lateinit var currentUser:String
 
     private lateinit var binding:FragmentHomeBinding
 
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +61,6 @@ class HomeFragment : Fragment() {
 
         viewModel.fetchRandomVideos().observe(
             viewLifecycleOwner, Observer{
-                Log.e(TAG, "onViewCreated: list $it ")
 
                 binding.myRv.adapter = VideosAdapter(it)
 
@@ -67,8 +71,15 @@ class HomeFragment : Fragment() {
 
     private inner class HomeVideoHolder(val binding:ItemHomeVideoBinding):RecyclerView.ViewHolder(binding.root){
 
-        @SuppressLint("ResourceAsColor")
+        private lateinit var currentUser :String
+
         fun bind(video:Video){
+            if (FirebaseAuth.getInstance().currentUser?.uid != null){
+                currentUser = Firebase.auth.currentUser!!.uid
+                if (video.likes.contains(currentUser)){
+                    binding.addLikeBtn.setImageResource(R.drawable.ic_liked)
+                }
+            }
             val user = viewModel.fetchUserById(video.userId)
                 user.observe(
                 viewLifecycleOwner, Observer{
@@ -78,7 +89,8 @@ class HomeFragment : Fragment() {
                     }
 
                 })
-            binding.likeTV.text = video.likes.toString()
+            binding.likeTV.text = video.likes.count().toString()
+
             binding.comment.text = video.comments.count().toString()
 
             binding.homeVideoView.setVideoPath(video.videoUrl)
@@ -122,11 +134,17 @@ class HomeFragment : Fragment() {
                     val action = HomeFragmentDirections.actionNavigationHomeToNavigationMe()
                     findNavController().navigate(action)
                 }else {
-                    viewModel.addLike(video)
-//                    binding.like.visibility = View.GONE
-//                    binding.likeAnima.visibility = View.VISIBLE
-                    binding.addLikeBtn.setImageResource(R.drawable.ic_liked)
-                    binding.likeTV.text = video.likes.toString()
+                    currentUser= Firebase.auth.currentUser!!.uid
+                    if (video.likes.contains(currentUser)){
+                        viewModel.unLike(video)
+                        binding.likeTV.text = video.likes.distinct().count().toString()
+                        binding.addLikeBtn.setImageResource(R.drawable.like)
+
+                    }else{
+                        viewModel.addLike(video)
+                        binding.likeTV.text = video.likes.distinct().count().toString()
+                        binding.addLikeBtn.setImageResource(R.drawable.ic_liked)
+                    }
                 }
             }
 

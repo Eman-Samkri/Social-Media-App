@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import coil.load
+import com.google.firebase.auth.FirebaseAuth
 import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.ProfileEditFragmentBinding
 import com.t1000.capstone21.utils.getScaledBitmap
@@ -49,8 +50,9 @@ class ProfileEditFragment : Fragment() {
                 viewModel.uploadProfilePhoto(it) }
 
         }
-
-          //  findNavController().navigate(R.id.musicFragment)
+            val action = ProfileEditFragmentDirections.actionProfileEditFragmentToProfileFragment(
+                FirebaseAuth.getInstance().currentUser?.uid)
+           findNavController().navigate(action)
 
     }
 

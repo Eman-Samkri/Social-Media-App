@@ -16,10 +16,6 @@ class ProfileEditViewModel : ViewModel() {
         viewModelScope.launch {
             repo.uploadProfilePhoto(localPhotoUri)
         }
-
     }
 
-    fun getPhotoFile(photo: Photo): File {
-        return repo.getPhotoFile(photo)
-    }
 }

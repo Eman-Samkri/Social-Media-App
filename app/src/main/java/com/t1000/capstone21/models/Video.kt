@@ -6,7 +6,7 @@ data class Video (
                   val videoId:String = UUID.randomUUID().toString(),
                   var userId: String = "",
                   var videoUrl: String = "",
-                  var likes: Long = 0,
+                  var likes: List<String> = listOf(),
                   var comments: List<Comment> = listOf(),
                     ) {
 

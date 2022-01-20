@@ -28,7 +28,7 @@ class RegistrationUtilTest{
     fun `less than 6 digit password returns false`() {
         val result = RegistrationUtil.validateRegistrationInput(
             "Eman",
-            "3242",
+            "342",
         )
         assertFalse(result)
     }

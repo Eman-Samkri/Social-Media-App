@@ -19,6 +19,10 @@ class HomeViewModel : ViewModel() {
         repo.addLike(video)
     }
 
+    fun unLike(video:Video){
+        repo.unLike(video)
+    }
+
     fun fetchUserById(userId: String) : LiveData<List<User>> = liveData {
         emit(listOf(repo.fetchUserById(userId)))
     }

@@ -209,6 +209,9 @@
         <action
             android:id="@+id/action_profileFragment_to_videPostFragment"
             app:destination="@id/videPostFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_profileEditFragment"
+            app:destination="@id/profileEditFragment" />
 
     </fragment>
 
@@ -289,7 +292,11 @@
         android:id="@+id/profileEditFragment"
         android:name="com.t1000.capstone21.ui.profile.edit.ProfileEditFragment"
         android:label="@string/profileEd"
-        tools:layout="@layout/profile_edit_fragment" />
+        tools:layout="@layout/profile_edit_fragment" >
+        <action
+            android:id="@+id/action_profileEditFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/indexFragment"
         android:name="com.t1000.capstone21.ui.chat.homeChat.HomeMassageFragment"

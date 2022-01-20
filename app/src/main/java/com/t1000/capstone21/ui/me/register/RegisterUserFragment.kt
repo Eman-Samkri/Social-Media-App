@@ -20,6 +20,7 @@ import com.google.firebase.ktx.Firebase
 import com.t1000.capstone21.databinding.FragmentRegisterUserBinding
 import com.t1000.capstone21.models.User
 import com.t1000.capstone21.ui.me.MeViewModel
+import com.t1000.capstone21.utils.RegistrationUtil
 import java.lang.Exception
 
 
@@ -66,8 +67,7 @@ class RegisterUserFragment : Fragment(){
         val email = binding.registerEmail.text.toString()
         val password = binding.registerPassword.text.toString()
         val username = binding.registerUserName.text.toString()
-
-        if (email.isNotEmpty() && password.isNotEmpty() && username.isNotEmpty()) {
+        if (RegistrationUtil.validateRegistrationInput(username,password)){
             binding.loadingBar.visibility = View.VISIBLE
                 auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
@@ -87,7 +87,9 @@ class RegisterUserFragment : Fragment(){
                     }
 
 
-            }
+            }else{
+            Toast.makeText(context, "something wrong $username", Toast.LENGTH_LONG).show()
+        }
         }
 
 

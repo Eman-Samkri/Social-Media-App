@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
@@ -23,6 +24,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.io.File
+import java.util.HashMap
 
 
 private const val TAG = "Repo"
@@ -91,9 +93,29 @@ class Repo private constructor(context: Context) {
 
 
     fun addLike(video:Video){
+        val mutableLikeList = mutableListOf<String>()
+        video.likes.forEach {
+            mutableLikeList += it
+        }
+        FirebaseAuth.getInstance().currentUser?.uid?.let { mutableLikeList.add(it) }
+
         Firebase.firestore.collection("video")
             .document(video.videoId)
-            .update("likes", ++video.likes)
+            .update("likes",mutableLikeList)
+
+    }
+
+
+    fun unLike(video:Video){
+        val mutableLikeList = mutableListOf<String>()
+        video.likes.forEach {
+            mutableLikeList += it
+        }
+        FirebaseAuth.getInstance().currentUser?.uid?.let { mutableLikeList.remove(it) }
+
+        Firebase.firestore.collection("video")
+            .document(video.videoId)
+            .update("likes",mutableLikeList)
 
     }
 
@@ -332,7 +354,6 @@ class Repo private constructor(context: Context) {
     }
 
 
-    //TODO: use this
     suspend fun deleteVideo(videoId:String){
         Firebase.firestore.collection("video")
             .document(videoId)
@@ -343,7 +364,7 @@ class Repo private constructor(context: Context) {
 //--------------------------------------------------------
 
 
-  suspend  fun loadChatMessages(senderId: String, receiverId: String): LiveData<List<ChatMessage>> {
+  suspend  fun loadChatMessages(senderId: String, receiverId: String):LiveData<List<ChatMessage>> {
 
       return liveData {
           val chats = mutableListOf<ChatMessage>()
@@ -352,10 +373,11 @@ class Repo private constructor(context: Context) {
               .collect {
                   Log.d(TAG, "loadChatMessages: $senderId,$receiverId ,${it["messages"]}")
 
-                  if (it.id == "${senderId}_${receiverId}" || it.id == "${receiverId}_${senderId}") {
+                  if (it.id != "${senderId}_${receiverId}" || it.id != "${receiverId}_${senderId}") {
+                      emit(chats)
+                  }else if (it.id == "${senderId}_${receiverId}" || it.id == "${receiverId}_${senderId}") {
                       Log.d(TAG, "loadChatMessages: $senderId,$receiverId ,${it["messages"]}")
                       val messagesFromFirestore = it.data?.getValue("messages") as List<*>
-
                       Log.d(TAG, "loadChatMessages: $messagesFromFirestore")
 
                       messagesFromFirestore.forEach { u ->
@@ -374,6 +396,7 @@ class Repo private constructor(context: Context) {
                   }
               }
       }
+
 
       }
     

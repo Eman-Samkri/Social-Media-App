@@ -48,7 +48,7 @@
                 android:id="@+id/commentVideoBtn"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:src="@drawable/share" />
+                android:src="@drawable/ic_message_black_24dp" />
 
             <TextView
                 android:id="@+id/comment"
