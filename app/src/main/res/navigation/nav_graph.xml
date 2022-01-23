@@ -252,7 +252,9 @@
 
         <action
             android:id="@+id/action_stickerFragment_to_commentFragment"
-            app:destination="@id/commentFragment" />
+            app:destination="@id/commentFragment"
+            app:popUpTo="@+id/commentFragment"
+            app:popUpToInclusive="true"/>
 
 
     </dialog>
