@@ -69,6 +69,7 @@ private lateinit var binding :SearchUserFragmentBinding
             false -> binding.internet.visibility = View.VISIBLE
         }
 
+
         viewModel.fetchAllUser().observe(
             viewLifecycleOwner, Observer {
                     allUserList +=  it
@@ -96,7 +97,7 @@ private lateinit var binding :SearchUserFragmentBinding
 
                 override fun onQueryTextChange(charSequence: String): Boolean {
                     searchQueryList = mutableListOf()
-
+                    binding.searchAnimation.visibility = View.GONE
                     if (charSequence.isEmpty()){
                         searchQueryList = mutableListOf()
                     }else{

@@ -42,7 +42,6 @@ class CommentFragment : BottomSheetDialogFragment() {
 
     private val viewModel by lazy { ViewModelProvider(this).get(CommentViewModel::class.java) }
 
-    private lateinit var currentUser:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,11 +51,7 @@ class CommentFragment : BottomSheetDialogFragment() {
             findNavController().navigate(R.id.navigation_me)
         }
 
-        currentUser = if (args.currentUserId != null){
-            args.currentUserId.toString()
-        }else{
-            Firebase.auth.currentUser!!.uid
-        }
+
 
     }
 

@@ -38,26 +38,26 @@
     <string name = "following"> متابعة </string>
     <string name="followers">Followers</string>
     <string name = "unfollow"> إلغاء المتابعة </string>
-    <string name="me">Me</string>
-    <string name="post">Post</string>
-    <string name="search">Search</string>
-    <string name="new_chat">New Chat</string>
-    <string name="find_friends">Find Friends</string>
-    <string name="change_language">Change Language</string>
-    <string name="sign_out">Sign Out</string>
-    <string name="home2">Home</string>
-    <string name="findFriend">Search For User</string>
-    <string name="chat">Private Chat</string>
-    <string name="MyFriend">My Friend</string>
-    <string name="profile2">Profile</string>
-    <string name="comment">Comments</string>
-    <string name="profileEd">Profile Edit</string>
-    <string name="vidPost">Video Post</string>
-    <string name="permm">Permissions</string>
-    <string name="photo">Take Photo</string>
-    <string name="video">Capture Video</string>
-    <string name="index">Index</string>
-    <string name="unfollow1">UnFollow</string>
+    <string name = "me"> أنا </string>
+    <string name = "post"> نشر </string>
+    <string name = "search"> بحث </string>
+    <string name = "new_chat"> دردشة جديدة </string>
+    <string name = "find_friends"> بحث عن أصدقاء </string>
+    <string name = "change_language"> تغيير اللغة </string>
+    <string name = "sign_out"> تسجيل الخروج </string>
+    <string name = "home2"> الصفحة الرئيسية </string>
+    <string name = "findFriend"> البحث عن مستخدم </string>
+    <string name = "chat"> محادثة خاصة </string>
+    <string name = "MyFriend"> صديقي </string>
+    <string name = "profile2"> الملف الشخصي </string>
+    <string name = "comment"> التعليقات </string>
+    <string name = "profileEd"> تحرير الملف الشخصي </string>
+    <string name = "vidPost"> مشاركة الفيديو </string>
+    <string name = "permm"> التصوير </string>
+    <string name = "photo"> التقاط صورة </string>
+    <string name = "video"> التقاط الفيديو </string>
+    <string name = "index"> محادثه </string>
+    <string name = "unfollow1"> الغاء المتابعه </string>
 
 
 </resources>

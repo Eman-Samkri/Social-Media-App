@@ -88,7 +88,10 @@ class StickerFragment : BottomSheetDialogFragment() {
         override fun onClick(v: View?) {
             if (v == itemView){
                 uploadComment(data.images.downsized_still.url)
-                findNavController().popBackStack()
+                val action = StickerFragmentDirections.actionStickerFragmentToCommentFragment(args.currentVideoId, args.currentUserId)
+                findNavController().navigate(action)
+
+
             }
         }
 
@@ -118,7 +121,7 @@ class StickerFragment : BottomSheetDialogFragment() {
     private fun uploadComment(commentString: String) {
         val comment = Comment()
         comment.commentText = commentString
-        comment.userId = Firebase.auth.uid!!
+        comment.userId = Firebase.auth.currentUser?.uid!!
         comment.videoId = args.currentVideoId
         comment.commentType = "Image"
         viewModel.saveCommentToFirestore(args.currentVideoId, comment)
