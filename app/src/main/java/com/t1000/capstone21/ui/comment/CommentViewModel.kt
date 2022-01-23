@@ -40,7 +40,6 @@ class CommentViewModel : ViewModel() {
 
 
 
-
     fun deleteVideoComment(videoId:String, index: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.deleteVideoComment(videoId,index)

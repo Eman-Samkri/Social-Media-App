@@ -18,6 +18,8 @@ import coil.load
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.AddCommentChatFragmentBinding
 import com.t1000.capstone21.databinding.ItemVideoCommentBinding
@@ -40,6 +42,7 @@ class CommentFragment : BottomSheetDialogFragment() {
 
     private val viewModel by lazy { ViewModelProvider(this).get(CommentViewModel::class.java) }
 
+    private lateinit var currentUser:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +51,13 @@ class CommentFragment : BottomSheetDialogFragment() {
         if (FirebaseAuth.getInstance().currentUser?.uid == null){
             findNavController().navigate(R.id.navigation_me)
         }
+
+        currentUser = if (args.currentUserId != null){
+            args.currentUserId.toString()
+        }else{
+            Firebase.auth.currentUser!!.uid
+        }
+
     }
 
 
@@ -72,6 +82,8 @@ class CommentFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
 
         lifecycleScope.launch {
             viewModel.fetchVideosComment(args.currentVideoId.toString()).observe( viewLifecycleOwner
