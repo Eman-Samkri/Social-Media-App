@@ -28,6 +28,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import com.google.android.gms.common.Feature
 import com.t1000.capstone21.KEY_EVENT_EXTRA
 import com.t1000.capstone21.models.Photo
 import com.t1000.capstone21.R
@@ -45,9 +46,6 @@ import kotlin.collections.ArrayList
 typealias LumaListener = (luma: Double) -> Unit
 
 private const val TAG = "PhotoFragment"
-val EXTENSION_WHITELIST = arrayOf("JPG")
-
-
 class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
 
@@ -67,6 +65,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
 
     private val viewModel by lazy { ViewModelProvider(this).get(CameraViewModel::class.java) }
+
 
 
 
@@ -94,17 +93,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
         } ?: Unit
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return super.onCreateView(inflater, container, savedInstanceState)
 
-
-
-
-    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

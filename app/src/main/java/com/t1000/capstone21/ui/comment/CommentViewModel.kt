@@ -31,9 +31,6 @@ class CommentViewModel : ViewModel() {
         emit(listOf(repo.fetchUserById(userId)))
     }
 
-//    fun fetchVideosComment(videoId: String) : LiveData<List<Video>> = liveData {
-//        emit(repo.fetchVideosById(videoId))
-//    }
 
     suspend fun fetchVideosComment(videoId: String): LiveData<List<Comment>> {
         return  repo.fetchVideosCommentById(videoId)

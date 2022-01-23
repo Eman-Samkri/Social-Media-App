@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.ItemStickerBinding
 import com.t1000.capstone21.databinding.StickerFragmentBinding
@@ -85,8 +88,7 @@ class StickerFragment : BottomSheetDialogFragment() {
         override fun onClick(v: View?) {
             if (v == itemView){
                 uploadComment(data.images.downsized_still.url)
-                val action = StickerFragmentDirections.actionStickerFragmentToCommentFragment(args.currentVideoId, args.currentUserId)
-                findNavController().navigate(action)
+                findNavController().popBackStack()
             }
         }
 
@@ -116,10 +118,10 @@ class StickerFragment : BottomSheetDialogFragment() {
     private fun uploadComment(commentString: String) {
         val comment = Comment()
         comment.commentText = commentString
-        comment.userId = args.currentUserId.toString()
-        comment.videoId = args.currentVideoId.toString()
+        comment.userId = Firebase.auth.uid!!
+        comment.videoId = args.currentVideoId
         comment.commentType = "Image"
-        viewModel.saveCommentToFirestore(args.currentVideoId.toString(), comment)
+        viewModel.saveCommentToFirestore(args.currentVideoId, comment)
 
         Log.e(TAG, "uploadComment: sticker is $comment", )
 

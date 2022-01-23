@@ -1,9 +1,13 @@
 package com.t1000.capstone21.ui.chat.homeChat
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,13 +19,19 @@ import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.*
 import com.t1000.capstone21.models.ChatParticipant
 import com.t1000.capstone21.ui.chat.privateChat.ChatFragmentDirections
+import com.t1000.capstone21.ui.chat.privateChat.ChatViewModel
 import com.t1000.capstone21.utils.ConnectionManager
+import kotlinx.coroutines.launch
 
+private const val TAG = "HomeMassageFragment"
 class HomeMassageFragment:Fragment() {
 
     private lateinit var currentUserId :String
 
     private lateinit var binding : HomeMassageFragmentBinding
+
+    private val viewModel by lazy { ViewModelProvider(this).get(HomeMassageViewModel::class.java) }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,11 +86,13 @@ class HomeMassageFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+             binding.emptyAnim.visibility = View.VISIBLE
 
-         binding.emptyAnim.visibility = View.VISIBLE
+
+               // binding.homeMassageRv.adapter = HomeChatAdapter(it)
+        }
 
 
-    }
 
     private inner class HomeChatHolder(val binding: ItemVideoCommentBinding): RecyclerView.ViewHolder(binding.root), View.OnClickListener{
 

@@ -18,7 +18,9 @@ android {
         versionCode 1
         versionName "1.0"
 
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -43,6 +45,7 @@ android {
         enabled = true
     }
 }
+
 
 dependencies {
 
@@ -153,6 +156,5 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.3.0'
 
 
-
-
+    implementation "androidx.recyclerview:recyclerview:1.0.0"
 }

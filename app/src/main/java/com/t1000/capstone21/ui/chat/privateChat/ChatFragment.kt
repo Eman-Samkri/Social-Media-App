@@ -5,21 +5,25 @@ import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.annotation.NonNull
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.*
+import coil.load
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.t1000.capstone21.databinding.ChatFragmentBinding
 import com.t1000.capstone21.databinding.ItemChatReciverBinding
 import com.t1000.capstone21.databinding.ItemChatSenderBinding
-import com.t1000.capstone21.databinding.ItemVideoCommentBinding
 
 import com.t1000.capstone21.models.ChatMessage
 import com.t1000.capstone21.models.User
+import com.t1000.capstone21.ui.comment.CommentFragment
+import com.t1000.capstone21.ui.comment.CommentFragmentDirections
 import com.t1000.capstone21.utils.ConnectionManager
 import kotlinx.coroutines.launch
 import java.util.*
@@ -109,59 +113,54 @@ class ChatFragment : Fragment() {
     }
 
 
+    private inner class ChatHolder(val binding: ItemChatReciverBinding):RecyclerView.ViewHolder(binding.root) {
+
+        private lateinit var userId: String
 
 
-    private inner class ChatHolder(val bindingRec:ItemChatReciverBinding,val bindingSend:ItemChatSenderBinding):RecyclerView.ViewHolder(binding.root) {
-        fun bind(chatMessage: ChatMessage){
-            if (FirebaseAuth.getInstance().currentUser?.uid == chatMessage.senderId){
-                bindingSend.dateTextView.text = chatMessage.text
-            }else if (FirebaseAuth.getInstance().currentUser?.uid == chatMessage.receiverId){
-                bindingRec.dateTextView.text = chatMessage.text
-            }
 
+        fun bind(chats:ChatMessage){
+        binding.textviewFromRow.text = chats.text
+       // binding.fromMsgTime.text = chats.created_at?.toDate()?.time.toString()
         }
 
 
 
     }
 
-
-    private inner class ChatAdapter(val messages:List<ChatMessage>):
-        RecyclerView.Adapter<ChatHolder>() {
+    private inner class ChatAdapter(val chats:List<ChatMessage>):
+        RecyclerView.Adapter<ChatHolder>(){
 
         override fun onCreateViewHolder(
             parent: ViewGroup,
             viewType: Int
-        ):ChatHolder {
-            val bindingSend = ItemChatSenderBinding.inflate(
+        ): ChatHolder {
+            val binding = ItemChatReciverBinding.inflate(
                 layoutInflater,
                 parent,
                 false
             )
 
-            val bindingRec = ItemChatReciverBinding.inflate(
-                layoutInflater,
-                parent,
-                false
-            )
-
-            return ChatHolder(bindingRec,bindingSend)
-
+            return ChatHolder(binding)
         }
 
         override fun onBindViewHolder(holder: ChatHolder, position: Int) {
-            val chatItem: ChatMessage = messages[position]
+            val chatItem: ChatMessage = chats[position]
             holder.bind(chatItem)
         }
 
-        override fun getItemCount(): Int = messages.size
-
-
-
-
+        override fun getItemCount(): Int = chats.size
 
 
     }
+
+
+
+
+
+
+
+
 
 
 }

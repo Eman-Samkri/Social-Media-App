@@ -361,35 +361,70 @@ class Repo private constructor(context: Context) {
 
 
   suspend  fun loadChatMessages(senderId: String, receiverId: String):LiveData<List<ChatMessage>> {
-
       return liveData {
           val chats = mutableListOf<ChatMessage>()
-          Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
+
+          FirebaseFirestore
+              .getInstance()
+              .collection("RoomMassage")
               .snapshotAsFlow()
               .collect {
-                  if (it.id != "${senderId}_${receiverId}" || it.id != "${receiverId}_${senderId}") {
-                      emit(chats)
-                  }else if (it.id == "${senderId}_${receiverId}" || it.id == "${receiverId}_${senderId}") {
-                      Log.d(TAG, "loadChatMessages: $senderId,$receiverId ,${it["messages"]}")
-                      val messagesFromFirestore = it.data?.getValue("messages") as List<*>
-                      Log.d(TAG, "loadChatMessages: $messagesFromFirestore")
-
-                      messagesFromFirestore.forEach { u ->
-                          val data = u as Map<*, *>
-                          val chatMessage = ChatMessage(
-                              senderId = data["senderId"].toString(),
-                              receiverId = data["receiverId"].toString(),
-                              text = data["text"].toString(),
-                              type = data["type"].toString(),
-                              created_at = data["created_at"] as Timestamp
-                          )
-                          chats += chatMessage
-                          emit(chats)
+                  it?.documents?.forEach {
+                      if (it.id == "${senderId}_${receiverId}" || it.id == "${receiverId}_${senderId}") {
+                          val messagesFromFirestore = it.data?.getValue("messages") as List<*>
+                          messagesFromFirestore.forEach { u ->
+                              val data = u as Map<*, *>
+                              val chatMessage = ChatMessage(
+                                  senderId = data["senderId"].toString(),
+                                  receiverId = data["receiverId"].toString(),
+                                  text = data["text"].toString(),
+                                  type = data["type"].toString(),
+                                  created_at = data["created_at"] as Timestamp
+                              )
+                              chats += chatMessage
+                              emit(chats)
+                          }
+                      } else {
+                            emit(chats)
                       }
 
                   }
               }
       }
+
+//      return liveData {
+//          val chats = mutableListOf<ChatMessage>()
+//          Firebase.firestore.collection("RoomMassage").document("${senderId}_${receiverId}")
+//              .snapshotAsFlow()
+//              .collect {
+//                  when(it.id){
+//                      "${receiverId}_${senderId}" -> {
+//                          Log.e(TAG, "loadChatMessages: receiver_Sender", )
+//                      }
+//                      "${senderId}_${receiverId}" -> {
+//                          val messagesFromFirestore = it.data?.getValue("messages") as List<*>
+//                          messagesFromFirestore.forEach { u ->
+//                              val data = u as Map<*, *>
+//                              val chatMessage = ChatMessage(
+//                                  senderId = data["senderId"].toString(),
+//                                  receiverId = data["receiverId"].toString(),
+//                                  text = data["text"].toString(),
+//                                  type = data["type"].toString(),
+//                                  created_at = data["created_at"] as Timestamp
+//                              )
+//                              chats += chatMessage
+//                              emit(chats)
+//                          }
+//                      }
+//
+//                      else -> {
+//                          chats.clear()
+//                          emit(chats)
+//                      }
+//                  }
+//
+//              }
+//      }
 
 
       }
@@ -410,26 +445,48 @@ class Repo private constructor(context: Context) {
                     Firebase.firestore.collection("RoomMassage").document("${message.senderId}_${message.receiverId}").get()
                         .addOnSuccessListener {
                             if (it.exists()) {
-                                Firebase.firestore.collection("RoomMassage").document("${message.senderId}_${message.receiverId}")
+                                Firebase.firestore.collection("RoomMassage")
+                                    .document("${message.senderId}_${message.receiverId}")
                                     .update("messages", FieldValue.arrayUnion(message))
                             } else {
                                 // receiverId_senderId both don't exist
-                                Firebase.firestore.collection("RoomMassage").document("${message.senderId}_${message.receiverId}")
-                                    .set(mapOf("messages" to mutableListOf<ChatMessage>()), SetOptions.merge())
-                                    .addOnCompleteListener {
-                                        Log.e(TAG, "sendMessage: $1", )
-                                        //first massage
-                                        Firebase.firestore.collection("RoomMassage").document("${message.senderId}_${message.receiverId}")
-                                            .update("messages", FieldValue.arrayUnion(message))
 
+                                Firebase.firestore.collection("ChatParticipant")
+                                    .document(Firebase.auth.uid!!)
+                                    .set(mapOf("Participant" to mutableListOf<ChatParticipant>()), SetOptions.merge())
+                                    .addOnCompleteListener {
+                                        Firebase.firestore.collection("ChatParticipant")
+                                            .document(Firebase.auth.uid!!)
+                                            .update("chat_members", FieldValue.arrayUnion( message.senderId, message.receiverId))
+                                    }
+
+
+                                Firebase.firestore.collection("RoomMassage")
+                                    .document("${message.senderId}_${message.receiverId}")
+                                    .set(
+                                        mapOf("messages" to mutableListOf<ChatMessage>()),
+                                        SetOptions.merge()
+                                    )
+                                    .addOnCompleteListener {
+                                        Log.e(TAG, "sendMessage: $1",)
+                                        //first massage
+                                        Firebase.firestore.collection("RoomMassage")
+                                            .document("${message.senderId}_${message.receiverId}")
+                                            .update("messages", FieldValue.arrayUnion(message))
                                     }
                             }
-
 
                         }
                 }
             }
 
+    }
+
+    suspend fun getChatParticepent() : ChatParticipant? {
+        return  Firebase.firestore.collection("ChatParticipant").document(Firebase.auth.uid!!)
+            .get()
+            .await()
+            .toObject(ChatParticipant::class.java)
     }
 
     companion object{

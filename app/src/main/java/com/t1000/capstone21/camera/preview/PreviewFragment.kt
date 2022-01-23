@@ -1,24 +1,23 @@
 package com.t1000.capstone21.camera.preview
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.firebase.auth.FirebaseAuth
 import com.t1000.capstone21.R
 import com.t1000.capstone21.camera.baseFragment.CameraViewModel
-import com.t1000.capstone21.camera.videoFragment.VideoFragmentDirections
 import com.t1000.capstone21.databinding.PreviewFragmentBinding
 import com.t1000.capstone21.models.Video
-import com.t1000.capstone21.ui.profile.ProfileViewModel
 
 private const val TAG = "PreviewFragment"
+
 class PreviewFragment : Fragment() {
 
     private lateinit var binding: PreviewFragmentBinding
@@ -37,7 +36,7 @@ class PreviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.e(TAG, "onViewCreated: ${args.savedUri}", )
+        Log.e(TAG, "onViewCreated: ${args.savedUri}")
         binding.preview.setVideoURI(args.savedUri.toUri())
         binding.preview.start()
 

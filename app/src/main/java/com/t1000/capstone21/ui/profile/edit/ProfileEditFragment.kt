@@ -50,9 +50,9 @@ class ProfileEditFragment : Fragment() {
                 viewModel.uploadProfilePhoto(it) }
 
         }
-            val action = ProfileEditFragmentDirections.actionProfileEditFragmentToProfileFragment(
-                FirebaseAuth.getInstance().currentUser?.uid)
-           findNavController().navigate(action)
+//            val action = ProfileEditFragmentDirections.actionProfileEditFragmentToProfileFragment(
+//                FirebaseAuth.getInstance().currentUser?.uid)
+//           findNavController().navigate(action)
 
     }
 

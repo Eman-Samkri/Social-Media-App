@@ -11,6 +11,4 @@ data class User(
     var profilePictureUrl: String? = "",
     var followers: List<String> = listOf(),
     var following: List<String> = listOf()
-) {
-
-}
+)
