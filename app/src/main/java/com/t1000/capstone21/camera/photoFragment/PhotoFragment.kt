@@ -9,32 +9,31 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.hardware.display.DisplayManager
-import android.media.MediaScannerConnection
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
+import android.view.LayoutInflater
 import android.view.View
-import android.webkit.MimeTypeMap
+import android.view.ViewGroup
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCapture.Metadata
+import androidx.camera.core.ImageCapture.*
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
-import androidx.core.net.toFile
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import com.google.android.gms.common.Feature
 import com.t1000.capstone21.KEY_EVENT_EXTRA
 import com.t1000.capstone21.models.Photo
 import com.t1000.capstone21.R
 import com.t1000.capstone21.camera.baseFragment.BaseFragment
-import com.t1000.capstone21.camera.baseFragment.BaseViewModel
+import com.t1000.capstone21.camera.baseFragment.CameraViewModel
 import com.t1000.capstone21.databinding.FragmentPhotoBinding
 import com.t1000.capstone21.utils.*
 import com.t1000.capstone21.utils.BottomNavViewUtils.showBottomNavBar
@@ -42,15 +41,11 @@ import kotlinx.coroutines.*
 import java.lang.Runnable
 import java.nio.ByteBuffer
 import java.util.ArrayDeque
-import java.util.Locale
 import kotlin.collections.ArrayList
 
 typealias LumaListener = (luma: Double) -> Unit
 
 private const val TAG = "PhotoFragment"
-val EXTENSION_WHITELIST = arrayOf("JPG")
-
-
 class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
 
@@ -62,19 +57,16 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
     private var lensFacing: Int = CameraSelector.LENS_FACING_BACK
     private var imageCapture: ImageCapture? = null
     private var imageAnalyzer: ImageAnalysis? = null
-    private var seletedTimer = CameraTimer.OFF
+    private var selectedTimer = CameraTimer.OFF
+
 
     var savedUri :Uri? = null
 
 
 
-    private val viewModel
-            by lazy { ViewModelProvider(this)
-                .get(BaseViewModel::class.java) }
+    private val viewModel by lazy { ViewModelProvider(this).get(CameraViewModel::class.java) }
 
-    private val viewModel2
-            by lazy { ViewModelProvider(this)
-                .get(PhotoFragmentVM::class.java) }
+
 
 
     override  val volumeDownReceiver = object : BroadcastReceiver() {
@@ -94,12 +86,14 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
         override fun onDisplayRemoved(displayId: Int) = Unit
         override fun onDisplayChanged(displayId: Int) = view?.let { view ->
             if (displayId == this@PhotoFragment.displayId) {
-                Log.d(TAG, "Rotation changed: ${view.display.rotation}")
+              //  Log.d(TAG, "Rotation changed: ${view.display.rotation}")
                 imageCapture?.targetRotation = view.display.rotation
                 imageAnalyzer?.targetRotation = view.display.rotation
             }
         } ?: Unit
     }
+
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -111,6 +105,42 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
         gestureListener(binding.viewFinder){
             Navigation.findNavController(view).navigate(R.id.action_camera_to_video)
+        }
+
+
+        binding.cameraCaptureButton.setOnClickListener {
+            takePicture()
+        }
+
+        binding.cameraSwitchButton.setOnClickListener {
+            switchCamera()
+        }
+
+        binding.flashAutoButton.setOnClickListener {
+            closeFlashOptionsAndSelect(FLASH_MODE_AUTO)
+        }
+        binding.flashOffButton.setOnClickListener {
+            closeFlashOptionsAndSelect(FLASH_MODE_OFF)
+        }
+
+        binding.timer10sButton.setOnClickListener {
+            closeTimerAndSelect(CameraTimer.SEC10)
+        }
+
+        binding.timer3sButton.setOnClickListener {
+            closeTimerAndSelect(CameraTimer.SEC3)
+        }
+
+        binding.timerOffButton.setOnClickListener {
+            closeTimerAndSelect(CameraTimer.OFF)
+        }
+
+        binding.flashButton.setOnClickListener {
+            showFlashOptions()
+        }
+
+        binding.timerButton.setOnClickListener {
+            showTimerOptions()
         }
 
     }
@@ -198,7 +228,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
                         // Values returned from our analyzer are passed to the attached listener
                         // We log image analysis results here - you should do something useful
                         // instead!
-                        Log.d(TAG, "Average luminosity: $luma")
+                       // Log.d(TAG, "Average luminosity: $luma")
                     })
                 }
 
@@ -219,22 +249,22 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
     }
 
 
-
-    override fun updateCameraUi() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            outputDirectory.listFiles { file ->
-                EXTENSION_WHITELIST.contains(file.extension.toUpperCase(Locale.ROOT))
-            }?.maxOrNull()?.let {
-                setGalleryThumbnail(binding.photoViewButton, Uri.fromFile(it))
-            }
-        }
-
-        binding.cameraSwitchButton.isEnabled = false
-    }
+//TODO:not require
+//    override fun updateCameraUi() {
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            outputDirectory.listFiles { file ->
+//                EXTENSION_WHITELIST.contains(file.extension.toUpperCase(Locale.ROOT))
+//            }?.maxOrNull()?.let {
+//              //  setGalleryThumbnail(binding.photoViewButton, Uri.fromFile(it))
+//            }
+//        }
+//
+//        binding.cameraSwitchButton.isEnabled = false
+//    }
 
     fun takePicture() {
         lifecycleScope.launch(Dispatchers.Main) {
-            when (seletedTimer) {
+            when (selectedTimer) {
                 CameraTimer.SEC3 -> for (i in 3 downTo 1) {
                     binding.countdown.text = i.toString()
                     delay(1000)
@@ -259,7 +289,6 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
             // Setup image capture metadata
             val metadata = Metadata().apply {
-
                 // Mirror image when using the front camera
                 isReversedHorizontal = lensFacing == CameraSelector.LENS_FACING_FRONT
             }
@@ -278,40 +307,39 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
                     override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                          savedUri = output.savedUri ?: Uri.fromFile(photoFile)
-                         uploadPhoto()
+
+                        // uploadPhoto()
+
                         Log.d(TAG, "Photo capture succeeded: $savedUri")
 
-                        // We can only change the foreground Drawable using API level 23+ API
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            // Update the gallery thumbnail with latest picture taken
-                            savedUri?.let { setGalleryThumbnail(binding.photoViewButton , it) }
-                        }
-
-                        // Implicit broadcasts will be ignored for devices running API level >= 24
-                        // so if you only target API level 24+ you can remove this statement
-                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                            requireActivity().sendBroadcast(
-                                Intent(android.hardware.Camera.ACTION_NEW_PICTURE, savedUri)
-                            )
-                        }
-
-                        // If the folder selected is an external media directory, this is
-                        // unnecessary but otherwise other apps will not be able to access our
-                        // images unless we scan them using [MediaScannerConnection]
-                        val mimeType = MimeTypeMap.getSingleton()
-                            .getMimeTypeFromExtension(savedUri?.toFile()?.extension)
-                        MediaScannerConnection.scanFile(
-                            context,
-                            arrayOf(savedUri?.toFile()?.absolutePath),
-                            arrayOf(mimeType)
-                        ) { _, uri ->
-                            Log.d(TAG, "Image capture scanned into media store: $uri")
-                        }
+//                        // We can only change the foreground Drawable using API level 23+ API
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                            // Update the gallery thumbnail with latest picture taken
+//                         //   savedUri?.let { setGalleryThumbnail(binding.photoViewButton , it) }
+//                        }
+//
+//                        // Implicit broadcasts will be ignored for devices running API level >= 24
+//                        // so if you only target API level 24+ you can remove this statement
+//                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+//                            requireActivity().sendBroadcast(
+//                                Intent(android.hardware.Camera.ACTION_NEW_PICTURE, savedUri)
+//                            )
+//                        }
+//
+//                        // If the folder selected is an external media directory, this is
+//                        // unnecessary but otherwise other apps will not be able to access our
+//                        // images unless we scan them using [MediaScannerConnection]
+//                        val mimeType = MimeTypeMap.getSingleton()
+//                            .getMimeTypeFromExtension(savedUri?.toFile()?.extension)
+//                        MediaScannerConnection.scanFile(
+//                            context,
+//                            arrayOf(savedUri?.toFile()?.absolutePath),
+//                            arrayOf(mimeType)
+//                        ) { _, uri ->
+//                            Log.d(TAG, "Image capture scanned into media store: $uri")
+//                        }
                     }
                 })
-
-            // We can only change the foreground Drawable using API level 23+ API
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
                 // Display flash animation to indicate that photo was captured
                 binding.root.postDelayed({
@@ -319,7 +347,8 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
                     binding.root.postDelayed(
                         { binding.root.foreground = null }, ANIMATION_FAST_MILLIS)
                 }, ANIMATION_SLOW_MILLIS)
-            }
+
+
         }
     }
 
@@ -341,7 +370,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
     }
 
     fun closeTimerAndSelect(timer: CameraTimer) {
-        seletedTimer = timer
+        selectedTimer = timer
         binding.timerConteiner.visibility = View.GONE
         binding.timerButton.setImageResource(setImageDrawableSelect(timer))
     }
@@ -377,9 +406,6 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
         private var lastAnalyzedTimestamp = 0L
         var framesPerSecond: Double = -1.0
             private set
-
-
-        //fun onFrameAnalyzed(listener: LumaListener) = listeners.add(listener)
 
 
         private fun ByteBuffer.toByteArray(): ByteArray {
@@ -436,14 +462,14 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
     private fun uploadPhoto() {
         val photo = Photo()
-        savedUri?.let { viewModel2.uploadPhotoToStorage(it,photo) }
+      //  savedUri?.let { viewModel.uploadPhotoToStorage(it,photo) }
 
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        showBottomNavBar(activity)
-//    }
+    override fun onResume() {
+        super.onResume()
+        showBottomNavBar(activity)
+    }
 
 
 }

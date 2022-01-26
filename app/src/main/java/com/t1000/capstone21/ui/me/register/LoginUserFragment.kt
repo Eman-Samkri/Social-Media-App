@@ -8,33 +8,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.GoogleAuthProvider
 import com.t1000.capstone21.R
 import com.t1000.capstone21.databinding.FragmentLoginUserBinding
-import com.t1000.capstone21.databinding.FragmentRegisterUserBinding
-import com.t1000.capstone21.models.User
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.lang.Exception
+import com.t1000.capstone21.utils.hideKeyboard
+
 private const val TAG = "LoginUserFragment"
 
 
 class LoginUserFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginUserBinding
-    private lateinit var auth: FirebaseAuth
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        auth = FirebaseAuth.getInstance()
-    }
+
+
+
+
 
 
     override fun onCreateView(
@@ -43,6 +39,9 @@ class LoginUserFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLoginUserBinding.inflate(layoutInflater)
+
+
+
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,6 +52,7 @@ class LoginUserFragment : Fragment() {
 
         }
 
+
         binding.toRegisterTv.setOnClickListener {
             val action = LoginUserFragmentDirections.actionLoginUserFragmentToRegisterUserFragment()
             findNavController().navigate(action)
@@ -61,23 +61,26 @@ class LoginUserFragment : Fragment() {
     }
 
     private fun loginUser(){
-        val email = binding.emailEdittextLogin.text.toString()
-        val password = binding.passwordEdittextLogin.text.toString()
+        val email = binding.loginEmail.text.toString()
+        val password = binding.loginPassword.text.toString()
 
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
             return
         }
 
-//        back_to_register_textview.visibility = View.GONE
-//        loading_view.visibility = View.VISIBLE
+
+        hideKeyboard()
+        binding.loading.visibility = View.VISIBLE
+        binding.toRegisterTv.visibility = View.GONE
 
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (!it.isSuccessful) return@addOnCompleteListener
                 if (it.isSuccessful){
                     Log.d(TAG, "Successfully logged in: ${it.result!!.user?.uid}")
-                    val action = LoginUserFragmentDirections.actionLoginUserFragmentToProfileFragment()
+                    hideKeyboard()
+                    val action = LoginUserFragmentDirections.actionLoginUserFragmentToProfileFragment(null)
                     findNavController().navigate(action)
                 }
 
@@ -85,11 +88,14 @@ class LoginUserFragment : Fragment() {
             }
             .addOnFailureListener {
                 Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
-
-//                back_to_register_textview.visibility = View.VISIBLE
-//                loading_view.visibility = View.GONE
+                binding.loading.visibility = View.GONE
             }
+
+
     }
 
+    private fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
+    }
 
 }

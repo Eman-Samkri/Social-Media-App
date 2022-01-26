@@ -33,7 +33,6 @@
                 android:layout_marginEnd="36dp"
                 android:layout_marginBottom="8dp"
                 android:background="@android:color/transparent"
-                android:onClick="@{()-> fragment.closeFlashOptionsAndSelect(false)}"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_flash_on" />
 
@@ -43,7 +42,6 @@
                 android:layout_height="61dp"
                 android:layout_marginStart="396dp"
                 android:background="@android:color/transparent"
-                android:onClick="@{() -> fragment.showFlashOptions()}"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_flash_off" />
         </androidx.camera.view.PreviewView>
@@ -89,7 +87,6 @@
                     android:layout_marginStart="36dp"
                     android:layout_marginBottom="8dp"
                     android:background="@android:color/transparent"
-                    android:onClick="@{()-> fragment.closeFlashOptionsAndSelect(false)}"
                     android:scaleType="fitCenter"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -117,7 +114,6 @@
                     android:layout_marginBottom="@dimen/margin_small"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/switch_camera_button_alt"
-                    android:onClick="@{() -> fragment.switchCamera()}"
                     android:padding="@dimen/spacing_small"
                     android:scaleType="fitCenter"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -130,7 +126,6 @@
                     android:layout_height="@dimen/round_button_large"
                     android:background="@drawable/ic_video_shutter"
                     android:contentDescription="@string/capture_button_alt"
-                    android:onClick="@{() -> fragment.recordVideo()}"
                     android:scaleType="fitCenter"
                     android:layout_marginVertical="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"

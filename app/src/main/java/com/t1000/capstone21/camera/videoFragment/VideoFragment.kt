@@ -6,7 +6,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.hardware.display.DisplayManager
-import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -16,30 +15,25 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
-import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
 import androidx.camera.core.VideoCapture
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
-import androidx.core.net.toFile
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.t1000.capstone21.KEY_EVENT_EXTRA
 import com.t1000.capstone21.R
-import com.t1000.capstone21.models.Video
 import com.t1000.capstone21.camera.baseFragment.BaseFragment
-import com.t1000.capstone21.camera.baseFragment.BaseViewModel
-import com.t1000.capstone21.camera.photoFragment.EXTENSION_WHITELIST
+import com.t1000.capstone21.camera.baseFragment.CameraViewModel
 import com.t1000.capstone21.databinding.FragmentVideoBinding
+import com.t1000.capstone21.models.Video
+import com.t1000.capstone21.utils.formatSeconds
 import com.t1000.capstone21.utils.simulateClick
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import org.chromium.base.ThreadUtils.runOnUiThread
 import java.util.*
 
 private const val TAG = "VideoFragment"
@@ -54,15 +48,12 @@ override val binding: FragmentVideoBinding by lazy {
     private var videoCapture:VideoCapture? = null
     private var isRecording = false
     private var timer:Timer?=null
-    private var recoerSecondFlashd = 0
+    private var recordSecondFlashy = 0
 
-    var savedUri :Uri? = null
+    private lateinit var uri: Uri
 
+    private val viewModel by lazy { ViewModelProvider(this).get(CameraViewModel::class.java) }
 
-
-    private val viewModel by lazy { ViewModelProvider(this).get(BaseViewModel::class.java) }
-
-    private val viewModel2 by lazy { ViewModelProvider(this).get(VideoFragmentVM::class.java) }
 
     override  val volumeDownReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -89,7 +80,6 @@ override val binding: FragmentVideoBinding by lazy {
         } ?: Unit
     }
 
-    @SuppressLint("MissingPermission")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -102,20 +92,40 @@ override val binding: FragmentVideoBinding by lazy {
         gestureListener(binding.viewFinder){
             Navigation.findNavController(view).navigate(R.id.action_video_to_camera)
         }
-
-    }
-
-    override fun updateCameraUi() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            outputDirectory.listFiles { file ->
-                EXTENSION_WHITELIST.contains(file.extension.toUpperCase(Locale.ROOT))
-            }?.maxOrNull()?.let {
-                setGalleryThumbnail(binding.photoViewButton, Uri.fromFile(it))
-            }
+        binding.flashOnButton.setOnClickListener {
+            closeFlashOptionsAndSelect(false)
+        }
+        binding.flashButton.setOnClickListener {
+            showFlashOptions()
         }
 
-      //  binding.cameraSwitchButton.isEnabled = false
+        binding.flashOffButton.setOnClickListener {
+            closeFlashOptionsAndSelect(false)
+        }
+
+        binding.cameraSwitchButton.setOnClickListener {
+            switchCamera()
+        }
+
+        binding.cameraCaptureButton.setOnClickListener {
+            recordVideo()
+        }
+
+        
+
     }
+
+//    override fun updateCameraUi() {
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            outputDirectory.listFiles { file ->
+//                EXTENSION_WHITELIST.contains(file.extension.toUpperCase(Locale.ROOT))
+//            }?.maxOrNull()?.let {
+//                //setGalleryThumbnail(binding.photoViewButton, Uri.fromFile(it))
+//            }
+//        }
+//
+//      //  binding.cameraSwitchButton.isEnabled = false
+//    }
 
     override fun setUpCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
@@ -181,10 +191,9 @@ override val binding: FragmentVideoBinding by lazy {
     @SuppressLint("RestrictedApi")
     fun recordVideo(){
         val localVideoCapture = videoCapture ?: throw java.lang.IllegalStateException("camera failed")
-// TODO: to Repo
+        // TODO: to Repo
         val model = Video()
         val videoFile = viewModel.getVideoFile(model)
-        viewModel2.initVideo(System.currentTimeMillis())
 
         val outputOptions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
             val contentValues = ContentValues().apply {
@@ -211,33 +220,20 @@ override val binding: FragmentVideoBinding by lazy {
                 object :VideoCapture.OnVideoSavedCallback{
 
                     override fun onVideoSaved(outputFileResults: VideoCapture.OutputFileResults) {
-                        savedUri = outputFileResults.savedUri ?: Uri.fromFile(videoFile)
+                        viewModel.savedUri = outputFileResults.savedUri ?: Uri.fromFile(videoFile)
                         uploadVideo()
-                        Log.d(TAG, "Video capture succeeded: $savedUri")
+                        Log.d(TAG, "onVideoSaved: ${viewModel.savedUri}")
 
-                        // We can only change the foreground Drawable using API level 23+ API
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            // Update the gallery thumbnail with latest picture taken
-                            savedUri?.let { setGalleryThumbnail(binding.photoViewButton , it) }
-                        }
+                        runOnUiThread(Runnable {
+                            val action = VideoFragmentDirections.actionVideoFragmentToPreviewFragment(uri.toString())
+                            findNavController().navigate(action)
+                        })
 
-                        // Implicit broadcasts will be ignored for devices running API level >= 24
-                        // so if you only target API level 24+ you can remove this statement
+
                         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                            requireActivity().sendBroadcast(
-                                Intent(android.hardware.Camera.ACTION_NEW_PICTURE, savedUri)
-                            )
+                            requireActivity().sendBroadcast(Intent(android.hardware.Camera.ACTION_NEW_PICTURE, viewModel.savedUri))
                         }
 
-                        val mimeType = MimeTypeMap.getSingleton()
-                            .getMimeTypeFromExtension(savedUri?.toFile()?.extension)
-                        MediaScannerConnection.scanFile(
-                            context,
-                            arrayOf(savedUri?.toFile()?.absolutePath),
-                            arrayOf(mimeType)
-                        ) { _, uri ->
-                            Log.d(TAG, "video capture scanned into media store: $uri")
-                        }
                     }
 
                     override fun onError(
@@ -245,15 +241,16 @@ override val binding: FragmentVideoBinding by lazy {
                         message: String,
                         cause: Throwable?
                     ) {
-                        Toast.makeText(requireContext(), "videwo recording faild",Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(), "video recording failed",Toast.LENGTH_LONG).show()
                     }
-
                 }
             )
         }else{
             restTimer()
             stopTimer()
             localVideoCapture.stopRecording()
+
+            Log.d(TAG, "Video capture succeeded: in stop recording ${viewModel.savedUri}")
         }
         isRecording = !isRecording
 
@@ -282,16 +279,16 @@ override val binding: FragmentVideoBinding by lazy {
     private fun updateTimer(){
         Handler(Looper.getMainLooper()).post{
             if (isRecording){
-                recoerSecondFlashd ++
-                binding.countdown.text = "".formatSeconds(recoerSecondFlashd)
+                recordSecondFlashy ++
+                binding.countdown.text = formatSeconds(recordSecondFlashy)
             }
         }
 
     }
 
     private fun restTimer(){
-        recoerSecondFlashd = 0
-        binding.countdown.text = "".formatSeconds(recoerSecondFlashd)
+        recordSecondFlashy = 0
+        binding.countdown.text = formatSeconds(recordSecondFlashy)
         binding.countdown.visibility= View.GONE
         stopTimer()
     }
@@ -329,22 +326,12 @@ override val binding: FragmentVideoBinding by lazy {
     }
 
 
-
-
-    fun String.formatSeconds(seconds:Int):String?{
-        return (getTowDecimalsValue(seconds/3600)+":" +
-                getTowDecimalsValue(seconds/60)+":" +
-                getTowDecimalsValue(seconds%60))
-    }
-
-    private fun getTowDecimalsValue(value :Int):String{
-        return if(value in 0..9) {"0$value"}
-        else {value.toString()}
-    }
-
     private fun uploadVideo() {
-        val video = Video()
-        savedUri?.let { viewModel2.uploadVideo(it,video) }
+
+            viewModel.savedUri?.let {
+                Log.e(TAG, "uploadVideo: in fun ${viewModel.savedUri}savedUri")
+                uri = it
+        }
 
     }
 }

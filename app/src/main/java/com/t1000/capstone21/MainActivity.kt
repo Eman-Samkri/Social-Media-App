@@ -1,10 +1,14 @@
 package com.t1000.capstone21
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
+import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -14,14 +18,15 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.t1000.capstone21.databinding.ActivityMainBinding
+import com.t1000.capstone21.ui.profile.ProfileFragment
+import com.t1000.capstone21.utils.ConnectionManager
 
 const val KEY_EVENT_ACTION = "key_event_action"
 const val KEY_EVENT_EXTRA = "key_event_extra"
 private const val IMMERSIVE_FLAG_TIMEOUT = 500L
 
-
+private const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
@@ -33,26 +38,24 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val toolbar = findViewById<Toolbar>(R.id.mainToolbar)
         setSupportActionBar(toolbar)
 
         val navController = findNavController(R.id.nav_host_fragment)
-        val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.navigation_home, R.id.navigation_post, R.id.navigation_me
-        ))
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+
+        setupActionBarWithNavController(navController)
+        binding.navView.setupWithNavController(navController)
+
+        ProfileFragment.loadLocate(this)
+        
+       when(ConnectionManager.isOnline(this)){
+         true -> binding.internet.visibility = View.GONE
+         false -> binding.internet.visibility = View.VISIBLE
+       }
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.fragmentContainer.postDelayed({
-            hideSystemUI()
-        }, IMMERSIVE_FLAG_TIMEOUT)
-    }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         return when (keyCode) {
@@ -66,13 +69,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-            finishAfterTransition()
-        } else {
-            super.onBackPressed()
-        }
+        super.onBackPressed()
+        overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left)
     }
 
+    
 
     private fun hideSystemUI() {
         WindowCompat.setDecorFitsSystemWindows(window, false)

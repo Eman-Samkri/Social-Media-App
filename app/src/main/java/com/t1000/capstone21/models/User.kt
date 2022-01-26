@@ -1,10 +1,14 @@
 package com.t1000.capstone21.models
 
+import android.net.Uri
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+
 
 data class User(
-    val userId: String,
+    val userId: String = "",
     val username: String = "",
-    val email: String = "",
-    val imagesUrl : List<Photo> = listOf(),
-    val videosUrl : List<Video> = listOf()
+    var profilePictureUrl: String? = "",
+    var followers: List<String> = listOf(),
+    var following: List<String> = listOf()
 )

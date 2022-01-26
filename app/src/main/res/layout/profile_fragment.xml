@@ -1,174 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
     android:scrollbarStyle="outsideInset"
-    tools:context=".ui.me.ProfileFragment">
+    tools:context=".ui.profile.ProfileFragment">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_photo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/userNameTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColor="#070707"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/user_photo"
+        app:layout_constraintStart_toStartOf="@+id/user_photo"
+        app:layout_constraintTop_toBottomOf="@+id/user_photo"
+        tools:text="\@user83827289" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:id="@+id/profile_constraint_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userNameTv">
 
         <TextView
-            android:id="@+id/user_name"
+            android:id="@+id/following_count_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="88dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-            android:textColor="#050505"
-            android:textSize="34sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.578"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="#090909"
+            app:layout_constraintEnd_toEndOf="@+id/following_plain_text"
+            app:layout_constraintStart_toStartOf="@+id/following_plain_text"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:text="\@user83827289" />
+            tools:text="0" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/profile_constraint_layout"
+        <TextView
+            android:id="@+id/following_plain_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.478"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="12dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="@string/following"
+            app:layout_constraintEnd_toStartOf="@+id/follower_plain_text"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_name">
+            app:layout_constraintTop_toBottomOf="@+id/following_count_number" />
 
-            <TextView
-                android:id="@+id/following_count_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/following_plain_text"
-                app:layout_constraintStart_toStartOf="@+id/following_plain_text"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="0" />
-
-            <TextView
-                android:id="@+id/following_plain_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="12dp"
-                android:fontFamily="sans-serif-condensed"
-                android:text="Following"
-                app:layout_constraintEnd_toStartOf="@+id/follower_plain_text"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/following_count_number" />
-
-            <TextView
-                android:id="@+id/followers_count_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/follower_plain_text"
-                app:layout_constraintStart_toStartOf="@+id/follower_plain_text"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="0" />
-
-            <TextView
-                android:id="@+id/follower_plain_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="6dp"
-                android:fontFamily="sans-serif-condensed"
-                android:text="Followers"
-                app:layout_constraintEnd_toStartOf="@+id/like_plain_text"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/following_plain_text"
-                app:layout_constraintTop_toBottomOf="@+id/followers_count_number" />
-
-            <TextView
-                android:id="@+id/likes_count_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="#101010"
-                app:layout_constraintEnd_toEndOf="@+id/like_plain_text"
-                app:layout_constraintStart_toStartOf="@+id/like_plain_text"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="0" />
-
-            <TextView
-                android:id="@+id/like_plain_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="6dp"
-                android:fontFamily="sans-serif-condensed"
-                android:text="Likes"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/follower_plain_text"
-                app:layout_constraintTop_toBottomOf="@+id/likes_count_number" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <Button
-            android:id="@+id/edit_profile_btn"
-            android:layout_width="160dp"
+        <TextView
+            android:id="@+id/followers_count_number"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="26dp"
-            android:background="@drawable/button_background_style"
-            android:text="Edit profile"
-            android:textAllCaps="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_constraint_layout" />
+            app:layout_constraintEnd_toEndOf="@+id/follower_plain_text"
+            app:layout_constraintStart_toStartOf="@+id/follower_plain_text"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="0" />
 
-        <ImageButton
-            android:id="@+id/favourites_icon"
-            android:layout_width="48dp"
-            android:layout_height="0dp"
+        <TextView
+            android:id="@+id/follower_plain_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
-            android:background="@drawable/button_background_style"
-            android:contentDescription="add to favourites"
-            app:layout_constraintBottom_toBottomOf="@+id/edit_profile_btn"
-            app:layout_constraintStart_toEndOf="@+id/edit_profile_btn"
-            app:layout_constraintTop_toTopOf="@+id/edit_profile_btn"
-            app:srcCompat="@drawable/ic_bookmark_border_black" />
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="6dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="@string/followers"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/following_plain_text"
+            app:layout_constraintTop_toBottomOf="@+id/followers_count_number" />
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/profile_tab_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_profile_btn"
-            app:tabBackground="@android:color/white">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="my videos" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="my Photoes" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="my liked videos" />
-        </com.google.android.material.tabs.TabLayout>
-
-        <VideoView
-            android:id="@+id/profileVideoView"
-            android:layout_width="187dp"
-            android:layout_height="212dp"
-            android:background="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.989"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_tab_layout"
-            app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
+
+    <Button
+        android:id="@+id/unFollowBtn"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="26dp"
+        android:background="@drawable/rounded_button"
+        android:text="@string/unfollow1"
+        android:textAllCaps="false"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.563"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_constraint_layout"
+        tools:visibility="invisible" />
+
+    <Button
+        android:id="@+id/followingBtn"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="26dp"
+        android:background="@drawable/rounded_button"
+        android:text="@string/following"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.563"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_constraint_layout" />
+
+    <Button
+        android:id="@+id/editProfileBtn"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="26dp"
+        android:background="@drawable/rounded_button"
+        android:text="@string/edit_profile"
+        android:textAllCaps="false"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.563"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_constraint_layout"
+        tools:visibility="invisible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/smallVideo"
+        android:layout_width="376dp"
+        android:layout_height="417dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/internet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:visibility="invisible"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="false"
+        app:lottie_rawRes="@raw/no_internet" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

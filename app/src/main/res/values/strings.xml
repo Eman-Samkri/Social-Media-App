@@ -1,5 +1,7 @@
-<resources>
-    <string name="app_name">Capstone2.1</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="facebook_app_id" translatable="false">3224518827781750</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb3224518827781750</string>
+    <string name="app_name" translatable="false">Short Video App</string>
     <string name="capture_button_alt">Capture</string>
     <string name="switch_camera_button_alt">Switch camera</string>
     <string name="gallery_button_alt">Gallery</string>
@@ -8,10 +10,56 @@
     <string name="share_hint">Share using</string>
     <string name="capture_mode_camera">Camera</string>
     <string name="capture_mode_hdr">HDR</string>
-    <string name="capture_mode_night">Night</string>
+    <string name="capture_mode_night" translatable="false">Night</string>
     <string name="delete_button_alt">Delete</string>
     <string name="delete_dialog">Delete current photo?</string>
     <string name="delete_title">Confirm</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_text">add text</string>
+    <string name="comments">Comments</string>
+    <string name="like">Like</string>
+    <string name="share">Share</string>
+    <string name="username">username</string>
+    <string name="user_name">User Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="singup">SingUp</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="enter_password">Enter password</string>
+    <string name="enter_user_name">Enter User Name</string>
+    <string name="use_email">Use email</string>
+    <string name="continue_with_facebook">Continue with Facebook</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="profile">Profile</string>
+    <string name="sign_up_for_an_account">Sign up for an account</string>
+    <string name="login">Login</string>
+    <string name="not_registration">Not registration</string>
+    <string name="home">Home</string>
+    <string name="select">Select Photo</string>
+    <string name="likes">Likes</string>
+    <string name="followers">Followers</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="following">Following</string>
+    <string name="unfollow">Unfollow</string>
+    <string name="search">Search</string>
+    <string name="new_chat">New Chat</string>
+    <string name="find_friends">Find Friends</string>
+    <string name="change_language">Change Language</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="permm">Permissions</string>
+    <string name="photo">Take Photo</string>
+    <string name="video">Capture Video</string>
+    <string name="home2">Home</string>
+    <string name="findFriend">Search For User</string>
+    <string name="chat">Private Chat</string>
+    <string name="MyFriend">My Friend</string>
+    <string name="profile2">Profile</string>
+    <string name="comment">Comments</string>
+    <string name="profileEd">Profile Edit</string>
+    <string name="vidPost">Video Post</string>
+    <string name="index">Index</string>
+    <string name="me">Me</string>
+    <string name="post">Post</string>
+    <string name="unfollow1">UnFollow</string>
+
 </resources>
